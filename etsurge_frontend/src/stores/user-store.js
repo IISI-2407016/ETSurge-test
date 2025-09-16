@@ -1,0 +1,133 @@
+import { defineStore } from 'pinia'
+import { get_all_group_json, get_all_user_json, set_have_groups } from '../utils/user.js'
+
+export const use_user_store = defineStore('user', {
+    state: () => ({
+        user: {
+            account: '',
+            name: '',
+            group_names: '',
+            level: '',
+            status: '',
+            is_admin: false
+        },
+        users: [],
+        users_map: [],
+        have_stids_title: [],
+        have_function_list_title: [],
+        groups: [
+        {
+            name: '',
+            stids: [],
+            function_list: []
+        }
+        ],
+        select_groups: [],
+        login_state: false,
+        is_admin: false,
+        current_page: 'Login',
+        show_signup_dialog: false, // 註冊視窗開關
+        show_forgot_password_dialog: false, // 忘記密碼視窗開關
+        show_user_edit_dialog: false, // 修改個人/使用者開關
+                stids: [
+            {
+                id: "official_station",
+                title: "傳送官網設定",
+            },
+            {
+                id: "web_station",
+                title: "網站顯示測站設定",
+            },
+            {
+                id: "model_station",
+                title: "傳送報潮水位設定",
+            },
+            {
+                id: "user_manage",
+                title: "帳號管理",
+            },
+            {
+                id: "group_manage",
+                title: "群組管理",
+            },
+        ],
+    }),
+    actions: {
+        set_user(newUser) {
+            this.user = newUser
+        },
+        set_users(users) {
+            this.users = users
+        },
+        set_users_map(users_map) {
+            this.users_map = users_map
+        },
+        set_current_page(page) {
+            this.current_page = page
+        },
+        toggle_login_state() {
+            this.login_state = !this.login_state
+        },
+        clear_user() {
+            this.user.account = "";
+            this.user.name = "";
+            this.user.status = "";
+            this.user.group_names = "";
+            this.user.level = "";
+        },
+        check_admin() {
+            this.is_admin = this.user.level === 'admin'
+        },
+        set_have_stids(have_stids_title) {
+            this.have_stids_title = have_stids_title
+        },
+        set_have_func_list(have_function_list_title) {
+            this.have_function_list_title = have_function_list_title
+        },
+        set_groups(groups) {
+            this.groups = groups
+        },
+        set_select_groups(select_groups) {
+            this.select_groups = select_groups
+        },
+        toggle_signup_dialog() {
+            this.show_signup_dialog = !this.show_signup_dialog
+        },
+        toggle_forgot_password_dialog() {
+            this.show_forgot_password_dialog = !this.show_forgot_password_dialog
+        },
+        toggle_user_edit_dialog() {
+            this.show_user_edit_dialog = !this.show_user_edit_dialog
+        },
+
+        async set_all_login_info(user_data) {
+            this.toggle_login_state()
+            this.set_user(user_data)
+            this.check_admin()
+
+            await get_all_group_json()
+            this.get_have_groups()
+
+            // 取得使用者
+            if (
+                user_data.level === 'admin' ||
+                this.have_stids_title.includes('帳號管理')
+            ) {
+                await get_all_user_json()
+            }
+
+            this.set_current_page('Main')
+            },
+            async get_have_groups() {
+            const {
+                have_stids_title,
+                have_function_list_title,
+                select_groups
+            } = set_have_groups(this.groups, this.user.group_names)
+
+            this.set_have_stids(have_stids_title)
+            this.set_have_func_list(have_function_list_title)
+            this.set_select_groups(select_groups)
+        }
+    }
+})

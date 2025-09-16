@@ -1,0 +1,149 @@
+/* :root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.card {
+  padding: 2em;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
+/*!
+* Vuetify v1.5.14
+* Forged by John Leider
+* Released under the MIT License.
+
+
+
+/* .left_menu,  */
+.left_menu {
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    background-color:#FFF;
+}
+.left_menu .card__text{
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+.left_menu_title {
+    background-color:#fff0b3;
+    padding:10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.left_menu_type a {
+    color:#cc6600;
+}
+.left_menu .card__text input,.left_menu .card__text select {
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding:0px 10px 0px 8px;
+}
+.left_menu_content{
+    padding: 10px;
+}
+.d3_wrapper {
+    height:calc(100vh - 80px);
+    overflow-y: auto;
+}
+.d3_wrapper .card{
+    background-color: #FFF;
+}
+
+/*legent*/
+.margin0 {
+    margin: 0 !important;
+}
+.key-dot {
+    display: inline-block;
+    height: 10px;
+    margin-right: .5em;
+    width: 10px;
+}
+.queens { background: #1F77B4;}
+.denmark { background: #FF7F0E;}
+.germany { background: #2CA02C;
+}
+#legend2{
+    overflow:hidden;
+}
+.legend2 {
+    float:left;
+    /* margin-right: 1em; */
+    margin-left: 1.5em;
+}
+
+
+/*# sourceMappingURL=script.css.map*/
