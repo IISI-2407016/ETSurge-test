@@ -36,7 +36,6 @@
                                 <template #activator="{ props }">
                                     <v-text-field
                                         v-model="formatted_date"
-                                        label="Date"
                                         readonly
                                         v-bind="props"
                                     ></v-text-field>
@@ -46,6 +45,7 @@
                                     v-model="raw_date"
                                     no-title 
                                     color="primary"
+                                    :max="max_date"
                                     @update:modelValue="handleDateSelect"
                                 ></v-date-picker>
                             </v-menu>
@@ -88,6 +88,21 @@
                         <v-col class="v-col-2_8">
                             <v-text-field v-model="form.pa.to" density="compact" hide-details />
                         </v-col>
+                        <span>hPa</span>
+                    </v-row>
+
+                    <v-row class="align-center">
+                        <v-col cols="3" class="text-right">
+                            最大風速
+                        </v-col>
+                        <v-col class="v-col-2_8">
+                            <v-text-field v-model="form.speed.from" density="compact" hide-details />
+                        </v-col>
+                        <span>~</span>
+                        <v-col class="v-col-2_8">
+                            <v-text-field v-model="form.speed.to" density="compact" hide-details />
+                        </v-col>
+                        <span>m/s</span>
                     </v-row>
 
                     <v-row class="align-center">
@@ -109,14 +124,19 @@
                             移向
                         </v-col>
                         <v-col cols="7">
-                            <v-select
+                            <v-text-field
                                 v-model="form.moving_direction"
-                                :items="roles"
+                                readonly
                                 density="compact"
                                 hide-details
+                                @click="show_compass"
+                                placeholder="點擊選擇移向"
                             />
                         </v-col>
                         <span>16方位</span>
+                    </v-row>
+                    <v-row class="justify-center">
+                        <compass-16 />
                     </v-row>
 
                     <!-- 預覽查詢 -->
@@ -146,51 +166,75 @@
     </div>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
+    import { ref, computed, watch } from 'vue';
+    import { use_compass_store } from '../stores/compass';
+    import compass16 from '../components/compass16.vue';
 
-const panel = ref(0)
-const menu = ref(false);
-const raw_date = ref(''); // 預設空字串，會綁定選擇的日期
-const form = ref({
-  typhoon_name: '',
-  initial_time: '',
-  typhoon_category: '',
-  radius: '',
-  pa: {
-    from: '',
-    to: ''
-  },
-  move_speed: {
-    from: '',
-    to: ''
-  },
-  moving_direction: ''
-});
+    const compass_store = use_compass_store();
 
-// 轉換成 YYYY/MM/DD 格式
-const formatted_date = computed(() => {
-    if (!raw_date.value) return '';
-    const date = new Date(raw_date.value);
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const dd = String(date.getDate()).padStart(2, '0');
-    return `${yyyy}/${mm}/${dd}`;
-});
+    const panel = ref(0)
+    const menu = ref(false);
+    const raw_date = ref(new Date().toString('YYYY/MM/DD'));
+    const max_date = ref(new Date().toString('YYYY/MM/DD')); // 可選擇至最大日期
+    const form = ref({
+        typhoon_name: '',
+        initial_time: '',
+        typhoon_category: '',
+        radius: '',
+        pa: {
+            from: '',
+            to: ''
+        },
+        speed: {
+            from: '',
+            to: ''
+        },
+        move_speed: {
+            from: '',
+            to: ''
+        },
+        moving_direction: ''
+    });
 
-// 選擇日期後關閉選擇器
-const handleDateSelect = () => {
-    menu.value = false;
-};
+    watch(
+        () => compass_store.selected_direction,
+        (new_direction) => {
+            if (new_direction) {
+                form.value.moving_direction = new_direction;
+                // 清除store中的選擇，避免重複觸發
+                compass_store.set_selected_direction('');
+            }
+        }
+    );
 
-const roles = [];
+    // 轉換成 YYYY/MM/DD 格式
+    const formatted_date = computed(() => {
+        if (!raw_date.value) return '';
+        const date = new Date(raw_date.value);
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        return `${yyyy}/${mm}/${dd}`;
+    });
+
+    // 選擇日期後關閉選擇器
+    const handleDateSelect = () => {
+        menu.value = false;
+    };
+
+    const show_compass = () => {
+        compass_store.activate();
+    };
+
+    const roles = ['北(N)', '北北東(NNE)', '東北(NE)', '東北東(ENE)', '東(E)', '東南東(ESE)', '東南(SE)', '南南東(SSE)', '南(S)', '南南西(SSW)', '西南(SW)', '西南西(WSW)', '西(W)', '西北西(NNW)', '西北(NW)', '北北西(NNW)'];
 </script>
 <style scoped>
-.title-text {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-.v-col-2_8 {
-    flex: 0 0 28%;
-    max-width: 28%;
+    .title-text {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .v-col-2_8 {
+        flex: 0 0 28%;
+        max-width: 28%;
 }
 </style>
