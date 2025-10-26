@@ -3,7 +3,7 @@
         <div class="text-right p-2 border-b border-gray-300">
             <button @click="close_compass" class="hover:bg-red-100 position-relative left-4 mdi mdi-close-circle" />
         </div>
-        <div class="flex justify-center items-center p-5">
+        <div class="flex justify-center items-center">
             <div class="
                 grid grid-cols-4 
                 gap-0 
@@ -26,9 +26,11 @@
                         bg-blue-50 
                         hover:bg-blue-100 
                         cursor-pointer 
-                        transition-colors"
+                        transition-colors
+                    "
+                    @click="select_direction(direction, index)"
                 >
-                    <span @click="select_direction(direction, index)" v-html="direction"></span>
+                    <span v-html="direction"></span>
                 </div>
             </div>
         </div>
@@ -60,10 +62,10 @@
     const select_direction = (direction, index) => {
         // 設定選中的方向（使用簡化版本）
         compass_store.set_selected_direction(display_directions[index]);
-        // 關閉羅盤
-        compass_store.deactivate();
-    };
 
+        close_compass();
+    };
+    // 關閉羅盤
     const close_compass = () => {
         compass_store.deactivate();
     };

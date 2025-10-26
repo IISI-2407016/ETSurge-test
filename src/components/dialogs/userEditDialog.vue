@@ -52,7 +52,7 @@
                     <v-btn color="green" variant="elevated" @click="edit_user_confirm">
                         確認送出
                     </v-btn>
-                    <v-btn color="red" variant="elevated" @click="show_user_edit = false">
+                    <v-btn color="red-darken-1" variant="elevated" @click="show_user_edit = false">
                         取消
                     </v-btn>
                 </v-card-actions>

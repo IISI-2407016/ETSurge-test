@@ -92,7 +92,6 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { use_user_store } from '../../stores/user-store.js'
-import { signup_ajax } from '../../utils/user.js'
 import { useReCaptcha } from 'vue-recaptcha-v3'
 
 // 狀態
@@ -163,7 +162,7 @@ const signup_confirm = async () => {
     show_error_message.value = false
     const valid = await form.value.validate()
     if (!valid) return
-    await signup_ajax({
+    await user_store.signup_ajax({
         user: user.value,
         user_store,
         success_message,

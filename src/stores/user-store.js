@@ -128,6 +128,64 @@ export const use_user_store = defineStore('user', {
             this.set_have_stids(have_stids_title)
             this.set_have_func_list(have_function_list_title)
             this.set_select_groups(select_groups)
+        },
+        // 註冊
+        async signup_ajax({
+            user,
+            user_store,
+            success_message,
+            signup_success,
+            show_error_message,
+            recaptchaLoaded,
+            executeRecaptcha
+        }) {
+            await recaptchaLoaded()
+            const token = await executeRecaptcha('signup')
+            if (!token) return console.log('驗證錯誤');
+
+            const send_data = {
+                account: user.account,
+                name: user.name,
+                email: user.email,
+                work_unit: user.work_unit,
+                password: user.password,
+                token
+            }
+
+        try {
+            const response = await axios.post('/user_signup/', send_data, axiosConfig)
+            const data = typeof response.data === 'object' ? response.data : JSON.parse(response.data)
+
+            if (data.status === 'success') {
+            signup_success.value = true
+            show_error_message.value = false
+
+            success_message.value = user_store.$state.current_page === 'UserManage'
+                ? '新增成功!'
+                : '註冊成功!<br />等待管理員審核。'
+
+            if (user_store.$state.current_page === 'UserManage') {
+                const newUser = {
+                account: user.account,
+                name: user.name,
+                work_unit: user.work_unit,
+                email: user.email,
+                group_names: [],
+                level: 'user',
+                status: '未審核',
+                }
+                // 假設你有傳入一個 emit 函式
+                emit('update_users', newUser)
+            }
+
+            user_store.toggle_signup_dialog()
+            } else {
+            show_error_message.value = true
+            }
+        } catch (err) {
+            console.error(err)
+            show_error_message.value = true
+        }
         }
     }
 })

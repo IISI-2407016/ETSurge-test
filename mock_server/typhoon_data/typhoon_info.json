@@ -1,0 +1,16 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "TyNo": "202504",
+            "TyChtName": "丹娜絲",
+            "TyEngName": "DANAS"
+        },
+        {
+            "TyNo": "202505",
+            "TyChtName": "夏吉爾",
+            "TyEngName": "SALAH"
+        }
+    ],
+    "message": "success"
+}

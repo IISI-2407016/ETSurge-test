@@ -1,4 +1,5 @@
 import { createRequire } from "module";
+import { reactive } from "vue";
 const require = createRequire(import.meta.url);
 
 let port = 10008;
@@ -30,6 +31,12 @@ const no_fcst_data_1206 = require('./no_fcst/1206.json');
 const no_fcst_data_1146 = require('./no_fcst/1146.json');
 const no_fcst_data_1786 = require('./no_fcst/1786.json');
 const no_fcst_data_1386 = require('./no_fcst/1386.json');
+// typhoon data
+const typhoon_average_data = require('./typhoon_data/average_grid_data_by_filtered_typhoon_track_model_data.json');
+const typhoon_track_data = require('./typhoon_data/model_data_by_track.json');
+const typhoon_info_data = require('./typhoon_data/typhoon_info.json');
+const typhoon_track_info_data = require('./typhoon_data/typhoon_track_info.json');
+
 
 let bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
@@ -43,6 +50,26 @@ app.use(session({
 
 // 登入
 
+// 【颱風】
+// 取得颱風的基本資訊
+app.get('/surge_app/get_typhoon_info/', function(req, res) {
+    res.send(typhoon_info_data);
+});
+
+// 取得颱風的路徑資料
+app.post('/surge_app/get_typhoon_track_info/', function(req, res) {
+    res.send(typhoon_track_info_data);
+});
+
+// 颱風模式資料(預覽資料)
+app.post('/surge_app/get_model_data_by_track/', function(req, res) {
+    res.send(typhoon_track_data);
+});
+
+// 計算並產製模式平均網格資料
+app.post('/surge_app/average_grid_data_by_filtered_typhoon_track_model_data/', function(req, res) {
+    res.send(typhoon_average_data);
+});
 
 
 app.use('/public_auth_key/', function(req, res) {

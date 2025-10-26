@@ -81,7 +81,7 @@
                     </v-btn>
 
                     <v-btn
-                        color="red darken-1"
+                        color="red-darken-1"
                         dark
                         variant="flat"
                         @click="show_forgot_password = false"

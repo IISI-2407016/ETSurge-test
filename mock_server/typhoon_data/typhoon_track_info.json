@@ -1,0 +1,90 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "official",
+      "InitialTime": "2025-07-05T00:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "official",
+      "InitialTime": "2025-07-05T03:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "official",
+      "InitialTime": "2025-07-05T06:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "official",
+      "InitialTime": "2025-07-05T09:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "ref1",
+      "InitialTime": "2025-07-05T00:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "ref1",
+      "InitialTime": "2025-07-05T03:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "ref1",
+      "InitialTime": "2025-07-05T06:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "ref1",
+      "InitialTime": "2025-07-05T09:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "ref2",
+      "InitialTime": "2025-07-05T00:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "ref2",
+      "InitialTime": "2025-07-05T03:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "ref2",
+      "InitialTime": "2025-07-05T06:00:00Z"
+    },
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "Category": "ref2",
+      "InitialTime": "2025-07-05T09:00:00Z"
+    }
+  ],
+  "message": "success"
+}

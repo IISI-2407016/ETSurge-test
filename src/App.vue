@@ -4,15 +4,32 @@
         <!-- <Loading /> -->
         <v-card flat tile>
             <tool-bar v-model="current_tab"/>
-            <v-main class="">
+            <v-main>
                 <login v-if="current_page === 'Login'" class="mt-12"/>
 
                 <!-- 登入後TAB內容 -->
-                <v-container v-else fluid>
-                    <UVP-view v-if="current_tab === 'uvp'" />
+                <!-- <v-container v-else fluid class="pa-4"> -->
+                <v-container v-else fluid class="pa-4">
+                    <div v-if="current_tab === 'uvp'">
+                        <div class="fixed z-10 w-100">
+                            <UVP-view  
+                                @change-tab="current_tab = $event"
+                            />
+                        </div>
+                        <div 
+                            v-if="uvp_data_store.search_results.length > 0 && current_tab === 'uvp'" 
+                            class="relative z-1">
+                            {{ uvp_data_store.search_results }}
+                        </div>
+                    </div>
+                    <div v-else-if="current_tab === 'tide_level'">
+                        <tide-level-view />
+                    </div>
+                    <div v-else-if="current_tab === 'light'">
+                        <light-view />
+                    </div>
                 </v-container>
-                <!-- <TideLevel-view v-if="current_tab === 'tide_level'" />
-                <Light-view v-if="current_tab === 'light'" /> -->
+                <!-- <light-view v-if="current_tab === 'light'" /> -->
             <!-- <Main v-if="current_page === 'Main'" />
             <UserManage v-if="current_page === 'UserManage'" />
             <GroupManage v-if="current_page === 'GroupManage'" />
@@ -27,12 +44,14 @@
 import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { use_user_store } from './stores/user-store.js'
+import { use_uvp_data_store } from './stores/UVP-data.js'
 
 // import Loading from './components/loading.vue'
 import toolBar from './views/toolBar.vue'
 // import Main from './components/pages/main.vue'
 import login from './views/login.vue'
 import UVPView from './views/UVPView.vue'
+import tideLevelView from './views/tideLevelView.vue'
 // import UserManage from './components/pages/userManage.vue'
 // import GroupManage from './components/pages/groupManage.vue'
 // import ChangePassword from './components/pages/changePassword.vue'
@@ -44,6 +63,7 @@ import {
 } from './utils/user.js'
 
 // 取得 Pinia Store
+const uvp_data_store = use_uvp_data_store()
 const user_store = use_user_store()
 const { current_page, user, have_stids_title } = storeToRefs(user_store)
 const current_tab = ref('uvp');

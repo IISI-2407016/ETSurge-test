@@ -78,7 +78,6 @@ const haveStidsLength = computed(() => {
 })
 
 const stids = computed(() => {
-    debugger
     const userlevel = toolBarStore.user.level
     const allStids = toolBarStore.stids
     if (userlevel === 'admin') return allStids
