@@ -42,7 +42,7 @@
 
 <script setup>
 import { ref, watch, computed, nextTick } from 'vue'
-import { use_user_store } from '../stores/user-store'
+import { use_user_store } from '../stores/user.js'
 import stationSet from './stationSet.vue'
 import userBtn from '../components/userBtn.vue'
 

@@ -58,7 +58,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { use_user_store } from '../stores/user-store'
+import { use_user_store } from '../stores/user.js'
 import signupDialog from '../components/dialogs/signupDialog.vue'
 import forgotPasswordDialog from '../components/dialogs/forgotPasswordDialog.vue'
 import { user_login_ajax } from '../utils/user.js'

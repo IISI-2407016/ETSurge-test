@@ -43,7 +43,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { use_user_store } from './stores/user-store.js'
+import { use_user_store } from './stores/user.js'
 import { use_uvp_data_store } from './stores/UVP-data.js'
 
 // import Loading from './components/loading.vue'

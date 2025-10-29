@@ -96,7 +96,7 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue'
-import { use_user_store } from '../../stores/user-store.js'
+import { use_user_store } from '../../stores/user.js'
 import {
     forgot_password_ajax,
     send_verify_code_ajax,

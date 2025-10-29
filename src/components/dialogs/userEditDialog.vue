@@ -68,7 +68,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { use_user_store } from '../../stores/user-store';
+import { use_user_store } from '../../stores/user.js';
 import { update_user_info_ajax } from '../../utils/user.js'
 import errorMessageDialog from './errorMessageDialog.vue';
 

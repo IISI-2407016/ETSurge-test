@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { axiosConfig } from "../config/axiosConfig.js";
 import { get_all_group_json, get_all_user_json, set_have_groups } from '../utils/user.js'
 
 export const use_user_store = defineStore('user', {
@@ -29,7 +30,7 @@ export const use_user_store = defineStore('user', {
         show_signup_dialog: false, // 註冊視窗開關
         show_forgot_password_dialog: false, // 忘記密碼視窗開關
         show_user_edit_dialog: false, // 修改個人/使用者開關
-                stids: [
+        stids: [
             {
                 id: "official_station",
                 title: "傳送官網設定",
@@ -117,8 +118,8 @@ export const use_user_store = defineStore('user', {
             }
 
             this.set_current_page('Main')
-            },
-            async get_have_groups() {
+        },
+        async get_have_groups() {
             const {
                 have_stids_title,
                 have_function_list_title,
@@ -138,7 +139,8 @@ export const use_user_store = defineStore('user', {
             show_error_message,
             recaptchaLoaded,
             executeRecaptcha
-        }) {
+        }) 
+        {
             await recaptchaLoaded()
             const token = await executeRecaptcha('signup')
             if (!token) return console.log('驗證錯誤');
@@ -152,40 +154,41 @@ export const use_user_store = defineStore('user', {
                 token
             }
 
-        try {
-            const response = await axios.post('/user_signup/', send_data, axiosConfig)
-            const data = typeof response.data === 'object' ? response.data : JSON.parse(response.data)
+            try {
+                const response = await axios.post('/user_signup/', send_data, axiosConfig)
+                const data = typeof response.data === 'object' ? response.data : JSON.parse(response.data)
 
-            if (data.status === 'success') {
-            signup_success.value = true
-            show_error_message.value = false
+                if (data.status === 'success') {
+                    signup_success.value = true
+                    show_error_message.value = false
 
-            success_message.value = user_store.$state.current_page === 'UserManage'
-                ? '新增成功!'
-                : '註冊成功!<br />等待管理員審核。'
+                    success_message.value = user_store.$state.current_page === 'UserManage'
+                        ? '新增成功!'
+                        : '註冊成功!<br />等待管理員審核。'
 
-            if (user_store.$state.current_page === 'UserManage') {
-                const newUser = {
-                account: user.account,
-                name: user.name,
-                work_unit: user.work_unit,
-                email: user.email,
-                group_names: [],
-                level: 'user',
-                status: '未審核',
+                    if (user_store.$state.current_page === 'UserManage') {
+                        const newUser = {
+                        account: user.account,
+                        name: user.name,
+                        work_unit: user.work_unit,
+                        email: user.email,
+                        group_names: [],
+                        level: 'user',
+                        status: '未審核',
+                        }
+                        // 假設你有傳入一個 emit 函式
+                        emit('update_users', newUser)
+                    }
+
+                    user_store.toggle_signup_dialog()
+                } 
+                else {
+                    show_error_message.value = true
                 }
-                // 假設你有傳入一個 emit 函式
-                emit('update_users', newUser)
+            } catch (err) {
+                console.error(err)
+                show_error_message.value = true
             }
-
-            user_store.toggle_signup_dialog()
-            } else {
-            show_error_message.value = true
-            }
-        } catch (err) {
-            console.error(err)
-            show_error_message.value = true
-        }
         }
     }
 })

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { axiosConfig } from "../config/axiosConfig.js";
-import { use_user_store } from "../stores/user-store.js";
+import { use_user_store } from "../stores/user.js";
 
 // 登出
 export async function user_logout_ajax() {
@@ -26,65 +26,6 @@ export async function user_logout_ajax() {
         .catch(function(error) {
             console.error("API user_logout_ajax:::", error);
         });
-}
-
-// 註冊
-export async function signup_ajax({
-    user,
-    user_store,
-    success_message,
-    signup_success,
-    show_error_message,
-    recaptchaLoaded,
-    executeRecaptcha
-}) {
-    await recaptchaLoaded()
-    const token = await executeRecaptcha('signup')
-    if (!token) return console.log('驗證錯誤');
-
-    const send_data = {
-        account: user.account,
-        name: user.name,
-        email: user.email,
-        work_unit: user.work_unit,
-        password: user.password,
-        token
-    }
-
-  try {
-    const response = await axios.post('/user_signup/', send_data, axiosConfig)
-    const data = typeof response.data === 'object' ? response.data : JSON.parse(response.data)
-
-    if (data.status === 'success') {
-      signup_success.value = true
-      show_error_message.value = false
-
-      success_message.value = user_store.$state.current_page === 'UserManage'
-        ? '新增成功!'
-        : '註冊成功!<br />等待管理員審核。'
-
-      if (user_store.$state.current_page === 'UserManage') {
-        const newUser = {
-          account: user.account,
-          name: user.name,
-          work_unit: user.work_unit,
-          email: user.email,
-          group_names: [],
-          level: 'user',
-          status: '未審核',
-        }
-        // 假設你有傳入一個 emit 函式
-        emit('update_users', newUser)
-      }
-
-      user_store.toggle_signup_dialog()
-    } else {
-      show_error_message.value = true
-    }
-  } catch (err) {
-    console.error(err)
-    show_error_message.value = true
-  }
 }
 
 export async function user_login_ajax(account, password) {
@@ -273,52 +214,6 @@ export async function get_all_user_json() {
   }
 }
 
-// export function get_all_user_json() {
-//     let send_data = {};
-//     return axios
-//         .post("/get_all_user/", send_data, axiosConfig)
-//         .then(
-//             function(response) {
-//                 let data =
-//                     typeof response.data === "object"
-//                         ? response.data
-//                         : JSON.parse(response.data);
-//                 if (data["status"] == "success") {
-//                     let all_user = [];
-//                     let all_user_maps = [];
-//                     data["users"].forEach((user, i) => {
-//                         if (user.group_names.length <= 0) {
-//                             user.group_names = "";
-//                         } else {
-//                             user.group_names = user.group_names[0];
-//                         }
-//                         all_user.push({
-//                             account: user.account,
-//                             name: user.name,
-//                             work_unit: user.work_unit,
-//                             email: user.email,
-//                             group_names: user.group_names,
-//                             level: user.level,
-//                             status: user.status,
-//                         });
-
-//                         all_user_maps[user.account] = user;
-//                     });
-//                     this.$store.commit("SET_USERS", all_user);
-//                     this.$store.commit("SET_USERS_MAP", all_user_maps);
-//                 } else {
-//                     return {
-//                         status: data["status"],
-//                         failed_code: data["failed_code"],
-//                     };
-//                 }
-//             }.bind(this)
-//         )
-//         .catch(function(error) {
-//             console.log(error);
-//         });
-// }
-
 export function get_all_group_json() {
     const user_store = use_user_store()
     let send_data = {};
@@ -346,37 +241,6 @@ export function get_all_group_json() {
             console.log("Error:get_all_group_json API:::", error);
         });
 }
-
-// export function get_all_group_json() {
-//     let send_data = {};
-//     return axios
-//         .post("/get_all_group/", send_data, axiosConfig)
-//         .then(
-//             function(response) {
-//                 let data =
-//                     typeof response.data === "object"
-//                         ? response.data
-//                         : JSON.parse(response.data);
-//                 if (data["status"] == "success") {
-//                     if (!data["groups"]) data["groups"] = [];
-//                     data["groups"].forEach( group => {
-//                         if (group.stids[0] == ""){
-//                             group.stids = [];
-//                         }
-//                         if (group.function_list[0] == ""){
-//                             group.function_list = [];
-//                         }
-//                     });
-//                     this.$store.commit("SET_GROUPS", data["groups"]);
-//                 } else {
-//                     console.log("取得錯誤:", data["failed_code"]);
-//                 }
-//             }.bind(this)
-//         )
-//         .catch(function(error) {
-//             console.log(error);
-//         });
-// }
 
 export function update_user_info_ajax (send_data) {
     return axios

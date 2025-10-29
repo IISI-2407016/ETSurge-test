@@ -9,21 +9,24 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 
 ## 專案資料夾結構
 ```
-mock_server/
-├── mock.js/            # 模擬API
+frontend/
+├── mock_server/
+    ├── mock.js/            # 模擬API
 
-src/
-├── assets/             # 靜態資源（圖片、樣式）
-├── components/         # 通用元件
-│   └── dialogs/        # pop視窗元件（ex: 註冊、忘記密碼、修改個人資料）
-├── config/             # 初始預設
-│   └── axiosConfig.js  # 統一設定 axios 請求樣板
-│   └── config.js       # 設定 API 請求
-├── views/              # 每個頁面
-├── router/             # vue-router 設定檔
-│   └── index.js
-├── stores/             # pinia 狀態管理
-│   └── stationStore.js # 
-├── App.vue             # 根元件
-└── main.js             # 進入點
+    src/
+    ├── assets/             # 靜態資源（圖片、樣式）
+    ├── components/         # 通用元件
+    │   └── dialogs/        # pop視窗元件（ex: 註冊、忘記密碼、修改個人資料）
+    ├── config/             # 初始預設
+    │   └── axiosConfig.js  # 統一設定 axios 請求樣板
+    │   └── config.js       # 設定 API 請求
+    ├── views/              # 每個頁面
+    ├── router/             # vue-router 設定檔
+    │   └── index.js
+    ├── stores/             # pinia 狀態管理
+    │   └── station-store.js # 
+    ├── utils/              # 通用工具管理
+    │   └── api-request.js  # API 
+    ├── App.vue             # 根元件
+    └── main.js             # 進入點
 ```

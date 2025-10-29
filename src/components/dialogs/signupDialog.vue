@@ -91,7 +91,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { use_user_store } from '../../stores/user-store.js'
+import { use_user_store } from '../../stores/user.js'
 import { useReCaptcha } from 'vue-recaptcha-v3'
 
 // 狀態

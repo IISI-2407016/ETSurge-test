@@ -131,7 +131,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { station_set } from '../stores/station-store.js'
+import { station_set } from '../stores/station.js'
 import { emitter } from '../utils/event-bus.js'
 import {
     get_station_data_ajax,

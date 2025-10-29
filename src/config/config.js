@@ -2,7 +2,7 @@
 export const ajaxTimeout = 300000;
 
 // 正式機 https://61.56.11.143:8000/
-// 測試機 https://61.56.11.143:5566/
+// 測試機 https://61.56.11.143/app/
 // swagger https://61.56.11.143/swagger/
 
 let temp_ajax_url = window.location.href.match('http(s?)://(.*?)/')[0];
