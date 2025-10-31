@@ -9,7 +9,21 @@
                 </template>
                 <v-expansion-panel-text
                     class="overflow-y-auto"
-                    style="height: 70vh;">
+                    style="height: 70vh;"
+                >
+                    <v-row>
+                        <v-col cols="3" class="text-right">
+                            模式選擇
+                        </v-col>
+                        <v-col cols="7" class="pt-0">
+                            <v-select
+                                v-model="form.ModelName"
+                                density="compact"
+                                hide-details
+                                disabled
+                            ></v-select>
+                        </v-col>
+                    </v-row>
                     <v-row class="align-center">
                         <v-col cols="3" class="text-right">
                             颱風名稱
@@ -200,6 +214,7 @@
     const raw_date = ref(new Date().toString('YYYY/MM/DD'));
     const max_date = ref(new Date().toString('YYYY/MM/DD')); // 可選擇至最大日期
     const form = ref({
+        ModelName: 'TWRF', // 目前尚未有其他模式
         TyNo: '',
         InitialTime: '',
         Category: '',
