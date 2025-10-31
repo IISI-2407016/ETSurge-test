@@ -100,7 +100,7 @@ import { use_user_store } from '../../stores/user.js'
 import {
     forgot_password_ajax,
     send_verify_code_ajax,
-} from '../../utils/user.js'
+} from '../../js/user.js'
 
 const user_store = use_user_store()
 const forgot = reactive({

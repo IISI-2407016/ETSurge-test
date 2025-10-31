@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { axiosConfig } from "../config/axiosConfig.js";
-import { get_all_group_json, get_all_user_json, set_have_groups } from '../utils/user.js'
+import { get_all_group_json, get_all_user_json, set_have_groups } from '../js/user.js'
 
 export const use_user_store = defineStore('user', {
     state: () => ({

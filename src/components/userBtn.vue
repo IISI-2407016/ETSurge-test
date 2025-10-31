@@ -42,7 +42,7 @@ import userEditDialog from './dialogs/userEditDialog.vue'
 import {
   user_logout_ajax,
   update_user_info_ajax,
-} from '../utils/user.js'
+} from '../js/user.js'
 import { use_user_store } from '../stores/user.js'
 
 const user_store = use_user_store()

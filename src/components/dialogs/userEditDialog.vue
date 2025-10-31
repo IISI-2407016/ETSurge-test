@@ -69,7 +69,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { use_user_store } from '../../stores/user.js';
-import { update_user_info_ajax } from '../../utils/user.js'
+import { update_user_info_ajax } from '../../js/user.js'
 import errorMessageDialog from './errorMessageDialog.vue';
 
 // 定義 props

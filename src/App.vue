@@ -51,7 +51,7 @@ import toolBar from './views/toolBar.vue'
 // import Main from './components/pages/main.vue'
 import login from './views/login.vue'
 import UVPView from './views/UVPView.vue'
-import tideLevelView from './views/tideLevelView.vue'
+import tideLevelView from './views/tide-level/tideLevelView.vue'
 // import UserManage from './components/pages/userManage.vue'
 // import GroupManage from './components/pages/groupManage.vue'
 // import ChangePassword from './components/pages/changePassword.vue'
@@ -60,7 +60,7 @@ import {
   check_login_status_ajax,
   // get_all_group_json,
   // get_all_user_json,
-} from './utils/user.js'
+} from './js/user.js'
 
 // 取得 Pinia Store
 const uvp_data_store = use_uvp_data_store()
