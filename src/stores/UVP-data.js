@@ -4,7 +4,8 @@ import {
     post_typhoon_track_data_ajax,
     post_uvp_preview_ajax,
     post_uvp_average_ajax
- } from '../utils/typhoon-data.js'
+ } from '../js/typhoon-data.js'
+import { get_typhoon_filter_parameters_ajax } from '../js/tide-level.js'
 
 export const use_uvp_data_store = defineStore('uvp_data', {
     state: () => ({
@@ -28,6 +29,7 @@ export const use_uvp_data_store = defineStore('uvp_data', {
             CardinalDirection: ''
         },
         Ty_info: [],
+        tide_list: [],
         search_results: [],
         average_typhoon_data: [],
         angle: 0,
@@ -81,6 +83,21 @@ export const use_uvp_data_store = defineStore('uvp_data', {
                     return { success: true, data: response.data };
                 } else {
                     throw new Error('ERROR:::post_uvp_average()');
+                }
+            } catch (error) {
+                return { success: false, error };
+            }
+        },
+        async get_typhoon_data() {
+            try {
+                const response = await get_typhoon_filter_parameters_ajax();
+                debugger
+                if (response && response.status === 'success' && response.data) {
+                    this.tide_list = response.data;
+
+                    return { success: true, data: response.data };
+                } else {
+                    throw new Error('ERROR:::get_typhoon_data()');
                 }
             } catch (error) {
                 return { success: false, error };

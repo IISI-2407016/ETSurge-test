@@ -1,0 +1,150 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "ModelNameList": [
+        "TWRF"
+      ],
+      "TyNo": "202504",
+      "InitialTime": "2025-07-05T00:00:00Z",
+      "Category": "official",
+      "Radius": 100,
+      "Pressure_range": [
+        "870",
+        "080"
+      ],
+      "CardinalDirection": "N",
+      "TranslationSpeed_range": [
+        "005",
+        "020"
+      ],
+      "MaxWind_range": [
+        "000",
+        "100"
+      ],
+      "IsFileReady": false,
+      "ModifyTime": "2025-10-13T08:16:43.914806Z"
+    },
+    {
+      "ModelNameList": [
+        "TWRF"
+      ],
+      "TyNo": "202518",
+      "InitialTime": "2025-09-19T06:00:00Z",
+      "Category": "official",
+      "Radius": 120,
+      "Pressure_range": [
+        "870",
+        "080"
+      ],
+      "CardinalDirection": "N",
+      "TranslationSpeed_range": [
+        "000",
+        "1000"
+      ],
+      "MaxWind_range": [
+        "000",
+        "100"
+      ],
+      "IsFileReady": false,
+      "ModifyTime": "2025-10-31T04:18:14.388459Z"
+    },
+    {
+      "ModelNameList": [
+        "TWRF"
+      ],
+      "TyNo": "202601",
+      "InitialTime": "2026-01-04T00:00:00Z",
+      "Category": "official",
+      "Radius": 120,
+      "Pressure_range": [
+        "870",
+        "080"
+      ],
+      "CardinalDirection": "N",
+      "TranslationSpeed_range": [
+        "000",
+        "1000"
+      ],
+      "MaxWind_range": [
+        "000",
+        "100"
+      ],
+      "IsFileReady": false,
+      "ModifyTime": "2025-10-31T03:18:14.388459Z"
+    },
+    {
+      "ModelNameList": [
+        "TWRF"
+      ],
+      "TyNo": "202601",
+      "InitialTime": "2026-01-04T00:00:00Z",
+      "Category": "official",
+      "Radius": 120,
+      "Pressure_range": [
+        "870",
+        "080"
+      ],
+      "CardinalDirection": "N",
+      "TranslationSpeed_range": [
+        "000",
+        "1000"
+      ],
+      "MaxWind_range": [
+        "000",
+        "100"
+      ],
+      "IsFileReady": false,
+      "ModifyTime": "2025-10-31T03:18:14.388459Z"
+    },
+    {
+      "ModelNameList": [
+        "TWRF"
+      ],
+      "TyNo": "202601",
+      "InitialTime": "2026-01-04T00:00:00Z",
+      "Category": "official",
+      "Radius": 120,
+      "Pressure_range": [
+        "870",
+        "080"
+      ],
+      "CardinalDirection": "N",
+      "TranslationSpeed_range": [
+        "000",
+        "1000"
+      ],
+      "MaxWind_range": [
+        "000",
+        "100"
+      ],
+      "IsFileReady": false,
+      "ModifyTime": "2025-10-31T03:18:14.388459Z"
+    },
+    {
+      "ModelNameList": [
+        "TWRF"
+      ],
+      "TyNo": "202601",
+      "InitialTime": "2026-01-04T00:00:00Z",
+      "Category": "official",
+      "Radius": 120,
+      "Pressure_range": [
+        "870",
+        "080"
+      ],
+      "CardinalDirection": "N",
+      "TranslationSpeed_range": [
+        "000",
+        "1000"
+      ],
+      "MaxWind_range": [
+        "000",
+        "100"
+      ],
+      "IsFileReady": false,
+      "ModifyTime": "2025-10-31T03:18:14.388459Z"
+    }
+  ],
+  "message": "success"
+}

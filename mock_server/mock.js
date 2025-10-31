@@ -1,21 +1,7 @@
 import { createRequire } from "module";
 import { reactive } from "vue";
+
 const require = createRequire(import.meta.url);
-
-let port = 10008;
-
-let http = require('http')
-let url = require('url')
-
-let host = '127.0.0.1'
-
-let cors = require('cors')
-let express = require('express')
-
-let app = express()
-app.use(cors())
-
-let session = require('express-session');
 
 // small_chart_data 1226,1566,1206,1146,1786,1386
 const small_chart_data_1226 = require('./small_chart/1226.json');
@@ -36,7 +22,22 @@ const typhoon_average_data = require('./typhoon_data/average_grid_data_by_filter
 const typhoon_track_data = require('./typhoon_data/model_data_by_track.json');
 const typhoon_info_data = require('./typhoon_data/typhoon_info.json');
 const typhoon_track_info_data = require('./typhoon_data/typhoon_track_info.json');
+const typhoon_filter_parameters_data = require('./typhoon_data/typhoon_filter_parameters.json');
 
+let port = 10008;
+
+let http = require('http')
+let url = require('url')
+
+let host = '127.0.0.1'
+
+let cors = require('cors')
+let express = require('express')
+
+let app = express()
+app.use(cors())
+
+let session = require('express-session');
 
 let bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
@@ -66,11 +67,15 @@ app.post('/surge_app/get_model_data_by_track/', function(req, res) {
     res.send(typhoon_track_data);
 });
 
-// 計算並產製模式平均網格資料
+// 產製模式平均網格資料(會產檔)
 app.post('/surge_app/average_grid_data_by_filtered_typhoon_track_model_data/', function(req, res) {
     res.send(typhoon_average_data);
 });
 
+// 取得颱風篩選參數資料
+app.get('/surge_app/get_typhoon_filter_parameters/', function(req, res) {
+    res.send(typhoon_filter_parameters_data);
+});
 
 app.use('/public_auth_key/', function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');

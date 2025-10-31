@@ -395,19 +395,31 @@
     }
 
     // 切換頁籤至潮位頁面
-    const change_tab = (tab_name) => {
+    const change_tab = async (tab_name) => {
+        is_loading.value = true;
+
+        await bring_average_typhoon_data();
+        await get_typhoon_data();
+
+        is_loading.value = false;
         emit('change-tab', tab_name);
     }
 
-    // 計算系集平均 @TODO等確定完成才進行計算作業
-    const cal_average_typhoon_data = async () => {
-        is_loading.value = true;
+    // 產製模式平均網格資料
+    const bring_average_typhoon_data = async () => {
         const res = await uvp_data_store.post_uvp_average(form.value);
         if(!res.success) {
             return;
         }
-        is_loading.value = false;
+
         console.log("uvp_data_store.average_typhoon_data: ", uvp_data_store.average_typhoon_data);
+    }
+
+    const get_typhoon_data = async () => {
+        const res = await uvp_data_store.get_typhoon_data();
+        if(!res.success) {
+            return;
+        }
     }
 
     // 選擇日期後關閉選擇器

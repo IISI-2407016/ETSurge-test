@@ -19,7 +19,7 @@
                     ></v-btn>
                 </div>
                 <v-divider></v-divider>
-                <span v-html="message" class="my-4 px-4"></span>
+                <span v-html="message" class="my-4 px-4 text-center"></span>
                 <v-divider></v-divider>
                 <template v-slot:actions>
                     <v-btn 
