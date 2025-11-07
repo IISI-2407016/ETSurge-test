@@ -15,12 +15,13 @@ export async function user_logout_ajax() {
                     ? res.data
                     : JSON.parse(res.data);
 
+            // @TODO: 登出成功後的動作
             if (data["status"] == "success") {
-                user_store.toggle_login_state();
-                user_store.clear_user();
-                user_store.set_current_page("Login")
+                user_store.logout();
+                return { status: "success" };
             } else if (data["status"] == "failed") {
                 console.log("登出失敗");
+                return { status: "failed" };
             }
         })
         .catch(function(error) {
@@ -49,7 +50,7 @@ export async function user_login_ajax(account, password) {
     return { status: "error", message: "系統錯誤" }
   }
 }
-// utils/user.js
+
 export async function check_login_status_ajax() {
     const send_data = {}
     const response = await axios.post('/cls/', send_data, axiosConfig)

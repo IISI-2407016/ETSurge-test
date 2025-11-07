@@ -12,6 +12,7 @@ export const use_user_store = defineStore('user', {
             status: '',
             is_admin: false
         },
+        is_logged_in: false,
         users: [],
         users_map: [],
         have_stids_title: [],
@@ -26,7 +27,6 @@ export const use_user_store = defineStore('user', {
         select_groups: [],
         login_state: false,
         is_admin: false,
-        current_page: 'Login',
         show_signup_dialog: false, // 註冊視窗開關
         show_forgot_password_dialog: false, // 忘記密碼視窗開關
         show_user_edit_dialog: false, // 修改個人/使用者開關
@@ -63,9 +63,6 @@ export const use_user_store = defineStore('user', {
         set_users_map(users_map) {
             this.users_map = users_map
         },
-        set_current_page(page) {
-            this.current_page = page
-        },
         toggle_login_state() {
             this.login_state = !this.login_state
         },
@@ -100,8 +97,13 @@ export const use_user_store = defineStore('user', {
         toggle_user_edit_dialog() {
             this.show_user_edit_dialog = !this.show_user_edit_dialog
         },
-
+        logout() {
+            this.user = null
+            this.is_logged_in = false
+            // 清除其他相關狀態
+        },
         async set_all_login_info(user_data) {
+            this.is_logged_in = true
             this.toggle_login_state()
             this.set_user(user_data)
             this.check_admin()
@@ -116,8 +118,6 @@ export const use_user_store = defineStore('user', {
             ) {
                 await get_all_user_json()
             }
-
-            this.set_current_page('Main')
         },
         async get_have_groups() {
             const {
@@ -162,23 +162,23 @@ export const use_user_store = defineStore('user', {
                     signup_success.value = true
                     show_error_message.value = false
 
-                    success_message.value = user_store.$state.current_page === 'UserManage'
-                        ? '新增成功!'
-                        : '註冊成功!<br />等待管理員審核。'
+                    // success_message.value = user_store.$state.current_page === 'UserManage'
+                    //     ? '新增成功!'
+                    //     : '註冊成功!<br />等待管理員審核。'
 
-                    if (user_store.$state.current_page === 'UserManage') {
-                        const newUser = {
-                        account: user.account,
-                        name: user.name,
-                        work_unit: user.work_unit,
-                        email: user.email,
-                        group_names: [],
-                        level: 'user',
-                        status: '未審核',
-                        }
-                        // 假設你有傳入一個 emit 函式
-                        emit('update_users', newUser)
-                    }
+                    // if (user_store.$state.current_page === 'UserManage') {
+                    //     const newUser = {
+                    //     account: user.account,
+                    //     name: user.name,
+                    //     work_unit: user.work_unit,
+                    //     email: user.email,
+                    //     group_names: [],
+                    //     level: 'user',
+                    //     status: '未審核',
+                    //     }
+                    //     // 假設你有傳入一個 emit 函式
+                    //     emit('update_users', newUser)
+                    // }
 
                     user_store.toggle_signup_dialog()
                 } 

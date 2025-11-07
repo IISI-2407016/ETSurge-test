@@ -55,6 +55,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const toolBarStore = use_user_store()
+const login_state = computed(() => toolBarStore.is_logged_in)
 
 const tab = ref(props.modelValue);
 const dialog_name = ref('')
@@ -94,8 +95,6 @@ const stids = computed(() => {
     })
     return userStids
 })
-
-const login_state = computed(() => toolBarStore.login_state)
 
 function set_station(name) {
     render_station.value = false

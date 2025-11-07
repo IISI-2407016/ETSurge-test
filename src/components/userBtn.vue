@@ -8,7 +8,7 @@
           v-bind="props"
           class="text-capitalize font-italic"
         >
-          {{ user.name }}
+          {{ user?.name }}
           <v-icon medium>mdi-menu-down</v-icon>
         </v-btn>
       </template>
@@ -38,6 +38,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import userEditDialog from './dialogs/userEditDialog.vue'
 import {
   user_logout_ajax,
@@ -45,6 +46,7 @@ import {
 } from '../js/user.js'
 import { use_user_store } from '../stores/user.js'
 
+const router = useRouter()
 const user_store = use_user_store()
 
 // 狀態
@@ -53,9 +55,14 @@ const edit_personal_dialog = ref(false)
 const show_change_error = ref(false)
 const error_message = ref('')
 
-// pinia computed
-const user = computed(() => user_store.user)
-const login_state = computed(() => user_store.login_state)
+const login_state = computed(() => user_store.is_logged_in)
+const user = computed(() => {
+  if (login_state.value) {
+    return user_store.user
+  } else {
+    return null
+  }
+})
 
 // 方法
 function open_edit() {
@@ -87,10 +94,13 @@ async function edit_user_confirm() {
 }
 
 function page_change() {
-  user_store.set_current_page('Main')
+  router.push({ name: 'main' })
 }
 
 async function logout() {
-  await user_logout_ajax()
+  const { status } = await user_logout_ajax()
+  if (status === 'success') {
+    router.push({ name: 'login' })
+  }
 }
 </script>
