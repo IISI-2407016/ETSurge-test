@@ -9,9 +9,25 @@ export const tide_level_store = defineStore('tide_level', {
         station_list: [],
         stid_id_list: [],
         stid_list: {},
-        six_hour_list: []
+        six_hour_list: [],
+        chart_list: {}, // 測站資訊
+        has_chart: false,
+        parameter_id: null,
+        has_collapsed: false // 控制颱風表格縮放
     }),
     actions: {
+        set_has_chart(value) {
+            this.has_chart = value;
+        },
+        set_parameter_id(id) {
+            this.parameter_id = id;
+        },
+        set_has_collapsed(value) {
+            this.has_collapsed = value;
+        },
+        save_chart_list(data) {
+            this.chart_list = data;
+        },
         async get_tide_station_info() {
             try {
                 const response = await get_tide_station_info_ajax();

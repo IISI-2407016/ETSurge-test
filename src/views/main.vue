@@ -18,7 +18,7 @@
                         <tide-level-view />
                     </div>
                     <div v-else-if="current_tab === 'light'">
-                        <!-- <light-table-view /> -->
+                        <light-table-view />
                     </div>
                 </v-container>
             </v-main>
@@ -33,6 +33,7 @@ import { use_uvp_data_store } from '../stores/UVP-data.js'
 import toolBar from './toolBar.vue'
 import UVPView from './UVPView.vue'
 import tideLevelView from './tide-level/tideLevelView.vue'
+import lightTableView from './lightTableView.vue'
 
 const uvp_data_store = use_uvp_data_store()
 const app_store = use_app_store()

@@ -29,7 +29,6 @@ const router = createRouter({
 
 // 登入狀態導向正確路由
 router.beforeEach((to, from, next) => {
-    debugger
     const user_store = use_user_store();
     
     // 需要登入但未登入 → 重導向到登入頁
