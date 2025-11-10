@@ -58,9 +58,9 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <error-message-dialog 
+        <alert-message-dialog 
             :model_value="error_message_valid"
-            :error_message="error_message"
+            :message="error_message"
             @update:model_value="error_message_valid = $event"
         />
     </div>
@@ -70,7 +70,7 @@
 import { ref, computed } from 'vue'
 import { use_user_store } from '../../stores/user.js';
 import { update_user_info_ajax } from '../../js/user.js'
-import errorMessageDialog from './errorMessageDialog.vue';
+import alertMessageDialog from './alertMessageDialog.vue';
 
 // 定義 props
 defineProps({

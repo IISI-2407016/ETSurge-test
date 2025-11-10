@@ -5,12 +5,7 @@ import { get_all_group_json, get_all_user_json, set_have_groups } from '../js/us
 export const use_user_store = defineStore('user', {
     state: () => ({
         user: {
-            account: '',
-            name: '',
-            group_names: '',
-            level: '',
-            status: '',
-            is_admin: false
+            username: ''
         },
         is_logged_in: false,
         users: [],
@@ -64,7 +59,7 @@ export const use_user_store = defineStore('user', {
             this.users_map = users_map
         },
         toggle_login_state() {
-            this.login_state = !this.login_state
+            this.is_logged_in = !this.is_logged_in
         },
         clear_user() {
             this.user.account = "";

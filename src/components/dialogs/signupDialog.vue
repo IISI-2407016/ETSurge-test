@@ -27,7 +27,7 @@
                         @submit.prevent
                     >
                     <v-text-field
-                        v-model="user.account"
+                        v-model="user.username"
                         :rules="account_rules"
                         label="帳號"
                         required
@@ -38,12 +38,12 @@
                         label="姓名"
                         required
                     />
-                    <v-text-field
+                    <!-- <v-text-field
                         v-model="user.work_unit"
                         :rules="workUnit_rules"
                         label="單位"
                         required
-                    />
+                    /> -->
                     <v-text-field
                         v-model="user.email"
                         :rules="email_rules"
@@ -93,6 +93,7 @@
 import { ref, computed } from 'vue'
 import { use_user_store } from '../../stores/user.js'
 import { useReCaptcha } from 'vue-recaptcha-v3'
+import { post_auth_registration } from '@/js/login.js'
 
 // 狀態
 const user_store = use_user_store()
@@ -101,7 +102,7 @@ const signup_form = ref(false)
 const form = ref(null)
 
 const user = ref({
-    account: '',
+    username: '',
     name: '',
     work_unit: '',
     email: '',
@@ -158,18 +159,27 @@ const reset_form = () => {
     form.value.reset()
 }
 
+const emit = defineEmits(['signup_show_message'])
+
 const signup_confirm = async () => {
     show_error_message.value = false
+    console.log('signup_confirm')
     const valid = await form.value.validate()
     if (!valid) return
-    await user_store.signup_ajax({
-        user: user.value,
-        user_store,
-        success_message,
-        signup_success,
-        show_error_message,
-        recaptchaLoaded,
-        executeRecaptcha
-    })
+    try {
+        const res = await post_auth_registration({
+            username: user.value.username,
+            email: user.value.email,
+            first_name: user.value.name,
+            last_name: "", //後端欄位分姓跟名，前端網頁只有一個欄位，所以只帶first name
+            password: user.value.password,
+            password_confirm: password_check.value
+        })
+        user_store.toggle_signup_dialog()
+        emit('signup_show_message', '註冊成功', 'success')
+    } catch (error) {
+        emit('signup_show_message', '註冊失敗')
+    }
+
 }
 </script>

@@ -31,7 +31,7 @@
                             class="mt-3"
                         ></v-text-field>
                     </v-form>
-                    <div class="text-red">{{ error_message }}</div>
+                    <!-- <div class="text-red">{{ alert_message }}</div> -->
                 </v-col>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -54,7 +54,12 @@
             </v-card>
     
             <forgot-password-dialog />
-            <signup-dialog />
+            <signup-dialog @signup_show_message="signup_show_message"/>
+            <alert-message-dialog
+                v-model="show_error_message" 
+                :message="alert_message"
+                :type="message_type"
+            />
         </v-container>
     </v-app>
 </template>
@@ -64,7 +69,8 @@ import { useRouter } from 'vue-router'
 import { use_user_store } from '../stores/user.js'
 import signupDialog from '../components/dialogs/signupDialog.vue'
 import forgotPasswordDialog from '../components/dialogs/forgotPasswordDialog.vue'
-import { user_login_ajax } from '../js/user.js'
+import { post_auth_login } from '@/js/login.js'
+import alertMessageDialog from '@/components/dialogs/alertMessageDialog.vue'
 
 const router = useRouter()
 const user_store = use_user_store()
@@ -75,7 +81,9 @@ const is_login_form_valid = ref(false) // v-model 綁定這個 Boolean
 
 const account = ref('')
 const password = ref('')
-const error_message = ref('')
+const alert_message = ref('')
+const show_error_message = ref(false)
+const message_type = ref('error')
 
 // 表單驗證規則
 const account_rules = [(v) => !!v || '請輸入帳號']
@@ -91,29 +99,31 @@ function open_forgot_password() {
     user_store.toggle_forgot_password_dialog()
 }
 
+function signup_show_message(message,type='error') {
+    alert_message.value = message
+    show_error_message.value = true
+    message_type.value = type
+    setTimeout(() => {
+        show_error_message.value = false
+    }, 3000)
+}
+
 async function login_confirm() {
     const valid = login_form.value?.validate()
     if (!valid) return
-
-    //   await user_store.set_all_login_info(user_data)
-
-    const result = await user_login_ajax(account.value, password.value)
-
-    if (result.status === "success") {
-        await user_store.set_all_login_info(result.user)
+    const params = {
+        username: account.value,
+        password: password.value,
+        email: "" //後端要求參數
+    }
+    try {
+        const result = await post_auth_login(params)
+        user_store.toggle_login_state()
+        user_store.set_user(result)
         // 登入成功後跳轉到主頁面
         router.push({ name: 'main' })
-    } else {
-        error_message.value = result.message
-        setTimeout(() => {
-            error_message.value = ''
-        }, 1500)
+    } catch(err) {
+
     }
-    //   await user_login_ajax.call({
-    //     account: account.value,
-    //     password: password.value,
-    //     user_store,
-    //     error_message,
-    //   })
 }
 </script>

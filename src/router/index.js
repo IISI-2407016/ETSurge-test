@@ -23,8 +23,8 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
+    history: createWebHistory('/app'),
+    routes,
 })
 
 // 登入狀態導向正確路由
