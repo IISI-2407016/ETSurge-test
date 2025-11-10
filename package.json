@@ -13,6 +13,7 @@
     "@tailwindcss/postcss": "^4.1.14",
     "axios": "^1.10.0",
     "cors": "^2.8.5",
+    "d3": "^7.9.0",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "mitt": "^3.0.1",

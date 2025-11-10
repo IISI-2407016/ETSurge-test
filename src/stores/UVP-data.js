@@ -10,6 +10,7 @@ import { get_typhoon_filter_parameters_ajax } from '../js/tide-level.js'
 export const use_uvp_data_store = defineStore('uvp_data', {
     state: () => ({
         uvp_data: {
+            ModelName: '',
             TyNo: '',
             InitialTime: '',
             Category: '',
@@ -42,6 +43,9 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         },
         deactivate() {
             this.is_active = false;
+        },
+        save_UVP_data(new_uvp_data) {
+            this.uvp_data = {...this.uvp_data, ...new_uvp_data};
         },
         async get_typhoon_name_data() {
             const { status, data } = await get_typhoon_name_data_ajax();
@@ -91,7 +95,6 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         async get_typhoon_data() {
             try {
                 const response = await get_typhoon_filter_parameters_ajax();
-                debugger
                 if (response && response.status === 'success' && response.data) {
                     this.tide_list = response.data;
 

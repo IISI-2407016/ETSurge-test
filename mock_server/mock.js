@@ -3,26 +3,22 @@ import { reactive } from "vue";
 
 const require = createRequire(import.meta.url);
 
-// small_chart_data 1226,1566,1206,1146,1786,1386
-const small_chart_data_1226 = require('./small_chart/1226.json');
-const small_chart_data_1566 = require('./small_chart/1566.json');
-const small_chart_data_1206 = require('./small_chart/1206.json');
-const small_chart_data_1146 = require('./small_chart/1146.json');
-const small_chart_data_1786 = require('./small_chart/1786.json');
-const small_chart_data_1386 = require('./small_chart/1386.json');
-// no_fcst_data 1226,1566,1206,1146,1786,1386
-const no_fcst_data_1226 = require('./no_fcst/1226.json');
-const no_fcst_data_1566 = require('./no_fcst/1566.json');
-const no_fcst_data_1206 = require('./no_fcst/1206.json');
-const no_fcst_data_1146 = require('./no_fcst/1146.json');
-const no_fcst_data_1786 = require('./no_fcst/1786.json');
-const no_fcst_data_1386 = require('./no_fcst/1386.json');
 // typhoon data
 const typhoon_average_data = require('./typhoon_data/average_grid_data_by_filtered_typhoon_track_model_data.json');
 const typhoon_track_data = require('./typhoon_data/model_data_by_track.json');
 const typhoon_info_data = require('./typhoon_data/typhoon_info.json');
 const typhoon_track_info_data = require('./typhoon_data/typhoon_track_info.json');
 const typhoon_filter_parameters_data = require('./typhoon_data/typhoon_filter_parameters.json');
+const tide_station_info_data = require('./typhoon_data/tide_station_info.json');
+const county_tide_warnings_data = require('./typhoon_data/county_tide_warnings.json');
+
+// twelve_chart_data 1226,1566,1206,1146,1786,1386
+const twelve_chart_data_1226 = require('./twelve_chart/1226.json');
+const twelve_chart_data_1566 = require('./twelve_chart/1566.json');
+const twelve_chart_data_1206 = require('./twelve_chart/1206.json');
+const twelve_chart_data_1146 = require('./twelve_chart/1146.json');
+const twelve_chart_data_1786 = require('./twelve_chart/1786.json');
+const twelve_chart_data_1386 = require('./twelve_chart/1386.json');
 
 let port = 10008;
 
@@ -76,6 +72,45 @@ app.post('/surge_app/average_grid_data_by_filtered_typhoon_track_model_data/', f
 app.get('/surge_app/get_typhoon_filter_parameters/', function(req, res) {
     res.send(typhoon_filter_parameters_data);
 });
+
+// 取得所有潮位站基本資訊
+app.get('/surge_app/get_tide_station_info/', function(req, res) {
+    res.send(tide_station_info_data);
+});
+
+// 根據指定的颱風篩選參數ID、測站列表、頻率，取得各測站的風暴潮資料。
+app.use('/surge_app/load_all_data/', function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', '*');
+    res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    if (req.method == 'POST') {
+        const stations = req.body.stations;
+        const twelve_chart_data_list = {
+            1226: twelve_chart_data_1226,
+            1566: twelve_chart_data_1566,
+            1206: twelve_chart_data_1206,
+            1146: twelve_chart_data_1146,
+            1786: twelve_chart_data_1786,
+            1386: twelve_chart_data_1386
+        }
+
+        const station = stations.split(',')[0];
+        const reg = `/${station}{2}/gi`;
+        let data = twelve_chart_data_list[station];
+
+        // res.send(data);
+        setTimeout(() => {
+            res.send(data);
+        }, 5000)
+
+    }
+});
+// 取得各縣市潮警資料
+app.post('/surge_app/get_county_tide_warnings/', function (req, res) {
+    res.send(county_tide_warnings_data);
+});
+
 
 app.use('/public_auth_key/', function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -496,44 +531,7 @@ app.use('/update_model_station/', function (req, res) {
 })
 
 // main.js
-let all_data_count = [];
-app.use('/load_all_data/', function (req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Method', '*');
-    res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    if (req.method == 'POST') {
-        const stations = req.body.stations;
-        const small_chart_data_list = {
-            1226: small_chart_data_1226,
-            1566: small_chart_data_1566,
-            1206: small_chart_data_1206,
-            1146: small_chart_data_1146,
-            1786: small_chart_data_1786,
-            1386: small_chart_data_1386
-        }
-        const no_fcst_data_list = {
-            1226: no_fcst_data_1226,
-            1566: no_fcst_data_1566,
-            1206: no_fcst_data_1206,
-            1146: no_fcst_data_1146,
-            1786: no_fcst_data_1786,
-            1386: no_fcst_data_1386
-        }
-        const station = stations.split(',')[0];
-        all_data_count.push(station);
-        const reg = `/${station}{2}/gi`;
-        let data = small_chart_data_list[station];
 
-        // all_data_count = [];
-        // data = no_fcst_data_list[station];
-
-        setTimeout(() => {
-            res.send(data);
-        }, 5000)
-
-    }
-})
 
 // menuFunction.js
 app.use('/sent_water_level/', function (req, res) {

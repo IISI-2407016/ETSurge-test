@@ -1,0 +1,1392 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "city": "基隆",
+      "order": 1,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 07:54:00",
+          "max_value": 0.621,
+          "max_station": "基隆"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 08:48:00",
+          "max_value": 0.661,
+          "max_station": "基隆"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 20:36:00",
+          "max_value": 0.557,
+          "max_station": "基隆"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 09:24:00",
+          "max_value": 0.593,
+          "max_station": "基隆"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 21:30:00",
+          "max_value": 0.607,
+          "max_station": "基隆"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 09:36:00",
+          "max_value": 0.589,
+          "max_station": "基隆"
+        }
+      ]
+    },
+    {
+      "city": "新北(西)",
+      "order": 2,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 21:12:00",
+          "max_value": 1.51,
+          "max_station": "淡水"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 09:48:00",
+          "max_value": 1.689,
+          "max_station": "淡水"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 22:00:00",
+          "max_value": 1.634,
+          "max_station": "淡水"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 10:24:00",
+          "max_value": 1.716,
+          "max_station": "淡水"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 22:42:00",
+          "max_value": 1.752,
+          "max_station": "淡水"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 10:54:00",
+          "max_value": 1.749,
+          "max_station": "淡水"
+        }
+      ]
+    },
+    {
+      "city": "新北(東)",
+      "order": 3,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-09 20:48:00",
+          "max_value": 1.44,
+          "max_station": "麟山鼻"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-10 09:18:00",
+          "max_value": 1.574,
+          "max_station": "麟山鼻"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 21:30:00",
+          "max_value": 1.518,
+          "max_station": "麟山鼻"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-11 09:54:00",
+          "max_value": 1.563,
+          "max_station": "麟山鼻"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-11 22:12:00",
+          "max_value": 1.601,
+          "max_station": "麟山鼻"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-12 10:24:00",
+          "max_value": 1.573,
+          "max_station": "麟山鼻"
+        }
+      ]
+    },
+    {
+      "city": "桃園",
+      "order": 4,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 21:06:00",
+          "max_value": 2.015,
+          "max_station": "竹圍"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 09:36:00",
+          "max_value": 2.178,
+          "max_station": "竹圍"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 21:48:00",
+          "max_value": 2.156,
+          "max_station": "竹圍"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 10:12:00",
+          "max_value": 2.223,
+          "max_station": "竹圍"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 22:30:00",
+          "max_value": 2.28,
+          "max_station": "竹圍"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-12 10:36:00",
+          "max_value": 2.275,
+          "max_station": "竹圍"
+        }
+      ]
+    },
+    {
+      "city": "新竹",
+      "order": 5,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 21:12:00",
+          "max_value": 2.505,
+          "max_station": "新竹"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 09:54:00",
+          "max_value": 2.742,
+          "max_station": "新竹"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 22:00:00",
+          "max_value": 2.697,
+          "max_station": "新竹"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 10:30:00",
+          "max_value": 2.819,
+          "max_station": "新竹"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 22:36:00",
+          "max_value": 2.877,
+          "max_station": "新竹"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-12 10:54:00",
+          "max_value": 2.88,
+          "max_station": "新竹"
+        }
+      ]
+    },
+    {
+      "city": "苗栗",
+      "order": 6,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 21:12:00",
+          "max_value": 2.82,
+          "max_station": "外埔"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 10:00:00",
+          "max_value": 3.013,
+          "max_station": "外埔"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 22:00:00",
+          "max_value": 3.029,
+          "max_station": "外埔"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 10:30:00",
+          "max_value": 3.1,
+          "max_station": "外埔"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 22:42:00",
+          "max_value": 3.21,
+          "max_station": "外埔"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-12 11:00:00",
+          "max_value": 3.175,
+          "max_station": "外埔"
+        }
+      ]
+    },
+    {
+      "city": "臺中",
+      "order": 7,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 21:18:00",
+          "max_value": 2.957,
+          "max_station": "臺中港"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 09:48:00",
+          "max_value": 3.1,
+          "max_station": "臺中港"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 22:00:00",
+          "max_value": 3.174,
+          "max_station": "臺中港"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 10:24:00",
+          "max_value": 3.218,
+          "max_station": "臺中港"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 22:42:00",
+          "max_value": 3.337,
+          "max_station": "臺中港"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-12 10:54:00",
+          "max_value": 3.32,
+          "max_station": "臺中港"
+        }
+      ]
+    },
+    {
+      "city": "彰化",
+      "order": 8,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-09 21:12:00",
+          "max_value": 2.631,
+          "max_station": "麥寮"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 09:48:00",
+          "max_value": 2.695,
+          "max_station": "麥寮"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-10 21:54:00",
+          "max_value": 2.782,
+          "max_station": "麥寮"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-11 10:24:00",
+          "max_value": 2.783,
+          "max_station": "麥寮"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-11 22:36:00",
+          "max_value": 2.912,
+          "max_station": "麥寮"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-12 10:48:00",
+          "max_value": 2.882,
+          "max_station": "麥寮"
+        }
+      ]
+    },
+    {
+      "city": "雲林",
+      "order": 9,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 21:24:00",
+          "max_value": 0.434,
+          "max_station": "臺西"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 10:12:00",
+          "max_value": 0.487,
+          "max_station": "臺西"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 22:12:00",
+          "max_value": 0.545,
+          "max_station": "臺西"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 10:48:00",
+          "max_value": 0.547,
+          "max_station": "臺西"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 22:54:00",
+          "max_value": 0.662,
+          "max_station": "臺西"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 11:12:00",
+          "max_value": 0.618,
+          "max_station": "臺西"
+        }
+      ]
+    },
+    {
+      "city": "嘉義",
+      "order": 10,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-09 20:48:00",
+          "max_value": 1.847,
+          "max_station": "東石"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 09:36:00",
+          "max_value": 1.81,
+          "max_station": "東石"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 21:36:00",
+          "max_value": 1.908,
+          "max_station": "東石"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 10:12:00",
+          "max_value": 1.856,
+          "max_station": "東石"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-11 22:18:00",
+          "max_value": 1.979,
+          "max_station": "東石"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-12 10:36:00",
+          "max_value": 1.93,
+          "max_station": "東石"
+        }
+      ]
+    },
+    {
+      "city": "臺南",
+      "order": 11,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-09 20:18:00",
+          "max_value": 1.578,
+          "max_station": "將軍"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 09:24:00",
+          "max_value": 1.516,
+          "max_station": "將軍"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-10 21:12:00",
+          "max_value": 1.596,
+          "max_station": "將軍"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-11 10:00:00",
+          "max_value": 1.532,
+          "max_station": "將軍"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-11 22:06:00",
+          "max_value": 1.641,
+          "max_station": "將軍"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "yellow",
+          "max_time": "2025-04-12 10:24:00",
+          "max_value": 1.591,
+          "max_station": "將軍"
+        }
+      ]
+    },
+    {
+      "city": "高雄",
+      "order": 12,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 20:00:00",
+          "max_value": 0.818,
+          "max_station": "高雄"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 18:18:00",
+          "max_value": 0.915,
+          "max_station": "高雄"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 20:00:00",
+          "max_value": 0.833,
+          "max_station": "高雄"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 19:06:00",
+          "max_value": 0.875,
+          "max_station": "高雄"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 07:06:00",
+          "max_value": 0.86,
+          "max_station": "高雄"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 08:00:00",
+          "max_value": 0.843,
+          "max_station": "高雄"
+        }
+      ]
+    },
+    {
+      "city": "屏東",
+      "order": 13,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 20:00:00",
+          "max_value": 1.037,
+          "max_station": "東港"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 18:42:00",
+          "max_value": 1.105,
+          "max_station": "東港"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 20:00:00",
+          "max_value": 1.04,
+          "max_station": "東港"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 19:30:00",
+          "max_value": 1.052,
+          "max_station": "東港"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 20:00:00",
+          "max_value": 1.04,
+          "max_station": "東港"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 08:00:00",
+          "max_value": 1.004,
+          "max_station": "東港"
+        }
+      ]
+    },
+    {
+      "city": "澎湖",
+      "order": 14,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 21:24:00",
+          "max_value": 1.374,
+          "max_station": "澎湖"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 10:06:00",
+          "max_value": 1.41,
+          "max_station": "澎湖"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 22:12:00",
+          "max_value": 1.485,
+          "max_station": "澎湖"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 10:42:00",
+          "max_value": 1.475,
+          "max_station": "澎湖"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 22:54:00",
+          "max_value": 1.574,
+          "max_station": "澎湖"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 11:06:00",
+          "max_value": 1.525,
+          "max_station": "澎湖"
+        }
+      ]
+    },
+    {
+      "city": "金門",
+      "order": 15,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-09 22:06:00",
+          "max_value": 0.786,
+          "max_station": "料羅灣"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 10:42:00",
+          "max_value": 1.014,
+          "max_station": "料羅灣"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 22:54:00",
+          "max_value": 1.06,
+          "max_station": "料羅灣"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 11:24:00",
+          "max_value": 1.156,
+          "max_station": "料羅灣"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 23:36:00",
+          "max_value": 1.257,
+          "max_station": "料羅灣"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 11:48:00",
+          "max_value": 1.185,
+          "max_station": "料羅灣"
+        }
+      ]
+    },
+    {
+      "city": "馬祖",
+      "order": 16,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-09 20:36:00",
+          "max_value": 3.72,
+          "max_station": "馬祖"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-10 09:06:00",
+          "max_value": 4.04,
+          "max_station": "馬祖"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-10 21:24:00",
+          "max_value": 3.997,
+          "max_station": "馬祖"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-11 09:42:00",
+          "max_value": 4.162,
+          "max_station": "馬祖"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-11 22:00:00",
+          "max_value": 4.201,
+          "max_station": "馬祖"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "orange",
+          "max_time": "2025-04-12 10:12:00",
+          "max_value": 4.187,
+          "max_station": "馬祖"
+        }
+      ]
+    },
+    {
+      "city": "宜蘭",
+      "order": 17,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 05:30:00",
+          "max_value": 0.59,
+          "max_station": "烏石"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 17:00:00",
+          "max_value": 0.691,
+          "max_station": "蘇澳"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 05:48:00",
+          "max_value": 0.603,
+          "max_station": "烏石"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 17:36:00",
+          "max_value": 0.733,
+          "max_station": "蘇澳"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 05:36:00",
+          "max_value": 0.754,
+          "max_station": "蘇澳"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 08:00:00",
+          "max_value": 0.545,
+          "max_station": "烏石"
+        }
+      ]
+    },
+    {
+      "city": "花蓮",
+      "order": 18,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 05:12:00",
+          "max_value": 0.827,
+          "max_station": "花蓮"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 17:18:00",
+          "max_value": 0.905,
+          "max_station": "花蓮"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 05:30:00",
+          "max_value": 0.844,
+          "max_station": "花蓮"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 17:48:00",
+          "max_value": 0.949,
+          "max_station": "花蓮"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 05:54:00",
+          "max_value": 0.993,
+          "max_station": "花蓮"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 08:00:00",
+          "max_value": 0.686,
+          "max_station": "花蓮"
+        }
+      ]
+    },
+    {
+      "city": "臺東",
+      "order": 19,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 05:06:00",
+          "max_value": 0.882,
+          "max_station": "成功"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 17:00:00",
+          "max_value": 0.93,
+          "max_station": "成功"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 05:24:00",
+          "max_value": 0.893,
+          "max_station": "成功"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 17:42:00",
+          "max_value": 0.971,
+          "max_station": "成功"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 05:48:00",
+          "max_value": 1.041,
+          "max_station": "成功"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 08:00:00",
+          "max_value": 0.686,
+          "max_station": "成功"
+        }
+      ]
+    },
+    {
+      "city": "綠島",
+      "order": 20,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 04:54:00",
+          "max_value": 0.737,
+          "max_station": "綠島"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 17:00:00",
+          "max_value": 0.818,
+          "max_station": "綠島"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 05:18:00",
+          "max_value": 0.741,
+          "max_station": "綠島"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 17:36:00",
+          "max_value": 0.844,
+          "max_station": "綠島"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 05:36:00",
+          "max_value": 0.882,
+          "max_station": "綠島"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 08:00:00",
+          "max_value": 0.535,
+          "max_station": "綠島"
+        }
+      ]
+    },
+    {
+      "city": "蘭嶼",
+      "order": 21,
+      "data": [
+        {
+          "time_range": [
+            "2025-04-09 20:00:00",
+            "2025-04-10 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 04:54:00",
+          "max_value": 0.745,
+          "max_station": "蘭嶼"
+        },
+        {
+          "time_range": [
+            "2025-04-10 08:00:00",
+            "2025-04-10 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-10 17:06:00",
+          "max_value": 0.868,
+          "max_station": "蘭嶼"
+        },
+        {
+          "time_range": [
+            "2025-04-10 20:00:00",
+            "2025-04-11 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 05:18:00",
+          "max_value": 0.774,
+          "max_station": "蘭嶼"
+        },
+        {
+          "time_range": [
+            "2025-04-11 08:00:00",
+            "2025-04-11 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-11 17:36:00",
+          "max_value": 0.888,
+          "max_station": "蘭嶼"
+        },
+        {
+          "time_range": [
+            "2025-04-11 20:00:00",
+            "2025-04-12 08:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 05:48:00",
+          "max_value": 0.91,
+          "max_station": "蘭嶼"
+        },
+        {
+          "time_range": [
+            "2025-04-12 08:00:00",
+            "2025-04-12 20:00:00"
+          ],
+          "warning_level": "gray",
+          "max_time": "2025-04-12 08:00:00",
+          "max_value": 0.582,
+          "max_station": "蘭嶼"
+        }
+      ]
+    }
+  ],
+  "message": "取得成功"
+}

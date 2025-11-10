@@ -2,6 +2,9 @@
   "status": "success",
   "data": [
     {
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "id": 3,
       "ModelNameList": [
         "TWRF"
       ],
@@ -22,10 +25,13 @@
         "000",
         "100"
       ],
-      "IsFileReady": false,
+      "IsFileReady": true,
       "ModifyTime": "2025-10-13T08:16:43.914806Z"
     },
     {
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "id": 3,
       "ModelNameList": [
         "TWRF"
       ],
@@ -46,10 +52,40 @@
         "000",
         "100"
       ],
-      "IsFileReady": false,
+      "IsFileReady": true,
       "ModifyTime": "2025-10-31T04:18:14.388459Z"
     },
     {
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "id": 3,
+      "ModelNameList": [
+        "TWRF"
+      ],
+      "TyNo": "202601",
+      "InitialTime": "2026-01-04T00:00:00Z",
+      "Category": "official",
+      "Radius": 120,
+      "Pressure_range": [
+        "870",
+        "080"
+      ],
+      "CardinalDirection": "N",
+      "TranslationSpeed_range": [
+        "000",
+        "1000"
+      ],
+      "MaxWind_range": [
+        "000",
+        "100"
+      ],
+      "IsFileReady": true,
+      "ModifyTime": "2025-10-31T03:18:14.388459Z"
+    },
+    {
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "id": 5,
       "ModelNameList": [
         "TWRF"
       ],
@@ -74,6 +110,9 @@
       "ModifyTime": "2025-10-31T03:18:14.388459Z"
     },
     {
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "id": 6,
       "ModelNameList": [
         "TWRF"
       ],
@@ -98,30 +137,9 @@
       "ModifyTime": "2025-10-31T03:18:14.388459Z"
     },
     {
-      "ModelNameList": [
-        "TWRF"
-      ],
-      "TyNo": "202601",
-      "InitialTime": "2026-01-04T00:00:00Z",
-      "Category": "official",
-      "Radius": 120,
-      "Pressure_range": [
-        "870",
-        "080"
-      ],
-      "CardinalDirection": "N",
-      "TranslationSpeed_range": [
-        "000",
-        "1000"
-      ],
-      "MaxWind_range": [
-        "000",
-        "100"
-      ],
-      "IsFileReady": false,
-      "ModifyTime": "2025-10-31T03:18:14.388459Z"
-    },
-    {
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS",
+      "id": 7,
       "ModelNameList": [
         "TWRF"
       ],

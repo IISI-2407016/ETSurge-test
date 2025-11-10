@@ -61,7 +61,7 @@
                                 </template>
 
                                 <v-date-picker
-                                    v-model="raw_date"
+                                    v-model="selected_date"
                                     no-title 
                                     color="primary"
                                     :max="max_date"
@@ -198,21 +198,24 @@
 </template>
 <script setup>
     import { ref, computed, onMounted, watch } from 'vue';
+    import { use_app_store } from '../stores/use-app.js';
     import { use_uvp_data_store } from '../stores/UVP-data.js';
     import { use_compass_store } from '../stores/compass';
+    import { tide_level_store } from '../stores/tide-level.js';
     import compass16 from '../components/compass16.vue';
     import loading from '../components/loading.vue';
     import messageDialog from '../components/dialogs/messageDialog.vue';
 
-    const emit = defineEmits(['change-tab']);
+    // const emit = defineEmits(['change-tab']);
 
+    const app_store = use_app_store();
     const uvp_data_store = use_uvp_data_store();
     const compass_store = use_compass_store();
+    const tide_level_info_store = tide_level_store();
 
     const panel = ref(0);
     const menu = ref(false);
-    const raw_date = ref(new Date().toString('YYYY/MM/DD'));
-    const max_date = ref(new Date().toString('YYYY/MM/DD')); // 可選擇至最大日期
+
     const form = ref({
         ModelName: 'TWRF', // 目前尚未有其他模式
         TyNo: '',
@@ -279,10 +282,25 @@
         }
     });
 
+    // 日期選擇器的值（Date 物件）
+    const selected_date = computed({
+        get: () => {
+            return form.value.InitialTime ? new Date(form.value.InitialTime) : new Date();
+        },
+        set: (value) => {
+            if (value) {
+                // 設定為當天的 00:00:00 UTC
+                const utcDate = new Date(value);
+                utcDate.setUTCHours(0, 0, 0, 0);
+                form.value.InitialTime = utcDate.toISOString();
+            }
+        }
+    });
+
     // 計算颱風名稱選單
     const Ty_list = computed(() => {
         const list = uvp_data_store.Ty_info.map(item => ({
-            text: `${item.TyChtName} (${item.TyEngName})`,
+            text: `${item.TyNo}-${item.TyChtName}`,
             value: item.TyNo
         }));
 
@@ -296,12 +314,19 @@
 
     // 轉換成 YYYY/MM/DD 格式
     const formatted_date = computed(() => {
-        if (!raw_date.value) return '';
-        const date = new Date(raw_date.value);
+        if (!form.value.InitialTime) return '';
+        const date = new Date(form.value.InitialTime);
         const yyyy = date.getFullYear();
         const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
         return `${yyyy}/${mm}/${dd}`;
+    });
+
+    // 最大可選日期
+    const max_date = computed(() => {
+        const today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
+        return today;
     });
 
     // 計算類別選單
@@ -331,6 +356,13 @@
     });
 
     onMounted(async () => {
+        // 設定預設為今天
+        if (!form.value.InitialTime) {
+            const today = new Date();
+            today.setUTCHours(0, 0, 0, 0);
+            form.value.InitialTime = today.toISOString();
+        }
+
         is_loading.value = true;
         await typhoon_info();
         is_loading.value = false;
@@ -377,6 +409,7 @@
     // 查詢
     const search = async () => {
         is_loading.value = true;
+        uvp_data_store.save_UVP_data(form.value); // 紀錄欄位內容
         const res = await uvp_data_store.get_model_data_by_track(form.value);
         if (!res.success || res.data.length === 0) {
             return;
@@ -391,6 +424,8 @@
 
     // 顯示訊息
     const show_message = () => {
+        debugger
+        tide_level_info_store.set_has_chart(false);
         message_valid.value = true;
     }
 
@@ -402,7 +437,8 @@
         await get_typhoon_data();
 
         is_loading.value = false;
-        emit('change-tab', tab_name);
+        app_store.change_tab('tide_level');
+        // emit('change-tab', tab_name);
     }
 
     // 產製模式平均網格資料
@@ -423,7 +459,10 @@
     }
 
     // 選擇日期後關閉選擇器
-    const handleDateSelect = () => {
+    const handleDateSelect = (date) => {
+        if (date) {
+            selected_date.value = date;
+        }
         menu.value = false;
     };
 

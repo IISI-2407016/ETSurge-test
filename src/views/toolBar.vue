@@ -42,18 +42,19 @@
 
 <script setup>
 import { ref, watch, computed, nextTick } from 'vue'
+import { use_app_store } from '../stores/use-app.js'
 import { use_user_store } from '../stores/user.js'
 import stationSet from './stationSet.vue'
 import userBtn from '../components/userBtn.vue'
 
 const props = defineProps({
-  modelValue: {
-    type: String,
-    default: 'uvp'
-  }
+    modelValue: {
+        type: String,
+        default: 'uvp'
+    }
 });
-const emit = defineEmits(['update:modelValue']);
 
+const app_store = use_app_store()
 const toolBarStore = use_user_store()
 const login_state = computed(() => toolBarStore.is_logged_in)
 
@@ -64,12 +65,12 @@ const show_icon = ref(false)
 
 // 父變動 → 子同步
 watch(() => props.modelValue, (val) => {
-  tab.value = val;
+    tab.value = val;
 });
 
-// 子變動 → emit 給父
+// 子變動 → store 給父
 watch(tab, (val) => {
-  emit('update:modelValue', val);
+    app_store.change_tab(val);
 });
 
 const haveStidsLength = computed(() => {

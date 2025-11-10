@@ -6,7 +6,7 @@
                 <v-container fluid class="pa-4">
                     <div v-if="current_tab === 'uvp'">
                         <div class="fixed z-10 w-100">
-                            <UVP-view @change-tab="current_tab = $event" />
+                            <UVP-view />
                         </div>
                         <div 
                             v-if="uvp_data_store.search_results.length > 0 && current_tab === 'uvp'" 
@@ -18,7 +18,7 @@
                         <tide-level-view />
                     </div>
                     <div v-else-if="current_tab === 'light'">
-                        <!-- <light-view /> -->
+                        <!-- <light-table-view /> -->
                     </div>
                 </v-container>
             </v-main>
@@ -27,12 +27,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { use_app_store } from '../stores/use-app.js'
 import { use_uvp_data_store } from '../stores/UVP-data.js'
 import toolBar from './toolBar.vue'
 import UVPView from './UVPView.vue'
 import tideLevelView from './tide-level/tideLevelView.vue'
 
 const uvp_data_store = use_uvp_data_store()
-const current_tab = ref('uvp')
+const app_store = use_app_store()
+const current_tab = computed(() => app_store.current_tab)
 </script>
