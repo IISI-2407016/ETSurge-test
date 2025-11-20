@@ -10,27 +10,24 @@ import { get_typhoon_filter_parameters_ajax } from '../js/tide-level.js'
 export const use_uvp_data_store = defineStore('uvp_data', {
     state: () => ({
         uvp_data: {
-            ModelName: '',
+            ModelNameList: ['TWRF'], // 目前尚未有其他模式
             TyNo: '',
             InitialTime: '',
             Category: '',
-            Radius: '',
-            Pressure_range: {
-                from: '',
-                to: ''
-            },
-            MaxWind_range: {
-                from: '',
-                to: ''
-            },
-            TranslationSpeed_range: {
-                from: '',
-                to: ''
-            },
-            CardinalDirection: ''
+            Radius: null,
+            Pressure_range: [null, null],
+            MaxWind_range: [null, null],
+            TranslationSpeed_range: [null, null],
+            CardinalDirection: '',
+            filtered_typhoon_data: []
+        },
+        hour: {
+            time: '06', // 預設06Z
+            items: ['00', '02', '05', '06', '08', '11', '14', '17', '20', '23'], // 可選擇的時次
         },
         Ty_info: [],
         tide_list: [],
+        category_list: [],
         search_results: [],
         average_typhoon_data: [],
         angle: 0,
@@ -44,21 +41,57 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         deactivate() {
             this.is_active = false;
         },
-        save_UVP_data(new_uvp_data) {
+        save_UVP_data(new_uvp_data, new_hour) {
+            debugger
             this.uvp_data = {...this.uvp_data, ...new_uvp_data};
+            this.hour.time = new_hour;
+        },
+        set_angle(new_angle) {
+            this.angle = new_angle;
+        },
+        set_selected_direction(direction) {
+            this.selected_direction = direction;
+        },
+        reset_filtered_typhoon_data() {
+            this.uvp_data.filtered_typhoon_data = [];
+        },
+        // 更新日期並保持當前選擇的小時
+        update_date(new_date) {
+            if (new_date) {
+                const year = new_date.getFullYear();
+                const month = new_date.getMonth() + 1;
+                const day = new_date.getDate();
+                const current_hour = this.hour.time || '08';
+                
+                const date_string = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${current_hour}:00:00.000Z`;
+                this.uvp_data.InitialTime = date_string;
+            }
+        },
+        // 更新小時並同步到 InitialTime
+        update_hour(new_hour) {
+            this.hour.time = new_hour;
+            
+            if (this.uvp_data.InitialTime) {
+                const current_date = new Date(this.uvp_data.InitialTime);
+                const year = current_date.getFullYear();
+                const month = current_date.getMonth() + 1;
+                const day = current_date.getDate();
+                
+                const date_string = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${new_hour}:00:00.000Z`;
+                this.uvp_data.InitialTime = date_string;
+            }
         },
         async get_typhoon_name_data() {
             const { status, data } = await get_typhoon_name_data_ajax();
             if (status === 'success') {
                 this.Ty_info = data;
-                this.uvp_data.TyNo = data.length > 0 ? data[0].TyNo : '';
             }
             return;
         },
         async post_typhoon_category_data(send_data) {
             const { status, data } = await post_typhoon_track_data_ajax(send_data);
             if (status === 'success') {
-                this.uvp_data.Category = data;
+                this.category_list = data;
             }
             return;
         },
@@ -78,6 +111,16 @@ export const use_uvp_data_store = defineStore('uvp_data', {
             }
         },
         async post_uvp_average(send_data) {
+            // const data = {
+            //     ModelNameList: [send_data.ModelNameList],
+            //     Radius: send_data.Radius,
+            //     Pressure_range: [send_data.Pressure_range[0], send_data.Pressure_range[1]],
+            //     CardinalDirection: send_data.CardinalDirection,
+            //     TranslationSpeed_range: [send_data.TranslationSpeed_range[0], send_data.TranslationSpeed_range[1]],
+            //     MaxWind_range: [send_data.MaxWind_range[0], send_data.MaxWind_range[1]],
+            //     filtered_typhoon_data: send_data.filtered_typhoon_data
+            // }
+            console.log('post_uvp_average send data:', send_data);
             try {
                 const response = await post_uvp_average_ajax(send_data);
                 
@@ -105,12 +148,6 @@ export const use_uvp_data_store = defineStore('uvp_data', {
             } catch (error) {
                 return { success: false, error };
             }
-        },
-        set_angle(new_angle) {
-            this.angle = new_angle;
-        },
-        set_selected_direction(direction) {
-            this.selected_direction = direction;
         }
     },
 });

@@ -6,6 +6,9 @@
     >
         <div class="border-gray-300 h-8 w-8 animate-spin rounded-full border-4 border-t-blue-600">
         </div>
+        <div class="ml-2 text-white">
+            資料載入中，請稍後...
+        </div>
     </div>
 </template>
 
