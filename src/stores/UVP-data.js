@@ -42,7 +42,6 @@ export const use_uvp_data_store = defineStore('uvp_data', {
             this.is_active = false;
         },
         save_UVP_data(new_uvp_data, new_hour) {
-            debugger
             this.uvp_data = {...this.uvp_data, ...new_uvp_data};
             this.hour.time = new_hour;
         },

@@ -15,4 +15,4 @@ export const post_uvp_preview_ajax = (send_data) =>
 
 // 計算系集平均
 export const post_uvp_average_ajax = (send_data) =>
-    apiRequest("post", "/surge_app/average_grid_data_by_filtered_typhoon_track_model_data/", send_data);
+    apiRequest("post", "/surge_app/get_average_grid_data_by_filtered_typhoon_track_model_data/", send_data);

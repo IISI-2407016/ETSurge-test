@@ -389,6 +389,7 @@
 
     // 顯示訊息
     const show_message = () => {
+        tide_level_info_store.set_has_collapsed(false);
         tide_level_info_store.set_has_chart(false);
         message_valid.value = true;
     }
