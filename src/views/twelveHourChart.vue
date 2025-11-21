@@ -7,14 +7,15 @@
             <item-legend chart_type="twelve_hour_chart" />
         </v-col>
         <div :id="div_name"></div>
-        <div v-show="is_loading" class="loading-content">
-            <v-icon>mdi-loading fa-spin</v-icon>
+        <div v-show="is_loading" class="px-7 pb-4 bg-white text-center">
+            <v-progress-circular indeterminate :size="20" :width="3"></v-progress-circular>
         </div>
     </v-card>
 </template>
 
 <script setup>
     import { ref, computed, watch, onMounted } from 'vue';
+    import { tide_level_store } from '../stores/tide-level.js';
     import itemLegend from '../components/itemLegend.vue';
     import * as d3 from 'd3';
     
@@ -52,6 +53,7 @@
 
     // Emits 定義
     const emit = defineEmits(['update:is_loading', 'loading-completed']);
+    const tide_level_info_store = tide_level_store();
     // Reactive data
     const items_info = ref({
         obs_water_level: {
@@ -86,10 +88,6 @@
     const chart_info = ref({});
     const multi_graphic = ref([]);
 
-    // Store 相關 (如果需要的話，可以改用 Pinia)
-    const empty_fcst_water_level_alert_dialog_lock = ref(false);
-
-    // Computed properties
     const is_loading_status = computed({
         get: () => props.is_loading,
         set: (value) => {
@@ -99,6 +97,7 @@
             }
         }
     });
+    const empty_fcst_water_level_alert_dialog_lock = computed(() => tide_level_info_store.empty_fcst_water_level_alert_dialog_lock);
 
     watch(() => props.stop_draw, (newVal) => {
         if (newVal) {
@@ -124,15 +123,6 @@
         get_chart_info(props.info);
         init_chart();
     });
-    // Methods
-    const set_empty_fcst_water_level_alert_dialog_lock = (value) => {
-        empty_fcst_water_level_alert_dialog_lock.value = value;
-    };
-
-    const set_empty_fcst_water_level_alert_dialog = (value) => {
-        // 這裡可以添加對話框邏輯
-        console.log('Set empty fcst water level alert dialog:', value);
-    };
 
     const init_chart = () => {
         make_chart();
@@ -368,9 +358,8 @@
                 !empty_fcst_water_level_alert_dialog_lock.value && 
                 !props.web_chart_data[item]?.length
             ) {
-                // @TODO 顯示預報水位資料為空的對話框
-                set_empty_fcst_water_level_alert_dialog_lock(true);
-                set_empty_fcst_water_level_alert_dialog(true);
+                tide_level_info_store.set_empty_fcst_water_level_alert_dialog_lock(true);
+                tide_level_info_store.set_empty_fcst_water_level_alert_dialog(true);
             }
         }
 
@@ -409,14 +398,3 @@
         return text;
     };
 </script>
-
-<style scoped>
-    .loading-content {
-        padding: 30px 0;
-        background: #fff;
-        text-align: center;
-    }
-    .loading-content i {
-        font-size: 3rem;
-    }
-</style>

@@ -3,7 +3,7 @@
         <v-row class="justify-center">
             <!-- 測站載入進度 -->
             <v-col v-if="getLoadingCount() > 0" cols="12" md="12" class="mb-3">
-                <div class="d-flex align-center justify-self-center justify-center gap-3 fixed z-1">
+                <div class="d-flex align-center justify-center gap-3 fixed w-100 z-1">
                     <v-chip 
                         :color="getLoadingCount() > 0 ? 'warning' : 'success'" 
                         size="small"
@@ -94,8 +94,6 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
-        
-        <!-- 此時段無暴潮模式 -->
     </div>
 </template>
 
@@ -171,6 +169,8 @@
 
     // 畫12小時圖
     const draw_twelve_chart = async() => {
+        tide_level_info_store.set_empty_fcst_water_level_alert_dialog(false);
+
         await tide_level_info_store.get_tide_station_info();
         // @TODO
         stop_count.value += 1;
@@ -230,7 +230,7 @@
     const get_web_chart_data = async(stations, type) => {
         let inputs = {
             parameters_id: props.parameter_id,
-            stations: stations,
+            station_list: stations,
             freq: type === 'twelve' ? "hour" : "6minute",
         };
         tide_level_info_store.save_chart_list(inputs)

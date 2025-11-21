@@ -1,6 +1,6 @@
 import { Lunar } from 'lunar-javascript'
 
-// format time to 'YYYY-MM-DD HH:mm'
+// format local time to 'YYYY-MM-DD HH:mm'
 export const time_format = (time) => {
     if (!time) return '--';
     
@@ -26,6 +26,12 @@ export const time_format = (time) => {
         return '--';
     }
 };
+
+// format UTC time to 'YYYY-MM-DD HH:mm'
+export const time_format_utc = (time) => {
+    if (!time) return '--'; 
+    return time.replace('T', ' ').replace(':00Z', '');
+}
 
 // format time to 'M月D日 H時'
 export const time_format_chDate = (time) => {

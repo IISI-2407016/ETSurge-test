@@ -13,7 +13,9 @@ export const tide_level_store = defineStore('tide_level', {
         chart_list: {}, // 測站資訊
         has_chart: false,
         parameter_id: null,
-        has_collapsed: false // 控制颱風表格縮放
+        has_collapsed: false, // 控制颱風表格縮放
+        empty_fcst_water_level_alert_dialog: false, // 預報水位空值警告視窗
+        empty_fcst_water_level_alert_dialog_lock: false, // 預報水位空值警告視窗鎖定
     }),
     actions: {
         set_has_chart(value) {
@@ -24,6 +26,12 @@ export const tide_level_store = defineStore('tide_level', {
         },
         set_has_collapsed(value) {
             this.has_collapsed = value;
+        },
+        set_empty_fcst_water_level_alert_dialog(value) {
+            this.empty_fcst_water_level_alert_dialog = value;
+        },
+        set_empty_fcst_water_level_alert_dialog_lock(value) {
+            this.empty_fcst_water_level_alert_dialog_lock = value;
         },
         save_chart_list(data) {
             this.chart_list = data;
@@ -46,7 +54,7 @@ export const tide_level_store = defineStore('tide_level', {
         async post_load_all_data(send_data, type) {
             const station_data = {
                 parameters_id: send_data.parameters_id,
-                stations: send_data.stations.toString(),
+                station_list: send_data.station_list.toString(),
                 freq: send_data.freq
             };
             try {
@@ -65,8 +73,8 @@ export const tide_level_store = defineStore('tide_level', {
             }
         },
         cal_station_data(station, res_data, key) {
-            for(let i in station.stations){
-                let stid = station.stations[i];
+            for(let i in station.station_list){
+                let stid = station.station_list[i];
 
                 if (res_data[stid]) {
                     key[stid] = res_data[stid];

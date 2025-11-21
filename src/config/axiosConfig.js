@@ -17,17 +17,19 @@ export var axiosConfig = {
     // It can be convenient to set `baseURL` for an instance of axios to pass relative URLs
     // to methods of that instance.
     baseURL: ajaxURL,
+    maxBodyLength: Infinity,        // 允許大封包
+    maxContentLength: Infinity,     // 允許大回傳內容
   
     // `transformRequest` allows changes to the request data before it is sent to the server
     // This is only applicable for request methods 'PUT', 'POST', and 'PATCH'
     // The last function in the array must return a string or an instance of Buffer, ArrayBuffer,
     // FormData or Stream
     // You may modify the headers object.
-    transformRequest: [function (data, headers) {
-      // Do whatever you want to transform the data
-        data = Qs.stringify(data);
-      return data;
-    }],
+    // transformRequest: [function (data, headers) {
+    //   // Do whatever you want to transform the data
+    //     data = Qs.stringify(data);
+    //   return data;
+    // }],
   
     // `transformResponse` allows changes to the response data to be made before
     // it is passed to then/catch
@@ -38,8 +40,10 @@ export var axiosConfig = {
     }],
   
     // `headers` are custom headers to be sent
-    headers: {'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type':'application/x-www-form-urlencoded'},
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type':'application/json'
+    },
             //"csrftoken":Cookies.get('csrftoken')},
             //"X-CSRFTOKEN": Cookies.get('csrftoken')},
   

@@ -60,13 +60,14 @@
     import { storeToRefs } from "pinia";
     import { use_uvp_data_store } from '../../stores/UVP-data.js';
     import { tide_level_store } from '../../stores/tide-level.js';
-    import { time_format } from '../../utils/tool-box.js';
+    import { time_format, time_format_utc } from '../../utils/tool-box.js';
+    import { use_app_store } from '../../stores/use-app.js';
 
     // const emit = defineEmits(['change-tab']);
     const props = defineProps({
         store_fun: Function
     })
-
+    const app_store = use_app_store();
     const uvp_data_store = use_uvp_data_store();
     const tide_level_info_store = tide_level_store();
     const [collapsed_store] = [props.store_fun()]
@@ -97,7 +98,7 @@
                     id: item.id,
                     update_time: time_format(item.ModifyTime),
                     typhoon_name: `${item.TyNo}-${item.TyChtName}`,
-                    initial_time: time_format(item.InitialTime),
+                    initial_time: time_format_utc(item.InitialTime),
                     category: item.Category,
                     radius: item.Radius,
                     pressure_range: item.Pressure_range?.length > 1 
@@ -132,6 +133,7 @@
         tide_level_info_store.set_has_chart(true);
         collapsed_store.set_has_collapsed(!has_collapsed.value)
         tide_level_info_store.set_parameter_id(item.id);
+        app_store.change_tab('tide_level');
     };
 </script>
 

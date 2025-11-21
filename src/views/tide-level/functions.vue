@@ -36,10 +36,17 @@
 
     const parameters_id = computed(() => tide_level_info_store.chart_list.parameters_id);
 
-    const btn_action = (action) => {
+    const btn_action = async(action) => {
         switch(action) {
             case "send_water_level":
-                light_store.post_county_tide_warnings(parameters_id.value);
+                const send_data = {
+                    parameters_id: parameters_id.value,
+                    data_source: "surge_model_mod" // 預設 @TODO 之後會放在load data 裡面
+                }
+                light_store.set_is_loading(true);
+                await light_store.post_county_tide_warnings(send_data);
+                light_store.set_is_loading(false);
+                light_store.set_has_light_send(true);
                 app_store.change_tab('light');
                 console.log("傳送水位");
                 break;
