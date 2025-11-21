@@ -46,8 +46,137 @@ app.use(session({
 }));
 
 // 登入
+app.post('/auth/login/', function(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', '*');
+    res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    if (req.method == 'POST') {
+        if (req.body.username == 'sunday' && req.body.password == '111') {
+            res.send({
+                "status": "success", 
+                "data": {
+                    "user": {
+                        "pk": 0,
+                        "username": "Sunny", 
+                        "email": "email@email.com",
+                        "first_name": "Sunny",
+                        "last_name": "",
+                    }
+                },
+                "message": "登入成功"
+            });
+        } else if(req.body.username == 'admin' && req.body.password == 'admin') {
+            res.send({
+                "status": "success", 
+                "data": {
+                    "user": {
+                        "pk": 0,
+                        "username": "admin", 
+                        "email": "email@email.com",
+                        "first_name": "admin",
+                        "last_name": "",
+                    }
+                },
+                "message": "登入成功"
+            });
+        }else {
+            if(req.body.username != 'sunday') {
+                res.send({
+                    "status": "error",
+                    "data": {
+                        "non_field_errors": [
+                            "Unable to log in with provided credentials."
+                        ]
+                    },
+                    "message": "error"
+                });
+                return;
+            }
+            if(req.body.password != '111') {
+                res.send({
+                    "status": "error",
+                    "data": {
+                        "non_field_errors": [
+                            "Unable to log in with provided credentials."
+                        ]
+                    },
+                    "message": "error"
+                });
+                return;
+            }
+        }
+    }
+})
 
-// 【颱風】
+// 登出
+app.post('/auth/logout/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": null,
+        "message": "登出成功"
+    });
+})
+
+// token 刷新
+app.post('/auth/token/refresh/', function(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', 'true'); // 允許 cookies
+    res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    
+    // 模擬檢查 session 或 refresh token（實際上後端會處理）
+    // 這裡簡化為總是成功，實際後端會驗證 httpOnly cookies
+    
+    // const shouldSucceed = Math.random() > 0.1; // 90% 成功率，模擬偶爾的失敗
+    
+    res.send({
+        "status": "success",
+        "data": {
+            "access_expiration": new Date(Date.now() + 30 * 60 * 1000).toISOString() // 30分鐘後過期
+        },
+        "message": "Token 刷新成功"
+    });
+
+    // res.status(401).send({
+    //     "status": "error",
+    //     "data": null,
+    //     "message": "找不到 refresh token"
+    // });
+});
+
+// 檢查登入
+app.post('/auth/token/verify/', function(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+    // const isValidSession = Math.random() > 0.1; // 90% 成功率
+
+    res.send({
+        "status": "success",
+        "data": {
+            "valid": true,
+            "user": {
+                "pk": 0,
+                "username": "admin",
+                "email": "email@email.com",
+                "first_name": "admin",
+                "last_name": "",
+            }
+        },
+        "message": "Token 有效"
+    });
+
+    // res.status(401).send({
+    //     "status": "error",
+    //     "data": null,
+    //     "message": "找不到 access token"
+    // });
+})
+
+//【颱風】
 // 取得颱風的基本資訊
 app.get('/surge_app/get_typhoon_info/', function(req, res) {
     res.send(typhoon_info_data);
@@ -60,11 +189,16 @@ app.post('/surge_app/get_typhoon_track_info/', function(req, res) {
 
 // 颱風模式資料(預覽資料)
 app.post('/surge_app/get_model_data_by_track/', function(req, res) {
+    // res.send({
+    //     "status": "error",
+    //     "data": "", // 有資料
+    //     "message": "Validation failed"
+    // });
     res.send(typhoon_track_data);
 });
 
 // 產製模式平均網格資料(會產檔)
-app.post('/surge_app/average_grid_data_by_filtered_typhoon_track_model_data/', function(req, res) {
+app.post('/surge_app/get_average_grid_data_by_filtered_typhoon_track_model_data/', function(req, res) {
     res.send(typhoon_average_data);
 });
 
@@ -79,13 +213,13 @@ app.get('/surge_app/get_tide_station_info/', function(req, res) {
 });
 
 // 根據指定的颱風篩選參數ID、測站列表、頻率，取得各測站的風暴潮資料。
-app.use('/surge_app/load_all_data/', function (req, res) {
+app.post('/surge_app/load_all_data/', function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Request-Method', '*');
     res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     if (req.method == 'POST') {
-        const stations = req.body.stations;
+        const stations = req.body.station_list;
         const twelve_chart_data_list = {
             1226: twelve_chart_data_1226,
             1566: twelve_chart_data_1566,
@@ -99,7 +233,7 @@ app.use('/surge_app/load_all_data/', function (req, res) {
         const reg = `/${station}{2}/gi`;
         let data = twelve_chart_data_list[station];
 
-        // res.send(data);
+        // res.send(data); // debugger 打開
         setTimeout(() => {
             res.send(data);
         }, 5000)
@@ -108,7 +242,9 @@ app.use('/surge_app/load_all_data/', function (req, res) {
 });
 // 取得各縣市潮警資料
 app.post('/surge_app/get_county_tide_warnings/', function (req, res) {
-    res.send(county_tide_warnings_data);
+    setTimeout(() => {
+        res.send(county_tide_warnings_data);
+    }, 5000)
 });
 
 

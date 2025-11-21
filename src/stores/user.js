@@ -1,13 +1,19 @@
 import { defineStore } from 'pinia'
 import { axiosConfig } from "../config/axiosConfig.js";
 import { get_all_group_json, get_all_user_json, set_have_groups } from '../js/user.js'
+import { post_auth_token_refresh } from '../js/login.js'
 
 export const use_user_store = defineStore('user', {
     state: () => ({
         user: {
-            username: ''
+            username: '',
+            email: '',
+            first_name: '',
+            level: ''
         },
         is_logged_in: false,
+        session_refresh_interval: null, // 用於存儲 session 刷新的定時器 ID
+        refresh_time: 15 * 60 * 1000, // 刷新時間預設 15 分鐘
         users: [],
         users_map: [],
         have_stids_title: [],
@@ -68,8 +74,9 @@ export const use_user_store = defineStore('user', {
             this.user.group_names = "";
             this.user.level = "";
         },
+        // @TODO 這邊尚未有使用者權限管理，因此先用first name來判斷是否為admin
         check_admin() {
-            this.is_admin = this.user.level === 'admin'
+            this.is_admin = this.user.first_name === 'admin'
         },
         set_have_stids(have_stids_title) {
             this.have_stids_title = have_stids_title
@@ -93,7 +100,7 @@ export const use_user_store = defineStore('user', {
             this.show_user_edit_dialog = !this.show_user_edit_dialog
         },
         logout() {
-            this.user = null
+            this.user = {}
             this.is_logged_in = false
             // 清除其他相關狀態
         },
@@ -125,6 +132,37 @@ export const use_user_store = defineStore('user', {
             this.set_have_func_list(have_function_list_title)
             this.set_select_groups(select_groups)
         },
+        // 啟動自動 session 刷新
+        async start_session_refresh() {
+            this.stop_session_refresh(); // 先清除舊的
+            
+            console.log('啟動自動 session 刷新機制');
+            this.session_refresh_interval = setInterval(async () => {
+                try {
+                    console.log('執行定期 session 刷新...');
+                    const result = await post_auth_token_refresh();
+                    
+                    if (result.status === 'success') {
+                        console.log('Session 自動刷新成功');
+                    } else {
+                        console.log('Session 自動刷新失敗，執行登出');
+                        await this.logout();
+                    }
+                } catch (error) {
+                    console.error('自動刷新 session 失敗:', error);
+                    await this.logout();
+                }
+            }, this.refresh_time);
+        },
+        // 停止自動 session 刷新
+        stop_session_refresh() {
+            if (this.session_refresh_interval) {
+                console.log('停止自動 session 刷新機制');
+                clearInterval(this.session_refresh_interval);
+                this.session_refresh_interval = null;
+            }
+        },
+
         // 註冊
         async signup_ajax({
             user,

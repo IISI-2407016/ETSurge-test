@@ -1,66 +1,70 @@
 <template>
     <v-app>
-        <v-container class="ms-auto d-flex justify-center">
-            <!-- login -->
-            <v-card
-                max-width="300"
-                min-width="250"
-                v-on:keyup.enter="login_confirm"
-                class="grey lighten-5"
-            >
-                <v-card-title class="headline blue-grey--text text--darken-4">
-                    會員登入
-                </v-card-title>
-                <v-col cols="12">
-                    <v-form v-model="is_login_form_valid" ref="login_form">
-                        <v-text-field
-                            v-model="account"
-                            label="帳號"
-                            autofocus
-                            :rules="account_rules"
-                            type="account"
-                            name="account"
-                            required
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="password"
-                            :rules="password_rules"
-                            type="password"
-                            name="password"
-                            label="密碼"
-                            class="mt-3"
-                        ></v-text-field>
-                    </v-form>
-                    <!-- <div class="text-red">{{ alert_message }}</div> -->
-                </v-col>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn 
-                        color="green darken-1" 
-                        dark 
-                        variant="flat" 
-                        @click="login_confirm()">
-                        登入
-                    </v-btn>
-                </v-card-actions>
-                <v-card-actions class="justify-center">
-                    <v-btn color="info" text @click="open_signup()">
-                        註冊
-                    </v-btn>
-                    <v-btn color="info" text @click="open_forgot_password()">
-                        忘記密碼?
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-    
-            <forgot-password-dialog />
-            <signup-dialog @signup_show_message="signup_show_message"/>
-            <alert-message-dialog
-                v-model="show_error_message" 
-                :message="alert_message"
-                :type="message_type"
-            />
-        </v-container>
+        <v-app-bar color="white" dense fixed class="grey lighten-3">
+            <v-toolbar-title>暴潮系集展示系統</v-toolbar-title>
+        </v-app-bar>
+        <v-main>
+            <v-container class="mt-8 ms-auto d-flex justify-center">
+                <v-card
+                    max-width="300"
+                    min-width="250"
+                    v-on:keyup.enter="login_confirm"
+                    class="grey lighten-5"
+                >
+                    <v-card-title class="headline blue-grey--text text--darken-4">
+                        會員登入
+                    </v-card-title>
+                    <v-col cols="12">
+                        <v-form v-model="is_login_form_valid" ref="login_form">
+                            <v-text-field
+                                v-model="account"
+                                label="帳號"
+                                autofocus
+                                :rules="account_rules"
+                                type="account"
+                                name="account"
+                                required
+                            ></v-text-field>
+                            <v-text-field
+                                v-model="password"
+                                :rules="password_rules"
+                                type="password"
+                                name="password"
+                                label="密碼"
+                                class="mt-3"
+                            ></v-text-field>
+                        </v-form>
+                        <!-- <div class="text-red">{{ alert_message }}</div> -->
+                    </v-col>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn 
+                            color="green darken-1" 
+                            dark 
+                            variant="flat" 
+                            @click="login_confirm()">
+                            登入
+                        </v-btn>
+                    </v-card-actions>
+                    <v-card-actions class="justify-center">
+                        <v-btn color="info" text @click="open_signup()">
+                            註冊
+                        </v-btn>
+                        <v-btn color="info" text @click="open_forgot_password()">
+                            忘記密碼?
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+        
+                <forgot-password-dialog />
+                <signup-dialog @signup_show_message="signup_show_message"/>
+                <alert-message-dialog
+                    v-model="show_error_message" 
+                    :message="alert_message"
+                    :type="message_type"
+                />
+            </v-container>
+        </v-main>
     </v-app>
 </template>
 <script setup>
@@ -118,8 +122,13 @@ async function login_confirm() {
     }
     try {
         const result = await post_auth_login(params)
+        if (result.status !== 'success') {
+            alert_message.value = result.message || '登入失敗，請檢查帳號密碼'
+            show_error_message.value = true
+            return
+        }
         user_store.toggle_login_state()
-        user_store.set_user(result)
+        user_store.set_user(result.data.user)
         // 登入成功後跳轉到主頁面
         router.push({ name: 'main' })
     } catch(err) {

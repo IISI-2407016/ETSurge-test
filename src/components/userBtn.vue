@@ -8,7 +8,7 @@
           v-bind="props"
           class="text-capitalize font-italic"
         >
-          {{ user?.name }}
+          {{ user?.username }}
           <v-icon medium>mdi-menu-down</v-icon>
         </v-btn>
       </template>
@@ -41,10 +41,10 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import userEditDialog from './dialogs/userEditDialog.vue'
 import {
-  user_logout_ajax,
   update_user_info_ajax,
 } from '../js/user.js'
 import { use_user_store } from '../stores/user.js'
+import { post_auth_logout } from '@/js/login'
 
 const router = useRouter()
 const user_store = use_user_store()
@@ -98,8 +98,9 @@ function page_change() {
 }
 
 async function logout() {
-  const { status } = await user_logout_ajax()
+  const { status } = await post_auth_logout()
   if (status === 'success') {
+    user_store.is_logged_in = false
     router.push({ name: 'login' })
   }
 }
