@@ -25,7 +25,7 @@ onUnmounted(() => {
 const check_login = async () => {
     const { status, data } = await post_check_login()
     if (status === 'success') {
-        user_store.is_logged_in = true
+        user_store.toggle_login_state(true)
         user_store.user = data.user
         user_store.start_session_refresh(); // 開始自動刷新
         // 如果已登入且當前在登入頁，導向主頁

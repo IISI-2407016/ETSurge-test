@@ -59,9 +59,9 @@
             </v-card>
         </v-dialog>
         <alert-message-dialog 
-            :model_value="error_message_valid"
+            v-model="error_message_valid"
             :message="error_message"
-            @update:model_value="error_message_valid = $event"
+            :type="message_type"
         />
     </div>
 </template>
@@ -73,7 +73,7 @@ import { update_user_info_ajax } from '../../js/user.js'
 import alertMessageDialog from './alertMessageDialog.vue';
 
 // 定義 props
-defineProps({
+const props = defineProps({
     edit_user: {
         type: Object,
         default: () => ({})
@@ -83,7 +83,6 @@ defineProps({
         default: 'personal'
     }
 })
-// const edit_user = ref({})
 
 // 定義 emits
 const emit = defineEmits(['edit_user_confirm'])
@@ -93,13 +92,12 @@ const user_store = use_user_store();
 const update_user_form = ref(null)
 const update_password_form = ref(null)
 const error_message_valid = ref(false)
+const message_type = ref('error')
 const error_message = ref('')
 
 const show_user_edit = computed({
     get: () => user_store.show_user_edit_dialog,
-    set: () => {
-        user_store.toggle_user_edit_dialog()
-    },
+    set: () => user_store.toggle_user_edit_dialog()
 })
 
 // rules
@@ -131,26 +129,31 @@ const password_rules = [
 ]
 
 const edit_user_confirm = async() => {
-    if (!update_user_form.value?.validate()) return
-    if (edit_user.password && !update_password_form.value?.validate()) return
-    // emit('edit_user_confirm')
+    const { valid } = await update_user_form.value?.validate()
+    const { valid: password_valid }= await update_password_form.value?.validate()
+    if (!valid || !password_valid) return
+
     const send_data = {
-        account: edit_user.value.account,
-        name: edit_user.value.name,
-        email: edit_user.value.email,
-        work_unit: edit_user.value.work_unit,
+        account: props.edit_user.account,
+        name: props.edit_user.name,
+        email: props.edit_user.email,
+        work_unit: props.edit_user.work_unit,
     }
-    if (edit_user.value.password) {
-        send_data.password = edit_user.value.password
+    if (props.edit_user.password) {
+        send_data.password = props.edit_user.password
     }
     const { status, failed_code } = await update_user_info_ajax(send_data)
-    if (status === 'success') {
-        edit_user.value.password = ''
-        user_store.set_user(edit_user.value)
-        show_user_edit.value = false
-    } else {
+    if (status !== 'success') {
         error_message_valid.value = true
-        error_message.value = failed_code
+        message_type.value = 'error'
+        error_message.value = failed_code || '使用者資料修改失敗'
+        return
     }
+    props.edit_user.password = ''
+    user_store.set_user(props.edit_user)
+    show_user_edit.value = false
+    error_message_valid.value = true
+    message_type.value = 'success'
+    error_message.value = '使用者資料修改成功'
 }
 </script>

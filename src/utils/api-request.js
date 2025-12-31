@@ -17,7 +17,12 @@ export async function apiRequest(method, url, data = null) {
 
         return result;
     } catch (error) {
-        console.error(`API Request Error [${method.toUpperCase()} ${url}] :::`, error);
-        throw error;
+        console.error(`API Request Error [${method.toUpperCase()} ${url}] :::`, error.response);
+        return {
+            status: 'error',
+            data: null,
+            message: error.message || '網路請求失敗',
+            error: error
+        };
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-app-bar color="white" dense fixed class="grey lighten-3">
-            <v-toolbar-title>暴潮系集展示系統</v-toolbar-title>
+            <v-toolbar-title class="text-h5">暴潮系集展示系統</v-toolbar-title>
         </v-app-bar>
         <v-main>
             <v-container class="mt-8 ms-auto d-flex justify-center">
@@ -34,7 +34,6 @@
                                 class="mt-3"
                             ></v-text-field>
                         </v-form>
-                        <!-- <div class="text-red">{{ alert_message }}</div> -->
                     </v-col>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -58,13 +57,13 @@
         
                 <forgot-password-dialog />
                 <signup-dialog @signup_show_message="signup_show_message"/>
-                <alert-message-dialog
-                    v-model="show_error_message" 
-                    :message="alert_message"
-                    :type="message_type"
-                />
             </v-container>
         </v-main>
+        <alert-message-dialog
+            v-model="show_error_message" 
+            :message="alert_message"
+            :type="message_type"
+        />
     </v-app>
 </template>
 <script setup>
@@ -107,13 +106,10 @@ function signup_show_message(message,type='error') {
     alert_message.value = message
     show_error_message.value = true
     message_type.value = type
-    setTimeout(() => {
-        show_error_message.value = false
-    }, 3000)
 }
 
 async function login_confirm() {
-    const valid = login_form.value?.validate()
+    const { valid } = await login_form.value?.validate()
     if (!valid) return
     const params = {
         username: account.value,
@@ -123,11 +119,14 @@ async function login_confirm() {
     try {
         const result = await post_auth_login(params)
         if (result.status !== 'success') {
-            alert_message.value = result.message || '登入失敗，請檢查帳號密碼'
-            show_error_message.value = true
+            if (account.value && password.value) {
+                message_type.value = 'error'
+                alert_message.value = '登入失敗，請檢查帳號密碼'
+                show_error_message.value = true
+            }
             return
         }
-        user_store.toggle_login_state()
+        user_store.toggle_login_state(true)
         user_store.set_user(result.data.user)
         // 登入成功後跳轉到主頁面
         router.push({ name: 'main' })

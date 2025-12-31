@@ -64,8 +64,8 @@ export const use_user_store = defineStore('user', {
         set_users_map(users_map) {
             this.users_map = users_map
         },
-        toggle_login_state() {
-            this.is_logged_in = !this.is_logged_in
+        toggle_login_state(value) {
+            this.is_logged_in = value
         },
         clear_user() {
             this.user.account = "";
@@ -106,7 +106,6 @@ export const use_user_store = defineStore('user', {
         },
         async set_all_login_info(user_data) {
             this.is_logged_in = true
-            this.toggle_login_state()
             this.set_user(user_data)
             this.check_admin()
 

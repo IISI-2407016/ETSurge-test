@@ -6,7 +6,7 @@
           color="primary"
           variant="text"
           v-bind="props"
-          class="text-capitalize font-italic"
+          class="text-capitalize"
         >
           {{ user?.username }}
           <v-icon medium>mdi-menu-down</v-icon>
@@ -99,9 +99,8 @@ function page_change() {
 
 async function logout() {
   const { status } = await post_auth_logout()
-  if (status === 'success') {
-    user_store.is_logged_in = false
-    router.push({ name: 'login' })
-  }
+  if (status !== 'success') return
+  user_store.logout();
+  router.push({ name: 'login' })
 }
 </script>
