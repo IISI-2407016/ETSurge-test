@@ -7,9 +7,13 @@ import { createPinia } from 'pinia'
 import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 import 'vuetify/styles' // Vuetify 的預設樣式
+import '@mdi/font/css/materialdesignicons.css' // Material Design Icons
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+
+// 顯示版本資訊
+console.log(`%c ETSurge Frontend v${__APP_VERSION__} `, 'background: #4CAF50; color: white; font-weight: bold; padding: 4px 8px; border-radius: 4px;');
 
 const vuetify = createVuetify({
   components,
@@ -17,6 +21,8 @@ const vuetify = createVuetify({
 })
 
 const app = createApp(App)
+
+app.config.globalProperties.$version = __APP_VERSION__
 
 app.use(createPinia())
 app.use(router)
