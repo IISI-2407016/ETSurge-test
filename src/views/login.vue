@@ -59,24 +59,20 @@
                 <signup-dialog @signup_show_message="signup_show_message"/>
             </v-container>
         </v-main>
-        <alert-message-dialog
-            v-model="show_error_message" 
-            :message="alert_message"
-            :type="message_type"
-        />
     </v-app>
 </template>
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { use_user_store } from '../stores/user.js'
+import { use_alert_store } from '../stores/alert.js'
 import signupDialog from '../components/dialogs/signupDialog.vue'
 import forgotPasswordDialog from '../components/dialogs/forgotPasswordDialog.vue'
 import { post_auth_login } from '@/js/login.js'
-import alertMessageDialog from '@/components/dialogs/alertMessageDialog.vue'
 
 const router = useRouter()
 const user_store = use_user_store()
+const alert_store = use_alert_store()
 
 // 表單資料與狀態
 const login_form = ref(null) // 專門拿來呼叫 validate()
@@ -84,9 +80,6 @@ const is_login_form_valid = ref(false) // v-model 綁定這個 Boolean
 
 const account = ref('')
 const password = ref('')
-const alert_message = ref('')
-const show_error_message = ref(false)
-const message_type = ref('error')
 
 // 表單驗證規則
 const account_rules = [(v) => !!v || '請輸入帳號']
@@ -103,9 +96,7 @@ function open_forgot_password() {
 }
 
 function signup_show_message(message,type='error') {
-    alert_message.value = message
-    show_error_message.value = true
-    message_type.value = type
+    alert_store.show_alert(message, type)
 }
 
 async function login_confirm() {
@@ -120,9 +111,7 @@ async function login_confirm() {
         const result = await post_auth_login(params)
         if (result.status !== 'success') {
             if (account.value && password.value) {
-                message_type.value = 'error'
-                alert_message.value = '登入失敗，請檢查帳號密碼'
-                show_error_message.value = true
+                alert_store.show_alert('登入失敗，請檢查帳號密碼', 'error')
             }
             return
         }

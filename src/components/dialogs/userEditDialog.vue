@@ -58,19 +58,14 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <alert-message-dialog 
-            v-model="error_message_valid"
-            :message="error_message"
-            :type="message_type"
-        />
     </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { use_user_store } from '../../stores/user.js';
+import { use_alert_store } from '../../stores/alert.js';
 import { update_user_info_ajax } from '../../js/user.js'
-import alertMessageDialog from './alertMessageDialog.vue';
 
 // 定義 props
 const props = defineProps({
@@ -89,11 +84,9 @@ const emit = defineEmits(['edit_user_confirm'])
 
 // refs for form validation
 const user_store = use_user_store();
+const alert_store = use_alert_store()
 const update_user_form = ref(null)
 const update_password_form = ref(null)
-const error_message_valid = ref(false)
-const message_type = ref('error')
-const error_message = ref('')
 
 const show_user_edit = computed({
     get: () => user_store.show_user_edit_dialog,
@@ -144,16 +137,12 @@ const edit_user_confirm = async() => {
     }
     const { status, failed_code } = await update_user_info_ajax(send_data)
     if (status !== 'success') {
-        error_message_valid.value = true
-        message_type.value = 'error'
-        error_message.value = failed_code || '使用者資料修改失敗'
+        alert_store.show_alert(failed_code || '使用者資料修改失敗', 'error')
         return
     }
     props.edit_user.password = ''
     user_store.set_user(props.edit_user)
     show_user_edit.value = false
-    error_message_valid.value = true
-    message_type.value = 'success'
-    error_message.value = '使用者資料修改成功'
+    alert_store.show_alert('使用者資料修改成功', 'success')
 }
 </script>

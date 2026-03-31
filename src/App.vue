@@ -1,6 +1,12 @@
 <template>
     <div id="app">
         <router-view />
+
+        <alert-message-dialog 
+            v-model="alert_store.alert_state.visible"
+            :message="alert_store.alert_state.message"
+            :type="alert_store.alert_state.type"
+        />
     </div>
 </template>
 
@@ -8,10 +14,13 @@
 import { onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { use_user_store } from './stores/user.js'
+import { use_alert_store } from './stores/alert.js'
 import { post_check_login } from './js/login.js'
+import alertMessageDialog from './components/dialogs/alertMessageDialog.vue'
 
 const router = useRouter()
 const user_store = use_user_store()
+const alert_store = use_alert_store()
 
 onMounted(async () => {
     await check_login()

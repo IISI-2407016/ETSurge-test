@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed right-0 z-1005 mr-5 mt-5">
+  <div class="fixed right-0 top-20 z-9999">
     <v-slide-x-reverse-transition>
         <v-alert
           v-if="internal_visible"
