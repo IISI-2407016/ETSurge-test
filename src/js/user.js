@@ -1,6 +1,17 @@
 import axios from "axios";
 import { axiosConfig } from "../config/axiosConfig.js";
 import { use_user_store } from "../stores/user.js";
+import { apiRequest } from "../utils/api-request.js";
+
+// 更新使用者資料
+export const post_auth_update_user = (data) => {
+  return apiRequest("patch", "/auth/user/", data);
+}
+
+// 變更使用者密碼
+export const post_auth_change_password = (data) => {
+  return apiRequest("post", "/auth/password/change/", data);
+}
 
 // 登出
 export async function user_logout_ajax() {

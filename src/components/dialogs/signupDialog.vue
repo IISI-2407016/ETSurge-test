@@ -26,46 +26,46 @@
                         v-model="signup_form" 
                         @submit.prevent
                     >
-                    <v-text-field
-                        v-model="user.username"
-                        :rules="account_rules"
-                        label="帳號"
-                        required
-                    />
-                    <v-text-field
-                        v-model="user.name"
-                        :rules="name_rules"
-                        label="姓名"
-                        required
-                    />
-                    <!-- <v-text-field
-                        v-model="user.work_unit"
-                        :rules="workUnit_rules"
-                        label="單位"
-                        required
-                    /> -->
-                    <v-text-field
-                        v-model="user.email"
-                        :rules="email_rules"
-                        label="Email"
-                        required
-                    />
-                    <v-text-field
-                        v-model="user.password"
-                        :rules="password_rules"
-                        label="密碼"
-                        type="password"
-                        name="sign-up-password"
-                        required
-                    />
-                    <v-text-field
-                        v-model="password_check"
-                        :rules="password_check_rules"
-                        label="確認密碼"
-                        type="password"
-                        name="sign-up-password-check"
-                        required
-                    />
+                        <v-text-field
+                            v-model="user.account"
+                            :rules="account_rules"
+                            label="帳號"
+                            required
+                        />
+                        <v-text-field
+                            v-model="user.name"
+                            :rules="name_rules"
+                            label="姓名"
+                            required
+                        />
+                        <!-- <v-text-field
+                            v-model="user.work_unit"
+                            :rules="workUnit_rules"
+                            label="單位"
+                            required
+                        /> -->
+                        <v-text-field
+                            v-model="user.email"
+                            :rules="email_rules"
+                            label="Email"
+                            required
+                        />
+                        <v-text-field
+                            v-model="user.password"
+                            :rules="password_rules"
+                            label="密碼"
+                            type="password"
+                            name="sign-up-password"
+                            required
+                        />
+                        <v-text-field
+                            v-model="password_check"
+                            :rules="password_check_rules"
+                            label="確認密碼"
+                            type="password"
+                            name="sign-up-password-check"
+                            required
+                        />
                     </v-form>
                 </v-card-text>
 
@@ -102,11 +102,11 @@ const signup_form = ref(false)
 const form = ref(null)
 
 const user = ref({
-    username: '',
-    name: '',
-    work_unit: '',
-    email: '',
-    password: '',
+    account: '',   // 帳號
+    name: '',      // 姓名
+    work_unit: '', // 單位
+    email: '',     // 信箱
+    password: '',  // 密碼
 })
 
 const password_check = ref('')
@@ -152,6 +152,7 @@ const show_signup = computed({
     get: () => user_store.show_signup_dialog,
     set: () => {
         user_store.toggle_signup_dialog()
+        reset_form()
     },
 })
 
@@ -166,20 +167,22 @@ const signup_confirm = async () => {
     console.log('signup_confirm')
     const valid = await form.value.validate()
     if (!valid) return
-    try {
-        const res = await post_auth_registration({
-            username: user.value.username,
-            email: user.value.email,
-            first_name: user.value.name,
-            last_name: "", //後端欄位分姓跟名，前端網頁只有一個欄位，所以只帶first name
-            password: user.value.password,
-            password_confirm: password_check.value
-        })
-        user_store.toggle_signup_dialog()
-        emit('signup_show_message', '註冊成功', 'success')
-    } catch (error) {
-        emit('signup_show_message', '註冊失敗')
-    }
 
+    const res = await post_auth_registration({
+        username: user.value.account,
+        email: user.value.email,
+        first_name: user.value.name,
+        last_name: "", //後端欄位分姓跟名，前端網頁只有一個欄位，所以只帶first name
+        password: user.value.password,
+        password_confirm: password_check.value
+    })
+    if (res.status !== 'success') {
+        emit('signup_show_message', '註冊失敗')
+        console.error(res?.message)
+        return
+    }
+    user_store.toggle_signup_dialog()
+    emit('signup_show_message', '註冊成功', 'success')
+    reset_form()
 }
 </script>

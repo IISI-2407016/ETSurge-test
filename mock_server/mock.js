@@ -19,6 +19,7 @@ const twelve_chart_data_1206 = require('./twelve_chart/1206.json');
 const twelve_chart_data_1146 = require('./twelve_chart/1146.json');
 const twelve_chart_data_1786 = require('./twelve_chart/1786.json');
 const twelve_chart_data_1386 = require('./twelve_chart/1386.json');
+const six_chart_data_1226 = require('./six_chart/1226_6min.json');
 
 let port = 10008;
 
@@ -52,7 +53,7 @@ app.post('/auth/login/', function(req, res) {
     res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     if (req.method == 'POST') {
-        if (req.body.username == 'sunday' && req.body.password == '111') {
+        if (req.body.username == 'sunny' && req.body.password == '111') {
             res.send({
                 "status": "success", 
                 "data": {
@@ -60,7 +61,7 @@ app.post('/auth/login/', function(req, res) {
                         "pk": 0,
                         "username": "Sunny", 
                         "email": "email@email.com",
-                        "first_name": "Sunny",
+                        "first_name": "Sunny Day",
                         "last_name": "",
                     }
                 },
@@ -74,7 +75,7 @@ app.post('/auth/login/', function(req, res) {
                         "pk": 0,
                         "username": "admin", 
                         "email": "email@email.com",
-                        "first_name": "admin",
+                        "first_name": "admin2",
                         "last_name": "",
                     }
                 },
@@ -107,6 +108,15 @@ app.post('/auth/login/', function(req, res) {
             }
         }
     }
+})
+
+// 註冊
+app.post('/auth/registration/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": null,
+        "message": "success"
+    })
 })
 
 // 登出
@@ -176,6 +186,43 @@ app.post('/auth/token/verify/', function(req, res) {
     // });
 })
 
+// 修改密碼
+app.post('/auth/password/change/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "detail": "New password has been saved."
+        },
+        "message": "success"
+    });
+    // res.status(400).send({
+    //     "status": "error",
+    //     "data": null,
+    //     "message": "error"
+    // });
+});
+
+// 修改使用者資訊: 姓名、信箱(這個API還沒有資訊)
+app.patch('/auth/user/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "pk": 0,
+            "username": "admin",
+            "email": "admin@gmail.com",
+            "first_name": "admin",
+            "last_name": "",
+        },
+        "message": "success"
+    });
+    // res.status(400).send({
+    //     "status": "error",
+    //     "data": null,
+    //     "message": "error"
+    // });
+})
+
+
 //【颱風】
 // 取得颱風的基本資訊
 app.get('/surge_app/get_typhoon_info/', function(req, res) {
@@ -191,8 +238,8 @@ app.post('/surge_app/get_typhoon_track_info/', function(req, res) {
 app.post('/surge_app/get_model_data_by_track/', function(req, res) {
     // res.send({
     //     "status": "error",
-    //     "data": "", // 有資料
-    //     "message": "Validation failed"
+    //     "data": null,
+    //     "message": "No track data found for the given parameters."
     // });
     res.send(typhoon_track_data);
 });
@@ -228,15 +275,23 @@ app.post('/surge_app/load_all_data/', function (req, res) {
             1786: twelve_chart_data_1786,
             1386: twelve_chart_data_1386
         }
-
+        const six_chart_data_list = {
+            1226: six_chart_data_1226,
+            1566: six_chart_data_1226,
+            1206: six_chart_data_1226,
+            1146: six_chart_data_1226,
+            1786: six_chart_data_1226,
+            1386: six_chart_data_1226
+        }
+        const time_type = req.body.freq;
         const station = stations.split(',')[0];
         const reg = `/${station}{2}/gi`;
-        let data = twelve_chart_data_list[station];
+        let data = time_type === 'hour' ? twelve_chart_data_list[station] : six_chart_data_list[station];
 
-        // res.send(data); // debugger 打開
-        setTimeout(() => {
-            res.send(data);
-        }, 5000)
+        res.send(data); // debugger 打開
+        // setTimeout(() => {
+        //     res.send(data);
+        // }, 5000)
 
     }
 });

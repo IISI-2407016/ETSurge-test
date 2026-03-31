@@ -8,7 +8,7 @@
           v-bind="props"
           class="text-capitalize"
         >
-          {{ user?.username }}
+          {{ user?.first_name }}
           <v-icon medium>mdi-menu-down</v-icon>
         </v-btn>
       </template>
@@ -71,12 +71,12 @@ function open_edit() {
   // edit_personal_dialog.value = true
 }
 
+// TODO:重構修改使用者資訊
 async function edit_user_confirm() {
   const send_data = {
-    account: edit_user.value.account,
-    name: edit_user.value.name,
-    email: edit_user.value.email,
-    work_unit: edit_user.value.work_unit,
+    account: edit_user.value.username,
+    name: edit_user.value.first_name,
+    email: edit_user.value.email
   }
   if (edit_user.value.password) {
     send_data.password = edit_user.value.password

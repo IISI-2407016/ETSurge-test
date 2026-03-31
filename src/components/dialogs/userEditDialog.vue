@@ -18,17 +18,17 @@
                 <v-card-text>
                     <v-form ref="update_user_form">
                         <v-text-field
-                            v-model="edit_user.name"
+                            v-model="edit_user.first_name"
                             :rules="name_rules"
                             type="text"
                             label="姓名"
                         />
-                        <v-text-field
+                        <!-- <v-text-field
                             v-model="edit_user.work_unit"
                             :rules="work_unit_rules"
                             type="text"
                             label="單位"
-                        />
+                        /> -->
                         <v-text-field
                             v-model="edit_user.email"
                             :rules="email_rules"
@@ -65,7 +65,10 @@
 import { ref, computed } from 'vue'
 import { use_user_store } from '../../stores/user.js';
 import { use_alert_store } from '../../stores/alert.js';
-import { update_user_info_ajax } from '../../js/user.js'
+import { update_user_info_ajax,
+    post_auth_update_user, 
+    post_auth_change_password 
+} from '../../js/user.js'
 
 // 定義 props
 const props = defineProps({
@@ -126,20 +129,30 @@ const edit_user_confirm = async() => {
     const { valid: password_valid }= await update_password_form.value?.validate()
     if (!valid || !password_valid) return
 
+    // user info
     const send_data = {
-        account: props.edit_user.account,
-        name: props.edit_user.name,
         email: props.edit_user.email,
-        work_unit: props.edit_user.work_unit,
+        first_name: props.edit_user.first_name,
     }
-    if (props.edit_user.password) {
-        send_data.password = props.edit_user.password
+
+    // password info
+    const send_pas_data = {
+        new_password1: props.edit_user.password,
+        new_password2: props.edit_user.password
     }
-    const { status, failed_code } = await update_user_info_ajax(send_data)
-    if (status !== 'success') {
-        alert_store.show_alert(failed_code || '使用者資料修改失敗', 'error')
+
+    // 修改使用者資料與密碼
+    const data_result = await post_auth_update_user(send_data);
+    if (data_result.status !== 'success') {
+        alert_store.show_alert('使用者資料修改失敗', 'error')
         return
     }
+    const pas_result = await post_auth_change_password(send_pas_data);
+    if (pas_result.status !== 'success') {
+        alert_store.show_alert('密碼修改失敗', 'error')
+        return
+    }
+
     props.edit_user.password = ''
     user_store.set_user(props.edit_user)
     show_user_edit.value = false
