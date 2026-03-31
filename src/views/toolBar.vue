@@ -1,21 +1,21 @@
 <template>
     <v-app-bar color="white" dense fixed class="grey lighten-3">
-        <v-toolbar-title @click="page_change" style="cursor: pointer;">暴潮系集展示系統</v-toolbar-title>
+        <v-toolbar-title class="cursor-pointer text-h5">暴潮系集展示系統</v-toolbar-title>
 
         <template v-if="login_state" #append>
             <v-tabs v-model="tab" 
                 align-tabs="center" 
                 color="primary">
-                <v-tab value="uvp">UVP查詢結果預覧</v-tab>
-                <v-tab value="tide_level">預報潮位時序圖預覧</v-tab>
-                <v-tab value="light">系集燈號表格預覧</v-tab>
+                <v-tab style="font-size: medium;" value="uvp">UVP查詢結果預覧</v-tab>
+                <v-tab style="font-size: medium;" value="tide_level">預報潮位時序圖預覧</v-tab>
+                <v-tab style="font-size: medium;" value="light">系集燈號表格預覧</v-tab>
             </v-tabs>
     
             <user-btn />
     
             <v-menu
+                open-on-hover
                 bottom
-                origin="center center"
                 transition="scale-transition"
             >
                 <template #activator="{ props }">
@@ -30,7 +30,7 @@
                         :key="i"
                         @click="set_station(stid.id)"
                     >
-                    <v-list-item-title>{{ stid.title }}</v-list-item-title>
+                        <v-list-item-title>{{ stid.title }}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
@@ -111,9 +111,5 @@ function set_station(name) {
     nextTick(() => {
         render_station.value = true
     })
-}
-
-function page_change() {
-    toolBarStore.CURRENT_PAGE('Main')
 }
 </script>
