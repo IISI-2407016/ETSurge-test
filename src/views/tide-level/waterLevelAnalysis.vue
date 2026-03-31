@@ -54,7 +54,7 @@
             >
             <v-card>
                 <!-- 測站標題 -->
-                <div class="position-fixed w-full">
+                <div class="position-fixed w-full z-1">
                     <h5
                         class="
                             bg-blue-darken-1 
@@ -82,15 +82,22 @@
                 <v-card-text class="mt-8">
                     <v-col>
                         <six-hour-chart 
-                            :big_info="six_hour_chart_info"
-                            :big_chart_data="six_hour_list[six_hour_chart_info.stid]"
+                            :chart_info="six_hour_chart_info"
+                            :web_chart_data="six_hour_list[six_hour_chart_info.stid]"
                             :stop_draw="stop_drawing" 
                             v-model:is_loading="is_loading[`six_chart_${six_hour_chart_info.stid}`]"
                             @loading-completed="handleLoadingCompleted"
                         />
                     </v-col>
-                    <!-- @TODO 按鈕 -->
-                    <!-- @TODO 表格 -->
+                    <v-col class="text-center">
+                        <v-btn color="green" @click="form_btn_click">{{ form_btn_text }}</v-btn>
+                    </v-col>
+                    <v-col v-if="form_btn">
+                        <six-hour-table 
+                            :model_time="model_time"
+                            :table_data="six_hour_list[six_hour_chart_info.stid]"
+                        />
+                    </v-col>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -105,6 +112,7 @@
 
     import twelveHourChart from '../twelveHourChart.vue';
     import sixHourChart from '../sixHourChart.vue';
+    import sixHourTable from '../sixHourTable.vue';
 
     const props = defineProps({
         parameter_id: Number
@@ -113,10 +121,13 @@
     const uvp_data_store = use_uvp_data_store();
     const tide_level_info_store = tide_level_store();
 
+    // 表格
+    const form_btn = ref(false);
+
     // 用來控制是否停止繪製圖表
     const stop_drawing = ref(false)
     const show_chart = ref(false);
-    const model_time = ref(uvp_data_store.uvp_data.InitialTime);
+
     const model_name = ref(uvp_data_store.uvp_data.ModelName);
     const six_hour_chart_info = ref({});
 
@@ -127,8 +138,20 @@
     // 載入完成處理函數
     const handleLoadingCompleted = (stid) => {
         console.log(`Chart loading completed for station: ${stid}`);
-        // 可以在這裡添加其他完成後的處理邏輯
     };
+
+    // 控制每6分鐘時間區間表格顯示
+    const form_btn_click = () => {
+        form_btn.value = !form_btn.value;
+    };
+
+    // 計算目前的模式時間
+    const model_time = computed(() => {
+        const date_formatted = new Date(uvp_data_store.uvp_data.InitialTime).toISOString().substring(0, 10);
+        return date_formatted + " " + uvp_data_store.hour.time + ":00";
+    })
+
+    const form_btn_text = computed(() => form_btn.value ? '隱藏表格' : '顯示表格');
 
     // station_list call API 獲取的測站列表
     const station_list = computed(() => {
@@ -157,6 +180,11 @@
             console.log('All loading stopped due to stop_drawing');
         }
     });
+    watch(() => show_chart.value, (newVal) => {
+        if (!newVal) {
+            form_btn.value = false;
+        }
+    });
 
     onMounted(async () => {
         await draw_twelve_chart()
@@ -172,7 +200,7 @@
         tide_level_info_store.set_empty_fcst_water_level_alert_dialog(false);
 
         await tide_level_info_store.get_tide_station_info();
-        // @TODO
+
         stop_count.value += 1;
         stop_count.value = stop_count.value;
         let slice_station = sliceArray(stid_id_list.value);
