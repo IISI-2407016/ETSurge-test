@@ -17,11 +17,11 @@
     
     // Props 定義
     const props = defineProps({
-        big_info: {
+        chart_info: {
             type: Object,
             default: () => ({})
         },
-        big_chart_data: {
+        web_chart_data: {
             type: Object,
             default: () => ({})
         },
@@ -108,13 +108,13 @@
         set: (value) => {
             emit('update:is_loading', value);
             if (!value) {
-                emit('loading-completed', props.big_info.stid);
+                emit('loading-completed', props.chart_info.stid);
             }
         }
     });
 
     // Watchers
-    watch(() => props.big_chart_data, () => {
+    watch(() => props.web_chart_data, () => {
         const chartElement = document.getElementById(chartId.value);
         if (chartElement) {
             chartElement.innerHTML = "";
@@ -134,7 +134,7 @@
 
     // Lifecycle hooks
     onMounted(() => {
-        if (props.big_chart_data && Object.keys(props.big_chart_data).length > 0) {
+        if (props.web_chart_data && Object.keys(props.web_chart_data).length > 0) {
             makeBigChart();
         }
     });
@@ -147,7 +147,7 @@
     // Methods
     const makeBigChart = () => {
         try {
-            const model_time = props.big_info.model_time;
+            const model_time = props.chart_info.model_time;
             const multi_graphic_data = get_bigchart_multi_graphic();
             const clientHeight = 350;
             const clientWidth = 900;
@@ -382,7 +382,7 @@
     const get_bigchart_multi_graphic = () => {
         const multi_graphic_data = [];
         const item_info = items_info.value;
-        const data = props.big_chart_data;
+        const data = props.web_chart_data;
 
         if (!data) return multi_graphic_data;
         

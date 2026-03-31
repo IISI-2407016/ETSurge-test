@@ -169,6 +169,11 @@
         let xLine = d3.scaleTime().range([0, width]);
         let yLine = d3.scaleLinear().range([height, 0]);
 
+        // 獲取時間範圍
+        let x_domain = get_x_domain(props.model_time);
+        let start_time = x_domain[0];
+        let end_time = x_domain[1];
+
         // Scale the range of the data
         xLine.domain(get_x_domain(props.model_time));
         yLine.domain([-3.5, 3.5]).nice();
@@ -193,10 +198,15 @@
                     draw_baseline(d.axis, d.data, d.color);
                     break;
                 case "line":
-                    draw_line(d.data, d.color, d.id);
+                    // 過濾時間範圍內的數據
+                    const filtered_line_data = filter_data_by_time_range(d.data, start_time, end_time);
+                    draw_line(filtered_line_data, d.color, d.id);
+                    // draw_line(d.data, d.color, d.id);
                     break;
                 case "dot":
-                    draw_dot(d.data, d.color, d.id);
+                    const filtered_dot_data = filter_data_by_time_range(d.data, start_time, end_time);
+                    draw_dot(filtered_dot_data, d.color, d.id);
+                    // draw_dot(d.data, d.color, d.id);
                     break;
                 default:
             }
@@ -291,6 +301,18 @@
             })
             .attr('fill', color);
         }
+    };
+
+    // 過濾時間範圍內的數據函數
+    const filter_data_by_time_range = (data, start_time, end_time) => {
+        if (!Array.isArray(data)) return [];
+        
+        return data.filter(item => {
+            if (!item.time) return false;
+            
+            const item_time = new Date(item.time);
+            return item_time >= start_time && item_time <= end_time;
+        });
     };
 
     const get_x_domain = (model_time) => {
