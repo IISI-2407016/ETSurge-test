@@ -20,7 +20,7 @@ export async function apiRequest(method, url, data = null) {
         console.error(`API Request Error [${method.toUpperCase()} ${url}] :::`, error.response);
         return {
             status: 'error',
-            data: null,
+            data: JSON.parse(error.response?.data || '{}'),
             message: error.message || '網路請求失敗',
             error: error
         };

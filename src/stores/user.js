@@ -1,7 +1,17 @@
 import { defineStore } from 'pinia'
 import { axiosConfig } from "../config/axiosConfig.js";
-import { get_all_group_json, get_all_user_json, set_have_groups } from '../js/user.js'
-import { post_auth_token_refresh } from '../js/login.js'
+import { get_all_group_json, 
+        get_all_user_json, 
+        set_have_groups,
+        get_group_function_options,
+        post_auth_update_user,
+        get_user_id_info,
+        get_group_info
+} from '../js/user.js'
+import { post_auth_token_refresh, 
+        post_auth_registration 
+} from '../js/login.js'
+import { use_alert_store } from '@/stores/alert'
 
 export const use_user_store = defineStore('user', {
     state: () => ({
@@ -9,8 +19,10 @@ export const use_user_store = defineStore('user', {
             username: '',
             email: '',
             first_name: '',
-            level: ''
+            is_action: false,
+            is_staff: false,
         },
+        user_list: [], // 使用者列表(含群組)的狀態
         is_logged_in: false,
         session_refresh_interval: null, // 用於存儲 session 刷新的定時器 ID
         refresh_time: 15 * 60 * 1000, // 刷新時間預設 15 分鐘
@@ -19,11 +31,11 @@ export const use_user_store = defineStore('user', {
         have_stids_title: [],
         have_function_list_title: [],
         groups: [
-        {
-            name: '',
-            stids: [],
-            function_list: []
-        }
+            {
+                name: '',
+                stids: [],
+                function_list: []
+            }
         ],
         select_groups: [],
         login_state: false,
@@ -31,28 +43,31 @@ export const use_user_store = defineStore('user', {
         show_signup_dialog: false, // 註冊視窗開關
         show_forgot_password_dialog: false, // 忘記密碼視窗開關
         show_user_edit_dialog: false, // 修改個人/使用者開關
-        stids: [
-            {
-                id: "official_station",
-                title: "傳送官網設定",
-            },
-            {
-                id: "web_station",
-                title: "網站顯示測站設定",
-            },
-            {
-                id: "model_station",
-                title: "傳送報潮水位設定",
-            },
-            {
-                id: "user_manage",
-                title: "帳號管理",
-            },
-            {
-                id: "group_manage",
-                title: "群組管理",
-            },
-        ],
+        
+        stids: [],
+        function_list: []
+        // stids: [
+        //     {
+        //         id: "official_station",
+        //         title: "傳送官網設定",
+        //     },
+        //     {
+        //         id: "web_station",
+        //         title: "網站顯示測站設定",
+        //     },
+        //     {
+        //         id: "model_station",
+        //         title: "傳送報潮水位設定",
+        //     },
+        //     {
+        //         id: "user_manage",
+        //         title: "帳號管理",
+        //     },
+        //     {
+        //         id: "group_manage",
+        //         title: "群組管理",
+        //     },
+        // ],
     }),
     actions: {
         set_user(newUser) {
@@ -60,6 +75,9 @@ export const use_user_store = defineStore('user', {
         },
         set_users(users) {
             this.users = users
+        },
+        set_user_list(user_list) {
+            this.user_list = user_list
         },
         set_users_map(users_map) {
             this.users_map = users_map
@@ -72,7 +90,8 @@ export const use_user_store = defineStore('user', {
             this.user.name = "";
             this.user.status = "";
             this.user.group_names = "";
-            this.user.level = "";
+            this.user.is_action = false;
+            this.user.is_staff = false;
         },
         // @TODO 這邊尚未有使用者權限管理，因此先用first name來判斷是否為admin
         check_admin() {
@@ -220,6 +239,119 @@ export const use_user_store = defineStore('user', {
             } catch (err) {
                 console.error(err)
                 show_error_message.value = true
+            }
+        },
+        set_user_manage(user) {
+            this.user.is_action = user.is_action;
+            this.user.is_staff = user.is_staff;
+        },
+
+        // 修改使用者資訊
+        // async edit_user_confirm() {
+        //     const { valid } = await update_user_form.value?.validate()
+        //     const { valid: password_valid }= await update_password_form.value?.validate()
+        //     if (!valid || !password_valid) return
+
+        //     // user info
+        //     const send_data = {
+        //         email: props.edit_user.email,
+        //         first_name: props.edit_user.first_name,
+        //     }
+
+        //     // password info
+        //     const send_pas_data = {
+        //         new_password1: props.edit_user.password,
+        //         new_password2: props.edit_user.password
+        //     }
+
+        //     // 修改使用者資料與密碼
+        //     const data_result = await post_auth_update_user(send_data);
+        //     if (data_result.status !== 'success') {
+        //         alert_store.show_alert('使用者資料修改失敗', 'error')
+        //         return
+        //     }
+        //     const pas_result = await post_auth_change_password(send_pas_data);
+        //     if (pas_result.status !== 'success') {
+        //         alert_store.show_alert('密碼修改失敗', 'error')
+        //         return
+        //     }
+
+        //     props.edit_user.password = ''
+        //     user_store.set_user(props.edit_user)
+        //     show_user_edit.value = false
+        //     alert_store.show_alert('使用者資料修改成功', 'success')
+        // },
+
+        // 新增使用者
+        async create_user_confirm(item) {
+            const alert_store = use_alert_store()
+            const { status, message } = await post_auth_registration({
+                username: item.username,
+                email: item.email,
+                first_name: item.first_name,
+                // last_name: "", //後端欄位分姓跟名，前端網頁只有一個欄位，所以只帶first name
+                password: item.password,
+                password_confirm: item.check_password
+            })
+            if (status !== 'success') {
+                alert_store.show_alert('註冊失敗', 'error')
+                console.error(message)
+                return
+            }
+
+            alert_store.show_alert('註冊成功', 'success')
+        },
+
+        // 修改使用者資訊
+        async edit_user_confirm(item) {
+            const alert_store = use_alert_store()
+            // user info
+            const send_data = Object.fromEntries(
+                Object.entries({
+                    email: item.email,
+                    first_name: item.first_name,
+                    password: item.reset_password,
+                }).filter(([_, value]) => value !== '' && value !== null && value !== undefined)
+            )
+            // 修改使用者資料與密碼
+            const result = await post_auth_update_user(item.id, send_data);
+            if (result.status !== 'success') {
+                alert_store.show_alert(
+                    `${result.data.message}，${result.data.data.password[0]}` || 
+                    '使用者資料修改失敗', 
+                    'error'
+                )
+                return
+            }
+
+            alert_store.show_alert(result.message, 'success')
+        },
+
+        // 取得群組功能選項
+        async set_groups_options() {
+            try {
+                const response = await get_group_function_options();
+                if (response.status === 'success') {
+                    this.stids = response.data.stids
+                    this.function_list = response.data.function_list
+                }
+            } catch (error) {
+                console.error('取得群組功能選項失敗:', error)
+            }
+        },
+
+        async get_user_groups(u_id) {
+            const user_info = await get_user_id_info(u_id)
+            this.set_user(user_info.data)
+
+            const is_staff = this.user.is_staff; // 是否為管理員
+            if (is_staff) {
+                const group_result = await get_group_info();
+                if (group_result.status === 'success') {
+                    this.set_groups(group_result.data.results);
+                } else {
+                    console.error('無法取得群組資訊:', group_result.message);
+                }
             }
         }
     }

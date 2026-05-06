@@ -27,11 +27,13 @@
                             ></v-text-field>
                             <v-text-field
                                 v-model="password"
-                                :rules="password_rules"
-                                type="password"
                                 name="password"
                                 label="密碼"
                                 class="mt-3"
+                                :rules="password_rules"
+                                :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="show ? 'text' : 'password'"
+                                @click:append-inner="show = !show"
                             ></v-text-field>
                         </v-form>
                     </v-col>
@@ -56,7 +58,8 @@
                 </v-card>
         
                 <forgot-password-dialog />
-                <signup-dialog @signup_show_message="signup_show_message"/>
+
+                <signup-dialog v-model="dialog"/>
             </v-container>
         </v-main>
     </v-app>
@@ -66,13 +69,14 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { use_user_store } from '../stores/user.js'
 import { use_alert_store } from '../stores/alert.js'
-import signupDialog from '../components/dialogs/signupDialog.vue'
+import signupDialog from './signupDialog.vue'
 import forgotPasswordDialog from '../components/dialogs/forgotPasswordDialog.vue'
-import { post_auth_login } from '@/js/login.js'
+import { post_auth_login } from '../js/login.js'
 
 const router = useRouter()
 const user_store = use_user_store()
 const alert_store = use_alert_store()
+const dialog = ref(false)
 
 // 表單資料與狀態
 const login_form = ref(null) // 專門拿來呼叫 validate()
@@ -80,6 +84,7 @@ const is_login_form_valid = ref(false) // v-model 綁定這個 Boolean
 
 const account = ref('')
 const password = ref('')
+const show = ref(false) // 密碼欄位是否顯示明文，預設為 false（不顯示）
 
 // 表單驗證規則
 const account_rules = [(v) => !!v || '請輸入帳號']
@@ -87,16 +92,12 @@ const password_rules = [(v) => !!v || '請輸入密碼']
 
 // 打開註冊POP
 function open_signup() {
-    user_store.toggle_signup_dialog()
+    dialog.value = true
 }
 
 // 打開忘記密碼POP
 function open_forgot_password() {
     user_store.toggle_forgot_password_dialog()
-}
-
-function signup_show_message(message,type='error') {
-    alert_store.show_alert(message, type)
 }
 
 async function login_confirm() {
@@ -117,6 +118,8 @@ async function login_confirm() {
         }
         user_store.toggle_login_state(true)
         user_store.set_user(result.data.user)
+        await user_store.get_user_groups(result.data.user.pk) // 取得完整的使用者資訊（包含群組）
+        await user_store.set_groups_options() // 設定群組功能的可選項目清單
         // 登入成功後跳轉到主頁面
         router.push({ name: 'main' })
     } catch(err) {

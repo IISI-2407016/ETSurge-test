@@ -4,13 +4,44 @@ import { use_user_store } from "../stores/user.js";
 import { apiRequest } from "../utils/api-request.js";
 
 // 更新使用者資料
-export const post_auth_update_user = (data) => {
-  return apiRequest("patch", "/auth/user/", data);
+export const post_auth_update_user = (id, data) => {
+  return apiRequest("patch", `/users/${id}/`, data);
 }
 
 // 變更使用者密碼
 export const post_auth_change_password = (data) => {
   return apiRequest("post", "/auth/password/change/", data);
+}
+
+//【帳號管理】
+// 取得所有帳號
+export const get_user_info = () => {
+    return apiRequest("get", "/users/");
+}
+// 取的單一帳號資訊
+export const get_user_id_info = (id) => {
+    return apiRequest("get", `/users/${id}/`);
+}
+
+// 指定用戶加入群組
+export const post_user_join_group = (id, group_id) => {
+  return apiRequest("post", `/users/${id}/groups/`, group_id );
+}
+
+// 指定用戶離開群組
+export const delete_user_leave_group = (id, group_id) => {
+  return apiRequest("delete", `/users/${id}/groups/`, group_id );
+}
+
+//【群組管理】
+// 取得所有群組
+export const get_group_info = () => {
+    return apiRequest("get", "/groups/");
+}
+
+// 取得群組功能的可選項目清單
+export const get_group_function_options = () => {
+    return apiRequest("get", "/groups/options/");
 }
 
 // 登出
@@ -111,6 +142,7 @@ export function forgot_password_ajax() {
             console.log(error);
         });
 }
+// 忘記密碼重新申請
 export function send_verify_code_ajax() {
     let send_data = {
         account: this.forgot.account,

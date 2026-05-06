@@ -20,6 +20,9 @@
                     <div v-else-if="current_tab === 'light'">
                         <light-table-view />
                     </div>
+                    <div v-else-if="current_tab === 'user_manage'">
+                        <user-manage :tab="current_tab"/>
+                    </div>
                 </v-container>
             </v-main>
         </v-card>
@@ -34,6 +37,7 @@ import toolBar from './toolBar.vue'
 import UVPView from './UVPView.vue'
 import tideLevelView from './tide-level/tideLevelView.vue'
 import lightTableView from './lightTableView.vue'
+import userManage from './userManage.vue'
 
 const uvp_data_store = use_uvp_data_store()
 const app_store = use_app_store()

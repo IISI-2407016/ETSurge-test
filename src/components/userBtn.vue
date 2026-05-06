@@ -18,7 +18,7 @@
           <v-list-item-title>暴潮展示</v-list-item-title>
         </v-list-item>
         <v-list-item @click="open_edit">
-          <v-list-item-title>修改個人資料</v-list-item-title>
+          <v-list-item-title>{{ personal_title }}</v-list-item-title>
         </v-list-item>
         <v-list-item @click="logout">
           <v-list-item-title>登出</v-list-item-title>
@@ -27,10 +27,12 @@
     </v-menu>
 
     <!-- 修改個人/使用者資料 -->
-    <user-edit-dialog
-      user_dialog_mode="personal"
-      :edit_user="edit_user"
-      @edit_user_confirm="edit_user_confirm"
+    <pop-form-dialog
+      v-model="edit_personal_dialog"
+      :title="personal_title"
+      :form-data="personal_form_data"
+      :form-model="personal_form_model"
+      @confirm="handle_confirm"
     />
 
   </div>
@@ -39,21 +41,47 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import userEditDialog from './dialogs/userEditDialog.vue'
-import {
-  update_user_info_ajax,
-} from '../js/user.js'
+import popFormDialog from './dialogs/popFormDialog.vue'
 import { use_user_store } from '../stores/user.js'
 import { post_auth_logout } from '@/js/login'
+import { reset_password_rules } from '@/config/setting'
+import { get_user_id_info } from '@/js/user.js'
 
 const router = useRouter()
 const user_store = use_user_store()
 
-// 狀態
-const edit_user = ref({})
 const edit_personal_dialog = ref(false)
-const show_change_error = ref(false)
-const error_message = ref('')
+const personal_title = ref('修改個人資料')
+const personal_form_model = ref({
+  id: null,
+  first_name: '',
+  email: '',
+  reset_password: ''
+})
+const personal_form_data = ref([
+  { 
+    key: 'first_name', 
+    label: '姓名', 
+    rules: [
+        v => !!v || '此欄位為必填',
+        v => !v || v.length <= 10 || '長度不得超過 10字元',
+    ]
+  },
+  { 
+    key: 'email', 
+    label: '信箱',
+    rules: [
+        v => !!v || '此欄位為必填',
+        v => !v || /.+@.+\..+/.test(v) || '請輸入有效的電子郵件地址',
+    ]
+  },
+  { 
+    key: 'reset_password', 
+    label: '修改密碼', 
+    type: 'password',
+    rules: reset_password_rules
+  }
+])
 
 const login_state = computed(() => user_store.is_logged_in)
 const user = computed(() => {
@@ -64,33 +92,22 @@ const user = computed(() => {
   }
 })
 
-// 方法
+// 打開修改個人資料的對話框
 function open_edit() {
-  user_store.toggle_user_edit_dialog()
-  edit_user.value = JSON.parse(JSON.stringify(user.value))
-  // edit_personal_dialog.value = true
+  personal_form_model.value = {
+    id: user.value.id,
+    first_name: user.value.first_name,
+    email: user.value.email,
+    reset_password: ''
+  }
+  edit_personal_dialog.value = true
 }
 
-// TODO:重構修改使用者資訊
-async function edit_user_confirm() {
-  const send_data = {
-    account: edit_user.value.username,
-    name: edit_user.value.first_name,
-    email: edit_user.value.email
-  }
-  if (edit_user.value.password) {
-    send_data.password = edit_user.value.password
-  }
-
-  const { status, failed_code } = await update_user_info_ajax(send_data)
-  if (status === 'success') {
-    edit_user.value.password = ''
-    user_store.set_user(edit_user.value)
-    edit_personal_dialog.value = false
-  } else {
-    show_change_error.value = true
-    error_message.value = failed_code
-  }
+// 更新使用者資料
+const handle_confirm = async (item) => {
+  await user_store.edit_user_confirm(item)
+  const result = await get_user_id_info(item.id)
+  user_store.set_user(result.data)
 }
 
 function page_change() {

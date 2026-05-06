@@ -1,6 +1,6 @@
 <template>
     <v-app-bar color="white" dense fixed class="grey lighten-3">
-        <v-toolbar-title class="cursor-pointer text-h5">暴潮系集展示系統</v-toolbar-title>
+        <v-toolbar-title class="cursor-pointer text-h5" title="回首頁">暴潮系集展示系統</v-toolbar-title>
 
         <template v-if="login_state" #append>
             <v-tabs v-model="tab" 
@@ -19,7 +19,7 @@
                 transition="scale-transition"
             >
                 <template #activator="{ props }">
-                    <v-btn v-show="haveStidsLength > 0" icon v-bind="props">
+                    <v-btn icon v-bind="props">
                         <span class="mdi mdi-cog" />
                     </v-btn>
                 </template>
@@ -28,13 +28,13 @@
                     <v-list-item
                         v-for="(stid, i) in stids"
                         :key="i"
-                        @click="set_station(stid.id)"
+                        @click="set_station(stid.key)"
                     >
                         <v-list-item-title>{{ stid.title }}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
-    
+
             <station-set v-if="render_station" :dialog_name="dialog_name" />
         </template>
     </v-app-bar>
@@ -73,43 +73,45 @@ watch(tab, (val) => {
     app_store.change_tab(val);
 });
 
-const haveStidsLength = computed(() => {
-    const userlevel = toolBarStore.user.level
-    if (userlevel === 'admin') return 1
-    return toolBarStore.have_stids_title.length
-})
-
 const stids = computed(() => {
-    const userlevel = toolBarStore.user.level
-    const allStids = toolBarStore.stids
-    if (userlevel === 'admin') return allStids
-    const haveStids = toolBarStore.have_stids_title
-    const map = {}
-    const userStids = []
-    if (haveStids.length <= 0) return userStids
-    show_icon.value = true
-    allStids.forEach((stid) => {
-        map[stid.title] = stid
-    })
-    haveStids.forEach((haveStid) => {
-        userStids.push(map[haveStid])
-    })
-    return userStids
+    // TODO
+    // 使用者是哪一個群組
+    // 群組有哪些可以瀏覽的畫面
+    // 根據使用者的群組決定顯示哪些畫面
+    // const userlevel = toolBarStore.user.level
+    // const allStids = toolBarStore.stids
+    // if (userlevel === 'admin') return allStids
+    // const haveStids = toolBarStore.have_stids_title
+    // const map = {}
+    // const userStids = []
+    // if (haveStids.length <= 0) return userStids
+    // show_icon.value = true
+    // allStids.forEach((stid) => {
+    //     map[stid.title] = stid
+    // })
+    // haveStids.forEach((haveStid) => {
+    //     userStids.push(map[haveStid])
+    // })
+    // return userStids
+
+    return toolBarStore.stids
 })
 
 function set_station(name) {
-    render_station.value = false
-    dialog_name.value = name
+    // render_station.value = false
+    // dialog_name.value = name
 
     if (name === 'user_manage') {
-        toolBarStore.CURRENT_PAGE('UserManage')
+        app_store.change_tab(name);
+        // toolBarStore.CURRENT_PAGE('UserManage')
     }
     if (name === 'group_manage') {
-        toolBarStore.CURRENT_PAGE('GroupManage')
+        app_store.change_tab(name);
+        // toolBarStore.CURRENT_PAGE('GroupManage')
     }
 
-    nextTick(() => {
-        render_station.value = true
-    })
+    // nextTick(() => {
+    //     render_station.value = true
+    // })
 }
 </script>

@@ -37,6 +37,10 @@ const check_login = async () => {
         user_store.toggle_login_state(true)
         user_store.user = data.user
         user_store.start_session_refresh(); // 開始自動刷新
+
+        await user_store.get_user_groups(data.user.pk) // 取得完整的使用者資訊（包含群組）
+        await user_store.set_groups_options() // 設定群組功能的可選項目清單
+
         // 如果已登入且當前在登入頁，導向主頁
         if (router.currentRoute.value.name === 'login') {
             router.push({ name: 'main' })
