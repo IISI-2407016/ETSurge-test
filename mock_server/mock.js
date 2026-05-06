@@ -52,66 +52,71 @@ app.post('/auth/login/', function(req, res) {
     res.setHeader('Access-Control-Request-Method', '*');
     res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    if (req.method == 'POST') {
-        if (req.body.username == 'sunny' && req.body.password == '111') {
+    // res.status(400).send({
+    //     "status": "error",
+    //     "data": {
+    //     "non_field_errors": ["Unable to log in with provided credentials."]
+    //     },
+    //     "message": "登入失敗"
+    // })
+    if (req.body.username == 'sunny' && req.body.password == '111') {
+        res.send({
+            "status": "success", 
+            "data": {
+                "user": {
+                    "pk": 0,
+                    "username": "Sunny", 
+                    "email": "email@email.com",
+                    "first_name": "Sunny Day",
+                    "last_name": "",
+                }
+            },
+            "message": "登入成功"
+        });
+    } else if(req.body.username == 'admin' && req.body.password == 'admin') {
+        res.send({
+            "status": "success", 
+            "data": {
+                "user": {
+                    "pk": 0,
+                    "username": "admin", 
+                    "email": "email@email.com",
+                    "first_name": "admin2",
+                    "last_name": "",
+                }
+            },
+            "message": "登入成功"
+        });
+    }else {
+        if(req.body.username != 'sunday') {
             res.send({
-                "status": "success", 
+                "status": "error",
                 "data": {
-                    "user": {
-                        "pk": 0,
-                        "username": "Sunny", 
-                        "email": "email@email.com",
-                        "first_name": "Sunny Day",
-                        "last_name": "",
-                    }
+                    "non_field_errors": [
+                        "Unable to log in with provided credentials."
+                    ]
                 },
-                "message": "登入成功"
+                "message": "error"
             });
-        } else if(req.body.username == 'admin' && req.body.password == 'admin') {
+            return;
+        }
+        if(req.body.password != '111') {
             res.send({
-                "status": "success", 
+                "status": "error",
                 "data": {
-                    "user": {
-                        "pk": 0,
-                        "username": "admin", 
-                        "email": "email@email.com",
-                        "first_name": "admin2",
-                        "last_name": "",
-                    }
+                    "non_field_errors": [
+                        "Unable to log in with provided credentials."
+                    ]
                 },
-                "message": "登入成功"
+                "message": "error"
             });
-        }else {
-            if(req.body.username != 'sunday') {
-                res.send({
-                    "status": "error",
-                    "data": {
-                        "non_field_errors": [
-                            "Unable to log in with provided credentials."
-                        ]
-                    },
-                    "message": "error"
-                });
-                return;
-            }
-            if(req.body.password != '111') {
-                res.send({
-                    "status": "error",
-                    "data": {
-                        "non_field_errors": [
-                            "Unable to log in with provided credentials."
-                        ]
-                    },
-                    "message": "error"
-                });
-                return;
-            }
+            return;
         }
     }
 })
 
 // 註冊
-app.post('/auth/registration/', function(req, res) {
+app.post('/auth/register/', function(req, res) {
     res.send({
         "status": "success",
         "data": null,
@@ -126,6 +131,11 @@ app.post('/auth/logout/', function(req, res) {
         "data": null,
         "message": "登出成功"
     });
+//     res.status(400).send({
+//      "status": "error",
+//      "data": {},
+//      "message": "登出失敗：參數驗證錯誤"
+//    });
 })
 
 // token 刷新
@@ -186,6 +196,258 @@ app.post('/auth/token/verify/', function(req, res) {
     // });
 })
 
+// 取得目前使用者資訊
+app.get('/users/:id/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "id": 0,
+            "username": "admin",
+            "email": "admin@iisigroup.com",
+            "first_name": "admin",
+            "last_name": "admin",
+            "is_active": true,
+            "is_staff": true,
+            "groups": [
+                {
+                    "id": 1,
+                    "name": "管理者"
+                }
+            ]
+        },
+        "message": "成功取得使用者資訊"
+    })
+})
+
+// 取得所有帳號
+app.get('/users/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "count": 11,
+            "next": null,
+            "previous": null,
+            "results": [
+            {
+                "id": 1,
+                "username": "admin",
+                "email": "admin@admin.com",
+                "first_name": "admin",
+                "last_name": "admin",
+                "is_active": true,
+                "is_staff": true,
+                "groups": [
+                    {
+                        "id": 2,
+                        "name": "海象中心"
+                    }
+                ]
+            },{
+                "id": 2,
+                "username": "test",
+                "email": "test@test.com",
+                "first_name": "test",
+                "last_name": "test",
+                "is_active": false,
+                "is_staff": true,
+                "groups": []
+            },{
+                "id": 3,
+                "username": "sunday",
+                "email": "sunday@user.com",
+                "first_name": "sunday",
+                "last_name": "sunday",
+                "is_active": true,
+                "is_staff": true,
+                "groups": [
+                    {
+                        "id": 2,
+                        "name": "海象中心"
+                    },
+                    {
+                        "id": 1,
+                        "name": "管理者"
+                    }
+                ]
+            }]
+        },
+        "message": "取得所有帳號成功"
+    })
+})
+
+// 修改使用者資訊: 
+// 姓名(first_name)、信箱(email)、
+// 密碼(password)、啟用/停用(is_active)
+// last_name(不使用)
+app.patch('/users/:id/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "pk": 0,
+            "username": "admin",
+            "email": "admin@gmail.com",
+            "first_name": "admin",
+            "last_name": "",
+        },
+        "message": "success"
+    });
+    // res.status(400).send({
+    //     "status": "error",
+    //     "data": {
+    //         "password": [
+    //             "密碼最短修改效期為 24 小時" // 密碼不可與前三組重複
+    //         ]
+    //     },
+    //     "message": "密碼驗證失敗"
+    // });
+})
+
+// 指定用戶加入群組
+/** 
+ * group_id : Number
+*/
+app.post('/users/:id/groups/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "group_id": 1,
+            "group_name": "管理者",
+        },
+        "message": "已成功加入群組 \"管理者\""
+    })
+
+    // res.status(400).send({
+    //     "status": "error",
+    //     "data": null,
+    //     "message": "您已經是群組 \"管理者\" 的成員"
+    // })
+})
+
+// 指定用戶離開群組
+/** 
+ * group_id : Number
+*/
+app.delete('/users/:id/groups/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "group_id": 1,
+            "group_name": "管理者",
+        },
+        "message": "已成功離開群組 \"管理者\""
+    })
+
+    // res.status(400).send({
+    //     "status": "error",
+    //     "data": null,
+    //     "message": "您已經是群組 \"管理者\" 的成員"
+    // })
+})
+
+//【群組管理】
+// 取得所有群組資訊
+app.get('/groups/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "count": 2,
+            "next": null,
+            "previous": null,
+            "results": [
+            {
+                "id": 2,
+                "name": "海象中心",
+                "stids": [
+                {
+                    "Key": "official_station",
+                    "Title": "傳送官網設定"
+                },
+                {
+                    "Key": "web_station",
+                    "Title": "網站顯示測站設定"
+                },
+                {
+                    "Key": "model_station",
+                    "Title": "傳送報潮水位設定"
+                },
+                {
+                    "Key": "user_manage",
+                    "Title": "帳號管理"
+                },
+                {
+                    "Key": "group_manage",
+                    "Title": "群組管理"
+                }
+                ],
+                "function_list": [
+                {
+                    "Key": "sent_water_level",
+                    "Title": "傳送水位至資料課"
+                },
+                {
+                    "Key": "sent_all_data",
+                    "Title": "傳送颱風期間圖檔(zip),傳送圖檔至CEOC,傳送KMZ至NCDR"
+                },
+                {
+                    "Key": "sent_typhoon_pictures_nontable",
+                    "Title": "傳送颱風期間,不含表格圖檔(zip)"
+                },
+                {
+                    "Key": "sent_non_typhoon_pictures",
+                    "Title": "傳送非颱風期間圖檔(zip)"
+                }
+                ]
+            },
+            {
+                "id": 1,
+                "name": "管理者",
+                "stids": [
+                {
+                    "Key": "official_station",
+                    "Title": "傳送官網設定"
+                },
+                {
+                    "Key": "web_station",
+                    "Title": "網站顯示測站設定"
+                },
+                {
+                    "Key": "model_station",
+                    "Title": "傳送報潮水位設定"
+                },
+                {
+                    "Key": "user_manage",
+                    "Title": "帳號管理"
+                },
+                {
+                    "Key": "group_manage",
+                    "Title": "群組管理"
+                }
+                ],
+                "function_list": [
+                {
+                    "Key": "sent_water_level",
+                    "Title": "傳送水位至資料課"
+                },
+                {
+                    "Key": "sent_all_data",
+                    "Title": "傳送颱風期間圖檔(zip),傳送圖檔至CEOC,傳送KMZ至NCDR"
+                },
+                {
+                    "Key": "sent_typhoon_pictures_nontable",
+                    "Title": "傳送颱風期間,不含表格圖檔(zip)"
+                },
+                {
+                    "Key": "sent_non_typhoon_pictures",
+                    "Title": "傳送非颱風期間圖檔(zip)"
+                }
+                ]
+            }
+            ]
+        },
+        "message": "成功取得群組列表"
+    })
+})
+
 // 修改密碼
 app.post('/auth/password/change/', function(req, res) {
     res.send({
@@ -202,26 +464,55 @@ app.post('/auth/password/change/', function(req, res) {
     // });
 });
 
-// 修改使用者資訊: 姓名、信箱(這個API還沒有資訊)
-app.patch('/auth/user/', function(req, res) {
+// 取得群組功能的可選項目清單
+app.get('/groups/options/', function(req, res) {
     res.send({
         "status": "success",
         "data": {
-            "pk": 0,
-            "username": "admin",
-            "email": "admin@gmail.com",
-            "first_name": "admin",
-            "last_name": "",
+            "stids": [
+                {
+                    "key": "official_station",
+                    "title": "傳送官網設定"
+                },
+                {
+                    "key": "web_station",
+                    "title": "網站顯示測站設定"
+                },
+                {
+                    "key": "model_station",
+                    "title": "傳送報潮水位設定"
+                },
+                {
+                    "key": "user_manage",
+                    "title": "帳號管理"
+                },
+                {
+                    "key": "group_manage",
+                    "title": "群組管理"
+                }
+            ],
+                "function_list": [
+                {
+                    "key": "sent_water_level",
+                    "title": "傳送水位至資料課"
+                },
+                {
+                    "key": "sent_all_data",
+                    "title": "傳送颱風期間圖檔(zip),傳送圖檔至CEOC,傳送KMZ至NCDR"
+                },
+                {
+                    "key": "sent_typhoon_pictures_nontable",
+                    "title": "傳送颱風期間,不含表格圖檔(zip)"
+                },
+                {
+                    "key": "sent_non_typhoon_pictures",
+                    "title": "傳送非颱風期間圖檔(zip)"
+                }
+            ]
         },
-        "message": "success"
+        "message": "成功取得功能選項清單"
     });
-    // res.status(400).send({
-    //     "status": "error",
-    //     "data": null,
-    //     "message": "error"
-    // });
-})
-
+});
 
 //【颱風】
 // 取得颱風的基本資訊
