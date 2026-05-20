@@ -514,6 +514,24 @@ app.get('/groups/options/', function(req, res) {
     });
 });
 
+// 新增群組
+app.post('/groups/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": "",
+        "message": "成功新增群組"
+    })
+})
+
+// 編輯、刪除群組
+app.patch('/groups/:id/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": "",
+        "message": "成功編輯/刪除群組"
+    })
+})
+
 //【颱風】
 // 取得颱風的基本資訊
 app.get('/surge_app/get_typhoon_info/', function(req, res) {

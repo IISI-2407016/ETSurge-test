@@ -23,6 +23,9 @@
                     <div v-else-if="current_tab === 'user_manage'">
                         <user-manage :tab="current_tab"/>
                     </div>
+                    <div v-else-if="current_tab === 'group_manage'">
+                        <group-manage :tab="current_tab"/>
+                    </div>
                 </v-container>
             </v-main>
         </v-card>
@@ -38,6 +41,7 @@ import UVPView from './UVPView.vue'
 import tideLevelView from './tide-level/tideLevelView.vue'
 import lightTableView from './lightTableView.vue'
 import userManage from './userManage.vue'
+import groupManage from './groupManage.vue'
 
 const uvp_data_store = use_uvp_data_store()
 const app_store = use_app_store()

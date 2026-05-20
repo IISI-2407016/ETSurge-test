@@ -6,7 +6,9 @@ import { get_all_group_json,
         get_group_function_options,
         post_auth_update_user,
         get_user_id_info,
-        get_group_info
+        get_group_info,
+        post_groups_create,
+        patch_groups_update
 } from '../js/user.js'
 import { post_auth_token_refresh, 
         post_auth_registration 
@@ -324,7 +326,7 @@ export const use_user_store = defineStore('user', {
                 return
             }
 
-            alert_store.show_alert(result.message, 'success')
+            alert_store.show_alert("更新使用者資料成功", 'success')
         },
 
         // 取得群組功能選項
@@ -346,12 +348,56 @@ export const use_user_store = defineStore('user', {
 
             const is_staff = this.user.is_staff; // 是否為管理員
             if (is_staff) {
-                const group_result = await get_group_info();
-                if (group_result.status === 'success') {
-                    this.set_groups(group_result.data.results);
+                this.get_group_data()
+            }
+        },
+        async get_group_data() {
+            try {
+                const response = await get_group_info();
+                if (response.status === 'success') {
+                    this.groups = response.data.results;
                 } else {
-                    console.error('無法取得群組資訊:', group_result.message);
+                    console.error('無法取得群組資訊:', response.message);
+                    return null;
                 }
+            } catch (error) {
+                console.error('取得群組資訊失敗:', error);
+                return null;
+            }
+        },
+        async create_group_data(data) {
+            const alert_store = use_alert_store()
+            try {
+                const response = await post_groups_create(data);
+                if (response.status === 'success') {
+                    alert_store.show_alert('建立群組成功', 'success')
+                    return response.data;
+                } else {
+                    console.error('無法建立群組:', response.message);
+                    return null;
+                }
+            } catch (error) {
+                console.error('建立群組失敗:', error);
+                alert_store.show_alert('無法建立群組', 'error')
+                return null;
+            }
+        },
+        async patch_groups_update(id, data) {
+            const alert_store = use_alert_store()
+            try {
+                const response = await patch_groups_update(id, data);
+                if (response.status === 'success') {
+                    alert_store.show_alert('更新群組成功', 'success')
+                    return response.data;
+                }
+                else {
+                    console.error('無法更新群組:', response.message);
+                    return null;
+                }
+            } catch (error) {
+                console.error('更新群組失敗:', error);
+                alert_store.show_alert('無法更新群組', 'error')
+                return null;
             }
         }
     }

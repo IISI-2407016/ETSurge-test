@@ -18,22 +18,37 @@
 
                 <v-card-text>
                     <v-form ref="form_info">
-                        <v-text-field
-                            v-for="(item, index) in formData"
-                            :key="index"
-                            v-model="formModel[item.key]"
-                            :rules="item.rules"
-                            :type="item?.show_ref ? (item.show_ref.value ? 'text' : 'password') : item.type"
-                            :label="item.label"
-                            :append-inner-icon="item.show_ref ? (item.show_ref.value ? 'mdi-eye' : 'mdi-eye-off') : undefined"
-                            @click:append-inner="item.show_ref && (item.show_ref.value = !item.show_ref.value)"
-                        />
+                        <template v-for="(item, index) in formData" :key="index">
+                            <!-- Text Field -->
+                            <v-text-field
+                                v-if="item.component === 'text-field'"
+                                v-model="formModel[item.key]"
+                                :rules="item.rules"
+                                :type="item?.show_ref ? (item.show_ref.value ? 'text' : 'password') : item.type"
+                                :label="item.label"
+                                :append-inner-icon="item.show_ref ? (item.show_ref.value ? 'mdi-eye' : 'mdi-eye-off') : undefined"
+                                @click:append-inner="item.show_ref && (item.show_ref.value = !item.show_ref.value)"
+                            />
+                            <!-- Select -->
+                            <v-select
+                                v-if="item.component === 'select'"
+                                v-model="formModel[item.key]"
+                                :items="item.options"
+                                item-title="text"
+                                item-value="value"
+                                :rules="item.rules"
+                                :label="item.label"
+                                variant="underlined"
+                                chips
+                                multiple
+                            />
+                        </template>
                     </v-form>
                 </v-card-text>
         
                 <v-card-actions class="pr-6">
                     <v-spacer />
-                    <v-btn color="teal" variant="flat" @click="reset_form">清空</v-btn>
+                    <v-btn v-if="resetModel" color="teal" variant="flat" @click="reset_form">清空</v-btn>
                     <v-btn color="green" variant="elevated" @click="confirm(formModel)">
                         確認送出
                     </v-btn>
@@ -75,6 +90,10 @@ const props = defineProps({
     modelValue: {
         type: Boolean,
         default: false
+    },
+    resetModel: {
+        type: Boolean,
+        default: true
     }
 })
 

@@ -44,6 +44,16 @@ export const get_group_function_options = () => {
     return apiRequest("get", "/groups/options/");
 }
 
+// 新增群組
+export const post_groups_create = (data) => {
+    return apiRequest("post", "/groups/", data);
+}
+
+// 編輯、刪除群組
+export const patch_groups_update = (id, data) => {
+    return apiRequest("patch", `/groups/${id}/`, data);
+}
+
 // 登出
 export async function user_logout_ajax() {
     const user_store = use_user_store();
