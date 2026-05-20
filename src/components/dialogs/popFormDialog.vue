@@ -41,7 +41,22 @@
                                 variant="underlined"
                                 chips
                                 multiple
-                            />
+                            >
+                                <template #prepend-item>
+                                    <v-list-item 
+                                        title="全選" 
+                                        @click="toggle_select_all(item.key, item.options)">
+                                        <template #prepend>
+                                            <v-checkbox-btn
+                                                :indeterminate="is_some_selected(item.key) && !is_all_selected(item.key, item.options)"
+                                                :model-value="is_all_selected(item.key, item.options)"
+                                            ></v-checkbox-btn>
+                                        </template>
+                                    </v-list-item>
+
+                                    <v-divider class="mt-2"></v-divider>
+                                </template>
+                            </v-select>
                         </template>
                     </v-form>
                 </v-card-text>
@@ -67,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, shallowRef } from 'vue'
 import { use_alert_store } from '../../stores/alert.js';
 import alertMessageDialog from './alertMessageDialog.vue';
 
@@ -102,6 +117,7 @@ const emit = defineEmits(['update:modelValue', 'confirm'])
 
 const alert_store = use_alert_store()
 const form_info = ref(null)
+const selectedFruits = shallowRef([])
 
 const show_user_edit = computed({
     get: () => props.modelValue,
@@ -124,5 +140,25 @@ const reset_form = () => {
         if (key === 'id') return
         props.formModel[key] = ''
     })
+}
+
+const is_all_selected = (key, options) => {
+    const selected = props.formModel[key] || []
+    return selected.length === options.length
+}
+
+const is_some_selected = (key) => {
+    const selected = props.formModel[key] || []
+    return selected.length > 0
+}
+
+const toggle_select_all = (key, options) => {
+    const selected = props.formModel[key] || []
+
+    if (selected.length === options.length) {
+        props.formModel[key] = []
+    } else {
+        props.formModel[key] = options.map(option => option.value)
+    }
 }
 </script>

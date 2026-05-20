@@ -1,7 +1,6 @@
 <template>
     <user-setting 
         :title="'群組管理'" 
-        :tab="tab"
         :action-function="create_item"
         v-model:search="search"
     />
@@ -57,16 +56,11 @@
     import userSetting from '@/components/userSetting.vue';
     import popFormDialog from '@/components/dialogs/popFormDialog.vue';
 
-    const props = defineProps({
-        tab: String,
-    });
-
     const user_store = use_user_store()
     const search = ref('')
     const dialog = ref(false)
     const pop_title = ref('')
     const pop_type = ref('') // create or edit
-    const ori_groups_map = ref({}) // 紀錄使用者原本的群組
     const form_model = ref({
         id: '',
         type: '',

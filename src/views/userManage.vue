@@ -1,7 +1,6 @@
 <template>
     <user-setting 
         :title="'帳號管理'" 
-        :tab="tab"
         :action-function="create_item"
         v-model:search="search"
     />
@@ -10,41 +9,41 @@
         :items="users" 
         :search="search"
         :custom-filter="customFilter"
-        height="330"
+        height="500"
         fixed-header
     >
-    <template v-slot:[`item.groups`]="{ item }">
-        <v-select
-            v-model="item.groups"
-            :items="select_groups"
-            item-title="text"
-            item-value="value"
-            chips
-            variant="underlined"
-            @update:modelValue="change_group(item)"
-        ></v-select>
-    </template>
+        <template v-slot:[`item.groups`]="{ item }">
+            <v-select
+                v-model="item.selected_group_id[0]"
+                :items="select_groups"
+                item-title="name"
+                item-value="id"
+                chips
+                variant="underlined"
+                @update:modelValue="change_group(item)"
+            ></v-select>
+        </template>
 
-    <template v-slot:[`item.is_active`]="{ item }">
-        <v-select
-            v-model="item.is_active"
-            :items="status_list"
-            item-title="text"
-            item-value="value"
-            height="30"
-            hide-selected
-            variant="underlined"
-            @update:modelValue="change_status(item)"
-        ></v-select>
-    </template>
-    <template v-slot:[`item.edit`]="{ item }">
-        <v-icon
-            small
-            class="mr-2"
-            icon="mdi-pencil"
-            @click="edit_item(item)"
-        />
-    </template>
+        <template v-slot:[`item.is_active`]="{ item }">
+            <v-select
+                v-model="item.is_active"
+                :items="status_list"
+                item-title="text"
+                item-value="value"
+                height="30"
+                hide-selected
+                variant="underlined"
+                @update:modelValue="change_status(item)"
+            ></v-select>
+        </template>
+        <template v-slot:[`item.edit`]="{ item }">
+            <v-icon
+                small
+                class="mr-2"
+                icon="mdi-pencil"
+                @click="edit_item(item)"
+            />
+        </template>
     </v-data-table>
     <pop-form-dialog 
         v-model="dialog"
@@ -68,20 +67,14 @@
     import userSetting from '@/components/userSetting.vue';
     import popFormDialog from '@/components/dialogs/popFormDialog.vue';
 
-    const props = defineProps({
-        tab: String,
-    });
-
     const user_store = use_user_store()
     const alert_store = use_alert_store()
     const search = ref('')
     const dialog = ref(false)
     const pop_title = ref('')
-    const pop_type = ref('') // create or edit
     const show_password = ref(false)
     const show_check_password = ref(false)
     const show_reset_password = ref(false)
-    const ori_groups_map = ref({}) // 紀錄使用者原本的群組
     const form_model = ref({
         id: '',
         type: '',
@@ -117,6 +110,7 @@
             key: 'username',
             label: '帳號',
             type: 'text',
+            component: 'text-field',
             rules: [
                 v => !!v || '此欄位為必填',
                 v => v.length <= 15 || '長度不得超過 15字元',
@@ -125,6 +119,7 @@
             key: 'first_name',
             label: '姓名',
             type: 'text',
+            component: 'text-field',
             rules: [
                 v => !!v || '此欄位為必填',
                 v => !v || v.length <= 10 || '長度不得超過 10字元',
@@ -133,6 +128,7 @@
             key: 'email',
             label: '信箱',
             type: 'text',
+            component: 'text-field',
             rules: [
                 v => !!v || '此欄位為必填',
                 v => !v || /.+@.+\..+/.test(v) || '請輸入有效的電子郵件地址'
@@ -141,12 +137,14 @@
             key: 'password',
             label: '密碼',
             type: 'password',
+            component: 'text-field',
             rules: password_rules,
             show_ref: show_password
         },{
             key: 'check_password',
             label: '確認密碼',
             type: 'password',
+            component: 'text-field',
             rules: [
                 v => !!v || '請輸入密碼',
                 v => v === form_model.value.password || '新密碼與再次輸入不同'
@@ -156,14 +154,14 @@
             key: 'reset_password',
             label: '修改密碼',
             type: 'password',
+            component: 'text-field',
             rules: reset_password_rules,
             show_ref: show_reset_password
         }
     ]
 
-    const is_create = computed(() => pop_type.value === 'create')
     const filter_form_data = computed(() => {
-        if (is_create.value) {
+        if (form_model.value.type === 'create') {
             return form_data.filter(item => item.label !== '修改密碼')
         } 
         else {
@@ -173,8 +171,8 @@
     // 取得群組列表
     const select_groups = computed(() => {
         return user_store.groups.map(group => ({
-            text: group.name,
-            value: group.id
+            name: group.name,
+            id: group.id
         }))
     })
 
@@ -189,13 +187,13 @@
             alert_store.show_alert('取得使用者列表失敗', 'error')
             return
         }
+
         user_store.set_user_list(result.data.results)
         users.value = user_store.user_list;
 
         // 取群組名稱
         users.value.forEach(user => {
-            user.groups = user.groups.map(group => group.id)
-            ori_groups_map.value[user.id] = user.groups // 紀錄使用者原本的群組
+            user.selected_group_id = user.groups.map(group => group?.id ?? null)
         })
     }
 
@@ -203,7 +201,7 @@
         const keyword = search.toLowerCase()
         const raw_data = item.raw
         const groupNames = (raw_data.groups || [])
-            .map(id => select_groups.value.find(group => group.id === id)?.name || '')
+            .map(selected_group_id => select_groups.value.find(group => group.value === selected_group_id)?.text || '')
             .join('、')
 
         const statusText = raw_data.is_active ? '啟用' : '停用'
@@ -218,22 +216,28 @@
 
     const change_group = async (item) => {
         // 離開原本的群組值
-        const cur_user_group_id = ori_groups_map.value[item.id] || []
-        const result_del = await delete_user_leave_group(item.id, {group_id: cur_user_group_id})
-        if (result_del.status !== 'success') {
-            alert_store.show_alert('離開原本群組失敗', 'error')
-            console.error('離開原本群組失敗:', result_del.message)
-            return
+        const cur_user_group_id = users.value.find(user => user.id === item.id)?.groups[0]?.id || null
+
+        if (cur_user_group_id) {
+            const result_del = await delete_user_leave_group(item.id, {group_id: cur_user_group_id})
+            if (result_del.status !== 'success') {
+                alert_store.show_alert('離開原本群組失敗', 'error')
+                console.error('離開原本群組失敗:', result_del.message)
+                return
+            }
         }
         // 更新新的群組值
-        const result_post = await post_user_join_group(item.id, {group_id: item.groups})
+        const result_post = await post_user_join_group(item.id, {group_id: item.selected_group_id[0]})
         if (result_post.status !== 'success') {
             alert_store.show_alert('加入新群組失敗', 'error')
             console.error('加入新群組失敗:', result_post.message)
             return
         }
 
-        ori_groups_map.value[item.id] = item.groups // 更新紀錄的群組值
+        // 更新紀錄的群組值
+        const user = users.value.find(user => user.id === item.id)
+        user.groups = [select_groups.value.find(g => g.id === item.selected_group_id[0])]
+
         alert_store.show_alert('更新使用者群組成功', 'success')
     }
 
@@ -253,37 +257,24 @@
         // init form data
         Object.keys(form_model.value).forEach(key => {
             if (key === 'type') form_model.value[key] = 'create'
-            form_model.value[key] = ''
+            else form_model.value[key] = '' // 其他欄位清空
         })
 
-        if (props.tab === 'user_manage') {
-            pop_title.value = '新增使用者'
-        }
-        if (props.tab === 'group_manage') {
-            pop_title.value = '新增群組'
-        }
-        
-        pop_type.value = 'create'
+        pop_title.value = '新增使用者'
         dialog.value = true
     }
 
     const edit_item = (item) => {
-        form_model.value.type = 'edit'
-        if (props.tab === 'user_manage') {
-            pop_title.value = '修改使用者'
-            form_model.value = {
-                ...form_model.value,
-                id: item.id,
-                first_name: item.first_name,
-                email: item.email,
-                reset_password: '',
-            }
-        }
-        if (props.tab === 'group_manage') {
-            pop_title.value = '修改群組'
+        form_model.value = {
+            ...form_model.value,
+            id: item.id,
+            first_name: item.first_name,
+            email: item.email,
+            reset_password: '',
         }
 
-        pop_type.value = 'edit'
+        form_model.value.type = 'edit'
+        pop_title.value = '修改使用者'
         dialog.value = true
     }
 

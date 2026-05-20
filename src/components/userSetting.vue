@@ -30,7 +30,6 @@
 
     const props = defineProps({
         title: String,
-        tab: String,
         actionFunction: Function,
         search: {
             type: String,

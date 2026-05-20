@@ -21,10 +21,10 @@
                         <light-table-view />
                     </div>
                     <div v-else-if="current_tab === 'user_manage'">
-                        <user-manage :tab="current_tab"/>
+                        <user-manage />
                     </div>
                     <div v-else-if="current_tab === 'group_manage'">
-                        <group-manage :tab="current_tab"/>
+                        <group-manage />
                     </div>
                 </v-container>
             </v-main>
