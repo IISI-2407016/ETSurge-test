@@ -6,7 +6,6 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 
 ## node version v18.20.7
 
-
 ## 專案資料夾結構
 ```
 frontend/
@@ -30,3 +29,9 @@ frontend/
     ├── App.vue             # 根元件
     └── main.js             # 進入點
 ```
+
+## 本地自動化打包設定檔
+- bash release.sh (執行前請注意是否為指定的打包路徑)
+
+## 版本更新
+- package.json【<b>version</b>】(更新時請調整)
