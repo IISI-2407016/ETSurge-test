@@ -117,7 +117,6 @@ const emit = defineEmits(['update:modelValue', 'confirm'])
 
 const alert_store = use_alert_store()
 const form_info = ref(null)
-const selectedFruits = shallowRef([])
 
 const show_user_edit = computed({
     get: () => props.modelValue,

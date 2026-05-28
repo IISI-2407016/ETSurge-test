@@ -9,31 +9,30 @@
                 :key="index"
                 class="mx-3"
                 color="secondary"
-                @click="btn_action(func.action)"
+                @click="btn_action(func.Key)"
             >
-                {{ func.name }}
+                {{ func.Title }}
             </v-btn>
         </v-sheet>
     </div>
 </template>
 
 <script setup>
-    import { computed, ref } from 'vue'
+    import { computed } from 'vue'
     import { use_app_store } from '../../stores/use-app.js'
+    import { use_user_store } from '../../stores/user.js'
     import { use_light_store } from '../../stores/light.js'
     import { tide_level_store } from '../../stores/tide-level.js';
 
     const app_store = use_app_store();
+    const user_store = use_user_store();
     const light_store = use_light_store();
     const tide_level_info_store = tide_level_store();
 
-    const function_list = ref([
-        {name: "傳送水位", action: "send_water_level"},
-        {name: "傳送颱風期間圖檔", action: "send_typhoon_period_chart"},
-        {name: "傳送颱風期間圖檔(不包含表格)", action: "send_typhoon_period_chart_no_table"},
-        {name: "傳送非颱風期間圖檔", action: "send_non_typhoon_period_chart"}
-    ]);
+    const function_list = computed(() => {
 
+        return user_store.user.groups[0].function_list
+    })
     const parameters_id = computed(() => tide_level_info_store.chart_list.parameters_id);
 
     const btn_action = async(action) => {

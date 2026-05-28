@@ -68,14 +68,11 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { use_user_store } from '../stores/user.js'
-import { use_alert_store } from '../stores/alert.js'
 import signupDialog from './signupDialog.vue'
 import forgotPasswordDialog from '../components/dialogs/forgotPasswordDialog.vue'
-import { post_auth_login } from '../js/login.js'
 
 const router = useRouter()
 const user_store = use_user_store()
-const alert_store = use_alert_store()
 const dialog = ref(false)
 
 // 表單資料與狀態
@@ -108,22 +105,13 @@ async function login_confirm() {
         password: password.value,
         email: "" //後端要求參數
     }
-    try {
-        const result = await post_auth_login(params)
-        if (result.status !== 'success') {
-            if (account.value && password.value) {
-                alert_store.show_alert('登入失敗，請檢查帳號密碼', 'error')
-            }
-            return
-        }
-        user_store.toggle_login_state(true)
-        user_store.set_user(result.data.user)
-        await user_store.get_user_groups(result.data.user.pk) // 取得完整的使用者資訊（包含群組）
-        await user_store.set_groups_options() // 設定群組功能的可選項目清單
-        // 登入成功後跳轉到主頁面
-        router.push({ name: 'main' })
-    } catch(err) {
 
-    }
+    const result = await user_store.login_confirm(params)
+    user_store.toggle_login_state(true)
+    user_store.set_user(result.user)
+    await user_store.fetch_user_groups(result.user.pk) // 取得完整的使用者資訊（包含群組）
+    await user_store.set_groups_options() // 設定群組功能的可選項目清單
+    // 登入成功後跳轉到主頁面
+    router.push({ name: 'main' })
 }
 </script>

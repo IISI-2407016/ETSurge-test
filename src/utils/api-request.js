@@ -26,3 +26,18 @@ export async function apiRequest(method, url, data = null) {
         };
     }
 }
+
+export function wrap_api_response(result, successMsg = '', failMsg = '') {
+    if (result.status === 'success') {
+        return { 
+            success: 'success', 
+            data: result.data, 
+            message: successMsg || result.message
+        };
+    }
+    return { 
+        success: 'error', 
+        data: null, 
+        message: result.message || failMsg, error: result.data 
+    };
+}

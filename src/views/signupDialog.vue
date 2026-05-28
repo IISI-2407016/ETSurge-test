@@ -22,6 +22,7 @@
             key: 'username',
             label: '帳號',
             type: 'text',
+            component: 'text-field',
             rules: [
                 v => !!v || '此欄位為必填',
                 v => v.length <= 15 || '長度不得超過 15字元',
@@ -30,6 +31,7 @@
             key: 'first_name',
             label: '姓名',
             type: 'text',
+            component: 'text-field',
             rules: [
                 v => !!v || '此欄位為必填',
                 v => !v || v.length <= 10 || '長度不得超過 10字元',
@@ -38,6 +40,7 @@
             key: 'email',
             label: '信箱',
             type: 'text',
+            component: 'text-field',
             rules: [
                 v => !!v || '此欄位為必填',
                 v => !v || /.+@.+\..+/.test(v) || '請輸入有效的電子郵件地址'
@@ -46,12 +49,14 @@
             key: 'password',
             label: '密碼',
             type: 'password',
+            component: 'text-field',
             rules: password_rules,
             show_ref: show_password
         },{
             key: 'check_password',
             label: '確認密碼',
             type: 'password',
+            component: 'text-field',
             rules: [
                 v => !!v || '請輸入密碼',
                 v => v === form_model.value.password || '新密碼與再次輸入不同'

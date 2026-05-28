@@ -51,17 +51,20 @@ const router = useRouter()
 const user_store = use_user_store()
 
 const edit_personal_dialog = ref(false)
+const show_reset_password = ref(false)
 const personal_title = ref('修改個人資料')
 const personal_form_model = ref({
-  id: null,
+  id: '',
   first_name: '',
   email: '',
   reset_password: ''
 })
-const personal_form_data = ref([
+const personal_form_data = [
   { 
     key: 'first_name', 
     label: '姓名', 
+    type: 'text',
+    component: 'text-field',
     rules: [
         v => !!v || '此欄位為必填',
         v => !v || v.length <= 10 || '長度不得超過 10字元',
@@ -70,6 +73,8 @@ const personal_form_data = ref([
   { 
     key: 'email', 
     label: '信箱',
+    type: 'text',
+    component: 'text-field',
     rules: [
         v => !!v || '此欄位為必填',
         v => !v || /.+@.+\..+/.test(v) || '請輸入有效的電子郵件地址',
@@ -79,9 +84,11 @@ const personal_form_data = ref([
     key: 'reset_password', 
     label: '修改密碼', 
     type: 'password',
-    rules: reset_password_rules
+    component: 'text-field',
+    rules: reset_password_rules,
+    show_ref: show_reset_password
   }
-])
+]
 
 const login_state = computed(() => user_store.is_logged_in)
 const user = computed(() => {

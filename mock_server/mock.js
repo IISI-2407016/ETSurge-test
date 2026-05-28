@@ -1,5 +1,4 @@
 import { createRequire } from "module";
-import { reactive } from "vue";
 
 const require = createRequire(import.meta.url);
 
@@ -196,7 +195,30 @@ app.post('/auth/token/verify/', function(req, res) {
     // });
 })
 
-// 取得目前使用者資訊
+// 取得帳號資訊
+app.get('/users/me/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "id": 0,
+            "username": "admin",
+            "email": "admin@iisigroup.com",
+            "first_name": "admin",
+            "last_name": "admin",
+            "is_active": true,
+            "is_staff": true,
+            "groups": [
+                {
+                    "id": 1,
+                    "name": "管理者"
+                }
+            ]
+        },
+        "message": "成功取得使用者資訊"
+    })
+})
+
+// 取得單一帳號資訊
 app.get('/users/:id/', function(req, res) {
     res.send({
         "status": "success",
@@ -300,6 +322,76 @@ app.patch('/users/:id/', function(req, res) {
     //     },
     //     "message": "密碼驗證失敗"
     // });
+})
+
+// 取得指定用戶的群組資訊
+app.get('/users/:id/groups/', function(req, res) {
+    // res.status(403).send({
+    //     "status": "error",
+    //     "data": {
+    //         "detail": "您沒有權限查看此用戶的群組資訊"
+    //     },
+    //     "message": "您沒有權限查看此用戶的群組資訊"
+    // })
+    res.send({
+        "status": "success",
+        "data": {
+            "id": 0,
+            "username": "admin",
+            "email": "admin@iisigroup.com",
+            "first_name": "admin",
+            "last_name": "",
+            "is_active": true,
+            "is_staff": true,
+            "groups": [
+            {
+                "id": 1,
+                "name": "管理者",
+                "stids": [
+                    {
+                        "Key": "official_station",
+                        "Title": "傳送官網設定"
+                    },
+                    {
+                        "Key": "web_station",
+                        "Title": "網站顯示測站設定"
+                    },
+                    {
+                        "Key": "model_station",
+                        "Title": "傳送報潮水位設定"
+                    },
+                    {
+                        "Key": "user_manage",
+                        "Title": "帳號管理"
+                    },
+                    {
+                        "Key": "group_manage",
+                        "Title": "群組管理"
+                    }
+                ],
+                "function_list": [
+                    {
+                        "Key": "sent_water_level",
+                        "Title": "傳送水位至資料課"
+                    },
+                    {
+                        "Key": "sent_all_data",
+                        "Title": "傳送颱風期間圖檔(zip),傳送圖檔至CEOC,傳送KMZ至NCDR"
+                    },
+                    {
+                        "Key": "sent_typhoon_pictures_nontable",
+                        "Title": "傳送颱風期間,不含表格圖檔(zip)"
+                    },
+                    {
+                        "Key": "sent_non_typhoon_pictures",
+                        "Title": "傳送非颱風期間圖檔(zip)"
+                    }
+                ]
+            }
+            ]
+        },
+        "message": "成功取得用戶群組資訊"
+    })
 })
 
 // 指定用戶加入群組

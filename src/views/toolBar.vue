@@ -10,10 +10,11 @@
                 <v-tab style="font-size: medium;" value="tide_level">預報潮位時序圖預覧</v-tab>
                 <v-tab style="font-size: medium;" value="light">系集燈號表格預覧</v-tab>
             </v-tabs>
-    
+
             <user-btn />
-    
+
             <v-menu
+                v-if="stids.length > 0"
                 open-on-hover
                 bottom
                 transition="scale-transition"
@@ -28,9 +29,9 @@
                     <v-list-item
                         v-for="(stid, i) in stids"
                         :key="i"
-                        @click="set_station(stid.key)"
+                        @click="set_station(stid.Key)"
                     >
-                        <v-list-item-title>{{ stid.title }}</v-list-item-title>
+                        <v-list-item-title>{{ stid.Title }}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
@@ -41,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, nextTick } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { use_app_store } from '../stores/use-app.js'
 import { use_user_store } from '../stores/user.js'
 import stationSet from './stationSet.vue'
@@ -55,13 +56,12 @@ const props = defineProps({
 });
 
 const app_store = use_app_store()
-const toolBarStore = use_user_store()
-const login_state = computed(() => toolBarStore.is_logged_in)
+const user_store = use_user_store()
+const login_state = computed(() => user_store.is_logged_in)
 
 const tab = ref(props.modelValue);
 const dialog_name = ref('')
 const render_station = ref(false)
-const show_icon = ref(false)
 
 // 父變動 → 子同步
 watch(() => props.modelValue, (val) => {
@@ -74,44 +74,17 @@ watch(tab, (val) => {
 });
 
 const stids = computed(() => {
-    // TODO
-    // 使用者是哪一個群組
-    // 群組有哪些可以瀏覽的畫面
-    // 根據使用者的群組決定顯示哪些畫面
-    // const userlevel = toolBarStore.user.level
-    // const allStids = toolBarStore.stids
-    // if (userlevel === 'admin') return allStids
-    // const haveStids = toolBarStore.have_stids_title
-    // const map = {}
-    // const userStids = []
-    // if (haveStids.length <= 0) return userStids
-    // show_icon.value = true
-    // allStids.forEach((stid) => {
-    //     map[stid.title] = stid
-    // })
-    // haveStids.forEach((haveStid) => {
-    //     userStids.push(map[haveStid])
-    // })
-    // return userStids
-
-    return toolBarStore.stids
+    if (!user_store.user.is_staff) return []
+    return user_store.user.groups[0].stids
 })
 
 function set_station(name) {
-    // render_station.value = false
-    // dialog_name.value = name
-
     if (name === 'user_manage') {
         app_store.change_tab(name);
-        // toolBarStore.CURRENT_PAGE('UserManage')
     }
     if (name === 'group_manage') {
         app_store.change_tab(name);
-        // toolBarStore.CURRENT_PAGE('GroupManage')
     }
-
-    // nextTick(() => {
-    //     render_station.value = true
-    // })
 }
+
 </script>

@@ -183,10 +183,6 @@
     // 取得使用者列表
     const get_user_list = async () => {
         const result = await get_user_info()
-        if (result.status !== 'success') {
-            alert_store.show_alert('取得使用者列表失敗', 'error')
-            return
-        }
 
         user_store.set_user_list(result.data.results)
         users.value = user_store.user_list;
@@ -201,7 +197,7 @@
         const keyword = search.toLowerCase()
         const raw_data = item.raw
         const groupNames = (raw_data.groups || [])
-            .map(selected_group_id => select_groups.value.find(group => group.value === selected_group_id)?.text || '')
+            .map(selected_group_id => select_groups.value.find(group => group.id === selected_group_id.id)?.name || '')
             .join('、')
 
         const statusText = raw_data.is_active ? '啟用' : '停用'
