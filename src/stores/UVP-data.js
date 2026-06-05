@@ -2,10 +2,12 @@ import { defineStore } from 'pinia'
 import { 
     get_typhoon_name_data_ajax,
     post_typhoon_track_data_ajax,
+    post_typhoon_filter_parameters_ajax,
     post_uvp_preview_ajax,
     post_uvp_average_ajax
  } from '../js/typhoon-data.js'
 import { get_typhoon_filter_parameters_ajax } from '../js/tide-level.js'
+import { use_alert_store } from './alert.js'
 
 export const use_uvp_data_store = defineStore('uvp_data', {
     state: () => ({
@@ -14,12 +16,19 @@ export const use_uvp_data_store = defineStore('uvp_data', {
             TyNo: '',
             InitialTime: '',
             Category: '',
-            Radius: null,
-            Pressure_range: [null, null],
-            MaxWind_range: [null, null],
-            TranslationSpeed_range: [null, null],
-            CardinalDirection: '',
-            filtered_typhoon_data: []
+            filtered_typhoon_data: [],
+            filter_details: { // tau data info
+                Tau: [0, 12, 24, 48, 72],
+                Radius: [],
+                Pressure_min: [],
+                Pressure_max: [],
+                CardinalDirection: [],
+                TranslationSpeed_min: [],
+                TranslationSpeed_max: [],
+                MaxWind_min: [],
+                MaxWind_max: [],
+            },
+            has_filter_details: false, // 是否有篩選條件資料
         },
         hour: {
             time: '06', // 預設06Z
@@ -91,8 +100,47 @@ export const use_uvp_data_store = defineStore('uvp_data', {
             const { status, data } = await post_typhoon_track_data_ajax(send_data);
             if (status === 'success') {
                 this.category_list = data;
+                this.uvp_data.InitialTime = data.find(item => item.InitialTime.includes(`${this.hour.time}:00:00`))?.InitialTime || this.uvp_data.InitialTime;
             }
             return;
+        },
+        async post_typhoon_filter_parameters(send_data) {
+            const alert_store = use_alert_store()
+            const { status, data } = await post_typhoon_filter_parameters_ajax(send_data);
+            if (status === 'success') {
+                if (!data || data.length === 0) {
+                    this.uvp_data.has_filter_details = false;
+                    alert_store.show_alert('沒有颱風資料', 'warning');
+                    return { success: true, data: [] };
+                }
+                // 清空現有的篩選條件資料
+                this.uvp_data.filter_details = {
+                    Tau: [0, 12, 24, 48, 72],
+                    Radius: [],
+                    Pressure_min: [],
+                    Pressure_max: [],
+                    CardinalDirection: [],
+                    TranslationSpeed_min: [],
+                    TranslationSpeed_max: [],
+                    MaxWind_min: [],
+                    MaxWind_max: [],
+                };
+                const res = data.filter_details.forEach(item => {
+                    this.uvp_data.filter_details.Radius.push(item.Radius)
+                    this.uvp_data.filter_details.Pressure_min.push(item.Pressure_min);
+                    this.uvp_data.filter_details.Pressure_max.push(item.Pressure_max);
+                    this.uvp_data.filter_details.CardinalDirection.push(item.CardinalDirection);
+                    this.uvp_data.filter_details.TranslationSpeed_min.push(item.TranslationSpeed_min);
+                    this.uvp_data.filter_details.TranslationSpeed_max.push(item.TranslationSpeed_max);
+                    this.uvp_data.filter_details.MaxWind_min.push(item.MaxWind_min);
+                    this.uvp_data.filter_details.MaxWind_max.push(item.MaxWind_max);
+                })
+                this.uvp_data.has_filter_details = true; // 標記已獲取篩選條件資料
+                return { success: true, res };
+            }
+            this.uvp_data.has_filter_details = false;
+            alert_store.show_alert('獲取颱風資料失敗', 'error');
+            return { success: false};
         },
         async get_model_data_by_track(send_data) {
             try {

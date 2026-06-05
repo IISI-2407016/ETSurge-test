@@ -1,3 +1,4 @@
+// 權限
 export const stids = [
     {
         key: "official_station",
@@ -39,7 +40,7 @@ export const function_list = [
         title: "傳送非颱風期間圖檔"
     }
 ]
-
+// 規則
 export const password_rules = [
     v => !!v || '請輸入8~16個字元，需包含數字和英文字母及符號',
     v =>
@@ -56,3 +57,11 @@ export const reset_password_rules = [
         || 
         '密碼需包含英文大寫、英文小寫、數字和特殊字元其中三種'
 ]
+
+// 方位
+export const display_directions = [
+    "北(N)", "北北東(NNE)", "東北(NE)", "東北東(ENE)",
+    "東(E)", "東南東(ESE)", "東南(SE)", "南南東(SSE)",
+    "南(S)", "南南西(SSW)", "西南(SW)", "西南西(WSW)",
+    "西(W)", "西北西(WNW)", "西北(NW)", "北北西(NNW)"
+];

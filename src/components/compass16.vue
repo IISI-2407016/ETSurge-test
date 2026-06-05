@@ -28,7 +28,7 @@
                         cursor-pointer 
                         transition-colors
                     "
-                    @click="select_direction(direction, index)"
+                    @click="select_direction(index)"
                 >
                     <span v-html="direction"></span>
                 </div>
@@ -60,7 +60,7 @@
     const compass_store = use_compass_store();
     const is_active = computed(() => compass_store.is_active);
 
-    const select_direction = (direction, index) => {
+    const select_direction = (index) => {
         // 設定選中的方向（使用簡化版本）
         compass_store.set_selected_direction(display_directions[index]);
         emit('set_direction', index);

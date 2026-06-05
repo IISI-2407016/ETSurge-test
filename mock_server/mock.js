@@ -624,7 +624,7 @@ app.patch('/groups/:id/', function(req, res) {
     })
 })
 
-//【颱風】
+//【UVP-颱風】
 // 取得颱風的基本資訊
 app.get('/surge_app/get_typhoon_info/', function(req, res) {
     res.send(typhoon_info_data);
@@ -633,6 +633,89 @@ app.get('/surge_app/get_typhoon_info/', function(req, res) {
 // 取得颱風的路徑資料
 app.post('/surge_app/get_typhoon_track_info/', function(req, res) {
     res.send(typhoon_track_info_data);
+});
+
+// 從 Tafis API 取得颱風預報路徑參數(快速查詢)
+/** 
+ * TyNo: String
+ * InitialTime: "YYYY-MM-DDTHH:mm:ssz"
+*/
+app.post('/surge_app/get_filter_parameters_from_tafis/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "TyNo": "202526",
+            "InitialTime": "2025-11-10T06:00:00Z",
+            "filter_details": [
+                {
+                    "Tau": 0,
+                    "Radius": 250,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": 14,
+                    "TranslationSpeed_min": 11.7,
+                    "TranslationSpeed_max": 14.3,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 250,
+                    "Pressure_min": 855,
+                    "Pressure_max": 1045,
+                    "CardinalDirection": 15,
+                    "TranslationSpeed_min": 13.5,
+                    "TranslationSpeed_max": 16.5,
+                    "MaxWind_min": 36,
+                    "MaxWind_max": 44
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 200,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": 0,
+                    "TranslationSpeed_min": 11.7,
+                    "TranslationSpeed_max": 14.3,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 150,
+                    "Pressure_min": 882,
+                    "Pressure_max": 1078,
+                    "CardinalDirection": 2,
+                    "TranslationSpeed_min": 12.6,
+                    "TranslationSpeed_max": 15.4,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 500,
+                    "Pressure_min": 900,
+                    "Pressure_max": 1100,
+                    "CardinalDirection": 2,
+                    "TranslationSpeed_min": 20.7,
+                    "TranslationSpeed_max": 25.3,
+                    "MaxWind_min": 13.5,
+                    "MaxWind_max": 16.5
+                }
+            ]
+        },
+        "message": "success"
+    })
+    // res.send({
+    //     "status": "success",
+    //     "data": null,
+    //     "message": "No track data found for the given parameters."
+    // })
+    // res.send({
+    //     "status": "error",
+    //     "data": null,
+    //     "message": "No track data found for the given parameters."
+    // })
 });
 
 // 颱風模式資料(預覽資料)
