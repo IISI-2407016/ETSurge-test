@@ -18,6 +18,7 @@
                 :items="select_groups"
                 item-title="name"
                 item-value="id"
+                item-color="blue"
                 chips
                 variant="underlined"
                 @update:modelValue="change_group(item)"
@@ -30,6 +31,7 @@
                 :items="status_list"
                 item-title="text"
                 item-value="value"
+                item-color="blue"
                 height="30"
                 hide-selected
                 variant="underlined"

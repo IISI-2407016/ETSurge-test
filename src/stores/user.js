@@ -113,7 +113,7 @@ export const use_user_store = defineStore('user', {
                     password: item.password,
                     password_confirm: item.check_password
                 }), 
-                '註冊成功', '註冊失敗'
+                '註冊成功', '註冊失敗，請檢查輸入的資料是否正確'
             );
 
             alert_store.show_alert(message, success)
@@ -124,7 +124,7 @@ export const use_user_store = defineStore('user', {
             const alert_store = use_alert_store()
             const {success, message, data} = wrap_api_response(
                 await post_auth_login(params), 
-                '登入成功', '登入失敗'
+                '登入成功', '登入失敗，請檢查帳號密碼是否正確'
             );
 
             alert_store.show_alert(message, success)
@@ -146,7 +146,7 @@ export const use_user_store = defineStore('user', {
             const {success, message} = wrap_api_response(
                 await post_auth_update_user(item.id, send_data), 
                 '更新使用者資料成功', 
-                '更新使用者資料失敗'
+                '更新使用者資料失敗，請檢查輸入的資料是否正確'
             );
 
             alert_store.show_alert(message, success)
@@ -194,7 +194,7 @@ export const use_user_store = defineStore('user', {
             const alert_store = use_alert_store()
             const { success, message } = wrap_api_response(
                 await post_groups_create(data), 
-                '建立群組成功', '建立群組失敗'
+                '建立群組成功', '建立群組失敗，請檢查輸入的資料是否正確'
             );
             alert_store.show_alert(message, success)
         },
@@ -202,7 +202,7 @@ export const use_user_store = defineStore('user', {
             const alert_store = use_alert_store()
             const { success, message } = wrap_api_response(
                 await patch_groups_update(id, data), 
-                '更新群組成功', '更新群組失敗'
+                '更新群組成功', '更新群組失敗，請檢查輸入的資料是否正確'
             );
             alert_store.show_alert(message, success)
         },
