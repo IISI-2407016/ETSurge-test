@@ -11,8 +11,10 @@
                 <v-tab style="font-size: medium;" value="light">系集燈號表格預覧</v-tab>
             </v-tabs>
 
+            <!-- 使用者資料 & 登出 -->
             <user-btn />
 
+            <!-- 設定: 潮位設定 & 帳管設定 -->
             <v-menu
                 v-if="stids.length > 0"
                 open-on-hover
@@ -29,14 +31,19 @@
                     <v-list-item
                         v-for="(stid, i) in stids"
                         :key="i"
-                        @click="set_station(stid.Key)"
+                        @click="current_set(stid)"
                     >
                         <v-list-item-title>{{ stid.Title }}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
 
-            <station-set v-if="render_station" :dialog_name="dialog_name" />
+            <station-set 
+                v-if="dialog_show"
+                :title="dialog_title" 
+                :show="dialog_show" 
+                @update:modelValue="dialog_show = $event"
+            />
         </template>
     </v-app-bar>
 </template>
@@ -60,8 +67,11 @@ const user_store = use_user_store()
 const login_state = computed(() => user_store.is_logged_in)
 
 const tab = ref(props.modelValue);
-const dialog_name = ref('')
-const render_station = ref(false)
+const dialog_title = ref({
+    key: '',
+    title: ''
+})
+const dialog_show = ref(false) 
 
 // 父變動 → 子同步
 watch(() => props.modelValue, (val) => {
@@ -78,13 +88,17 @@ const stids = computed(() => {
     return user_store.user.groups[0].stids
 })
 
-function set_station(name) {
-    if (name === 'user_manage') {
-        app_store.change_tab(name);
+function current_set(set) {
+    if (set.Key === 'user_manage' || set.Key === 'group_manage') {
+        app_store.change_tab(set.Key);
+        return
     }
-    if (name === 'group_manage') {
-        app_store.change_tab(name);
+    else {
+        dialog_title.value = {
+            key: set.Key,
+            title: set.Title
+        }
     }
+    dialog_show.value = true
 }
-
 </script>
