@@ -1,0 +1,312 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "StationID": "1226",
+            "StationName": "龍洞",
+            "StationEngName": "Longdong",
+            "Surgekey": "W1",
+            "Lon": "121.9408",
+            "Lat": "25.1051",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1516",
+            "StationName": "基隆",
+            "StationEngName": "Keelung",
+            "Surgekey": "W2",
+            "Lon": "121.7649",
+            "Lat": "25.1724",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1826",
+            "StationName": "福隆",
+            "StationEngName": "Fulong",
+            "Surgekey": "W3",
+            "Lon": "121.9627",
+            "Lat": "25.0391",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1236",
+            "StationName": "烏石",
+            "StationEngName": "Toucheng",
+            "Surgekey": "W4",
+            "Lon": "121.8647",
+            "Lat": "24.8558",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1246",
+            "StationName": "蘇澳",
+            "StationEngName": "Suao",
+            "Surgekey": "W5",
+            "Lon": "121.8933",
+            "Lat": "24.5953",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1256",
+            "StationName": "花蓮",
+            "StationEngName": "Hualien",
+            "Surgekey": "W6",
+            "Lon": "121.6236",
+            "Lat": "23.9806",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1566",
+            "StationName": "石梯",
+            "StationEngName": "Shiti",
+            "Surgekey": "W7",
+            "Lon": "121.5281",
+            "Lat": "23.4915",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1276",
+            "StationName": "成功",
+            "StationEngName": "Chengkung",
+            "Surgekey": "W8",
+            "Lon": "121.3996",
+            "Lat": "23.0845",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1586",
+            "StationName": "臺東",
+            "StationEngName": "Taitung",
+            "Surgekey": "W9",
+            "Lon": "121.1931",
+            "Lat": "22.7908",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1596",
+            "StationName": "大武",
+            "StationEngName": "Dawu",
+            "Surgekey": "W10",
+            "Lon": "120.9377",
+            "Lat": "22.3336",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1676",
+            "StationName": "綠島",
+            "StationEngName": "Ludao",
+            "Surgekey": "W11",
+            "Lon": "121.2358",
+            "Lat": "22.8140",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1396",
+            "StationName": "蘭嶼",
+            "StationEngName": "Lanyu",
+            "Surgekey": "W12",
+            "Lon": "121.5069",
+            "Lat": "22.0581",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1206",
+            "StationName": "麟山鼻",
+            "StationEngName": "Shimen",
+            "Surgekey": "W13",
+            "Lon": "121.5061",
+            "Lat": "25.2966",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1102",
+            "StationName": "淡水",
+            "StationEngName": "Danshuei",
+            "Surgekey": "W14",
+            "Lon": "121.4045",
+            "Lat": "25.2065",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1116",
+            "StationName": "竹圍",
+            "StationEngName": "Dayuan",
+            "Surgekey": "W15",
+            "Lon": "121.2354",
+            "Lat": "25.1400",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "112",
+            "StationName": "新竹",
+            "StationEngName": "Hsinchu",
+            "Surgekey": "W16",
+            "Lon": "120.8836",
+            "Lat": "24.8767",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "113",
+            "StationName": "外埔",
+            "StationEngName": "Waipu",
+            "Surgekey": "W17",
+            "Lon": "120.7606",
+            "Lat": "24.6632",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1436",
+            "StationName": "臺中港",
+            "StationEngName": "Wuqi",
+            "Surgekey": "W18",
+            "Lon": "120.4670",
+            "Lat": "24.2741",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1146",
+            "StationName": "鹿港",
+            "StationEngName": "LUGANG",
+            "Surgekey": "W19",
+            "Lon": "120.4200",
+            "Lat": "24.0800",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1456",
+            "StationName": "麥寮",
+            "StationEngName": "Mailiao",
+            "Surgekey": "W20",
+            "Lon": "120.1603",
+            "Lat": "23.7861",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1156",
+            "StationName": "臺西",
+            "StationEngName": "Taixi",
+            "Surgekey": "W21",
+            "Lon": "120.1127",
+            "Lat": "23.6181",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1166",
+            "StationName": "東石",
+            "StationEngName": "Dongshi",
+            "Surgekey": "W22",
+            "Lon": "120.1033",
+            "Lat": "23.4404",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1176",
+            "StationName": "將軍",
+            "StationEngName": "Jiangjun",
+            "Surgekey": "W23",
+            "Lon": "120.0638",
+            "Lat": "23.2029",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1473",
+            "StationName": "安平",
+            "StationEngName": "Anping",
+            "Surgekey": "W24",
+            "Lon": "120.1104",
+            "Lat": "22.9502",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1786",
+            "StationName": "永安",
+            "StationEngName": "Yongan",
+            "Surgekey": "W25",
+            "Lon": "120.1495",
+            "Lat": "22.8067",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1486",
+            "StationName": "高雄",
+            "StationEngName": "Kaohsiung",
+            "Surgekey": "W26",
+            "Lon": "120.2243",
+            "Lat": "22.6031",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1186",
+            "StationName": "東港",
+            "StationEngName": "Donggang",
+            "Surgekey": "W27",
+            "Lon": "120.4224",
+            "Lat": "22.4250",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "198",
+            "StationName": "東沙島",
+            "StationEngName": "DongShaDao",
+            "Surgekey": "W28",
+            "Lon": "116.6900",
+            "Lat": "20.7000",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1496",
+            "StationName": "蟳廣嘴",
+            "StationEngName": "Xunguangzuei",
+            "Surgekey": "W29",
+            "Lon": "120.6792",
+            "Lat": "21.9576",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1196",
+            "StationName": "後壁湖",
+            "StationEngName": "SouthBay",
+            "Surgekey": "W30",
+            "Lon": "120.7498",
+            "Lat": "21.9323",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1386",
+            "StationName": "小琉球",
+            "StationEngName": "XiaoLiuqiu",
+            "Surgekey": "W31",
+            "Lon": "120.3833",
+            "Lat": "22.3533",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1356",
+            "StationName": "澎湖",
+            "StationEngName": "Penghu",
+            "Surgekey": "W32",
+            "Lon": "119.5750",
+            "Lat": "23.5247",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1956",
+            "StationName": "料羅灣",
+            "StationEngName": "Kinmen",
+            "Surgekey": "W33",
+            "Lon": "118.4382",
+            "Lat": "24.3697",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        },
+        {
+            "StationID": "1926",
+            "StationName": "馬祖",
+            "StationEngName": "Matsu",
+            "Surgekey": "W34",
+            "Lon": "119.9998",
+            "Lat": "26.1333",
+            "ModifyTime": "2025-04-29T02:25:29Z"
+        }
+    ],
+    "message": "success"
+}

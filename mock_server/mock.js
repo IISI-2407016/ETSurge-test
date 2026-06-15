@@ -4,12 +4,18 @@ const require = createRequire(import.meta.url);
 
 // typhoon data
 const typhoon_average_data = require('./typhoon_data/average_grid_data_by_filtered_typhoon_track_model_data.json');
-const typhoon_track_data = require('./typhoon_data/model_data_by_track.json');
+const typhoon_track_data_official = require('./typhoon_data/model_data_by_track_official.json');
+const typhoon_track_data_ref1 = require('./typhoon_data/model_data_by_track_ref1.json');
+const typhoon_track_data_ref2 = require('./typhoon_data/model_data_by_track_ref2.json');
 const typhoon_info_data = require('./typhoon_data/typhoon_info.json');
 const typhoon_track_info_data = require('./typhoon_data/typhoon_track_info.json');
 const typhoon_filter_parameters_data = require('./typhoon_data/typhoon_filter_parameters.json');
-const tide_station_info_data = require('./typhoon_data/tide_station_info.json');
 const county_tide_warnings_data = require('./typhoon_data/county_tide_warnings.json');
+
+// station set
+const cwa_area_config_data = require('./station_set/cwa_area_config.json');
+const user_tide_station_display_config_data = require('./station_set/user_tide_station_display_config.json');
+const tide_station_info_data = require('./station_set/tide_station_info.json');
 
 // twelve_chart_data 1226,1566,1206,1146,1786,1386
 const twelve_chart_data_1226 = require('./twelve_chart/1226.json');
@@ -624,6 +630,100 @@ app.patch('/groups/:id/', function(req, res) {
     })
 })
 
+//【設定】
+// 取得傳送官網設定
+app.get('/surge_app/get_cwa_area_config/', function(req, res) {
+    res.send(cwa_area_config_data)
+});
+
+// 更新傳送官網設定
+app.post('/surge_app/update_cwa_user_sent_config/', function(req, res) {
+    res.send({
+      "status": "success",
+      "data": {
+        "updated_count": 2,
+        "configs": [
+          {
+            "area_id": 1,
+            "area_code": 2,
+            "area_name": "基隆地區",
+            "station_id": "10001"
+          },
+          {
+            "area_id": 2,
+            "area_code": 6,
+            "area_name": "淡水地區",
+            "station_id": "10003"
+          }
+        ]
+      },
+      "message": "更新成功"
+    })
+})
+
+// 取得顯示測站設定
+app.get('/surge_app/user_tide_station_display_config/', function(req, res) {
+    res.send(user_tide_station_display_config_data)
+})
+
+// 更新顯示測站設定
+app.post('/surge_app/user_tide_station_display_config/', function(req, res) {
+    res.send({
+      "status": "success",
+        "data": {
+            "id": 36,
+            "StationID": "1226",
+            "StationName": "基隆",
+            "StationEngName": "Keelung",
+            "IsDisplay": true,
+            "ModifyTime": "2026-04-21T10:00:00Z"
+        },
+        "message": "更新成功"
+    })
+})
+
+// 取得所有潮位站基本資訊
+app.get('/surge_app/get_tide_station_info/', function(req, res) {
+    res.send(tide_station_info_data);
+});
+
+// @TODO 取得傳送水位設定
+app.get('/surge_app/user_tide_station_config/', function(req, res) {
+    res.send({
+      "status": "success",
+      "data": [
+        // {
+        //   "id": 1,
+        //   "StationID": "46699",
+        //   "StationName": "基隆",
+        //   "StationEngName": "Keelung",
+        //   "DataSource": "surge_model_mod",
+        //   "ModifyTime": "2026-04-21T10:00:00Z"
+        // },
+        // {
+        //   "id": 2,
+        //   "StationID": "46708",
+        //   "StationName": "淡水",
+        //   "StationEngName": "Tamsui",
+        //   "DataSource": "surge_model",
+        //   "ModifyTime": "2026-04-21T10:00:00Z"
+        // }
+      ],
+      "message": "success"
+    });
+});
+
+app.post('/surge_app/user_tide_station_config', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "updated_count": 2,
+            "configs": [
+        ]},
+        "message": "更新成功"
+    })
+})
+
 //【UVP-颱風】
 // 取得颱風的基本資訊
 app.get('/surge_app/get_typhoon_info/', function(req, res) {
@@ -725,7 +825,29 @@ app.post('/surge_app/get_model_data_by_track/', function(req, res) {
     //     "data": null,
     //     "message": "No track data found for the given parameters."
     // });
-    res.send(typhoon_track_data);
+
+    if (req.body.Category === 'official') {
+        res.send(typhoon_track_data_official);
+        // res.send({
+        //     "status": "error",
+        //     "data": null,
+        //     "message": "No track data found for the given parameters."
+        // });
+    } else if (req.body.Category === 'ref1') {
+        res.send(typhoon_track_data_ref1);
+        // res.send({
+        //     "status": "error",
+        //     "data": null,
+        //     "message": "No track data found for the given parameters."
+        // });
+    } else if (req.body.Category === 'ref2') {
+        res.send(typhoon_track_data_ref2);
+        // res.send({
+        //     "status": "error",
+        //     "data": null,
+        //     "message": "No track data found for the given parameters."
+        // });
+    }
 });
 
 // 產製模式平均網格資料(會產檔)
@@ -733,8 +855,8 @@ app.post('/surge_app/get_average_grid_data_by_filtered_typhoon_track_model_data/
     res.send(typhoon_average_data);
 });
 
-// 取得颱風篩選參數資料
-app.get('/surge_app/get_typhoon_filter_parameters/', function(req, res) {
+// 查詢颱風篩選參數紀錄列表
+app.post('/surge_app/get_typhoon_filter_parameters/', function(req, res) {
     res.send(typhoon_filter_parameters_data);
 });
 

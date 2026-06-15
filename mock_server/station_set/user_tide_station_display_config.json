@@ -1,0 +1,278 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "id": 1,
+            "StationID": "1226",
+            "StationName": "龍洞",
+            "StationEngName": "Longdong",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 2,
+            "StationID": "1516",
+            "StationName": "基隆",
+            "StationEngName": "Keelung",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 3,
+            "StationID": "1826",
+            "StationName": "福隆",
+            "StationEngName": "Fulong",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 4,
+            "StationID": "1236",
+            "StationName": "烏石",
+            "StationEngName": "Toucheng",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 5,
+            "StationID": "1246",
+            "StationName": "蘇澳",
+            "StationEngName": "Suao",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 6,
+            "StationID": "1256",
+            "StationName": "花蓮",
+            "StationEngName": "Hualien",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 7,
+            "StationID": "1566",
+            "StationName": "石梯",
+            "StationEngName": "Shiti",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 8,
+            "StationID": "1276",
+            "StationName": "成功",
+            "StationEngName": "Chengkung",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 9,
+            "StationID": "1586",
+            "StationName": "臺東",
+            "StationEngName": "Taitung",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 10,
+            "StationID": "1596",
+            "StationName": "大武",
+            "StationEngName": "Dawu",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 11,
+            "StationID": "1676",
+            "StationName": "綠島",
+            "StationEngName": "Ludao",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 12,
+            "StationID": "1396",
+            "StationName": "蘭嶼",
+            "StationEngName": "Lanyu",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 13,
+            "StationID": "1206",
+            "StationName": "麟山鼻",
+            "StationEngName": "Shimen",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 14,
+            "StationID": "1102",
+            "StationName": "淡水",
+            "StationEngName": "Danshuei",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 15,
+            "StationID": "1116",
+            "StationName": "竹圍",
+            "StationEngName": "Dayuan",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 16,
+            "StationID": "112",
+            "StationName": "新竹",
+            "StationEngName": "Hsinchu",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 17,
+            "StationID": "113",
+            "StationName": "外埔",
+            "StationEngName": "Waipu",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 18,
+            "StationID": "1436",
+            "StationName": "臺中港",
+            "StationEngName": "Wuqi",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 19,
+            "StationID": "1146",
+            "StationName": "鹿港",
+            "StationEngName": "LUGANG",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 20,
+            "StationID": "1456",
+            "StationName": "麥寮",
+            "StationEngName": "Mailiao",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 21,
+            "StationID": "1156",
+            "StationName": "臺西",
+            "StationEngName": "Taixi",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 22,
+            "StationID": "1166",
+            "StationName": "東石",
+            "StationEngName": "Dongshi",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 23,
+            "StationID": "1176",
+            "StationName": "將軍",
+            "StationEngName": "Jiangjun",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 24,
+            "StationID": "1473",
+            "StationName": "安平",
+            "StationEngName": "Anping",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 25,
+            "StationID": "1786",
+            "StationName": "永安",
+            "StationEngName": "Yongan",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 26,
+            "StationID": "1486",
+            "StationName": "高雄",
+            "StationEngName": "Kaohsiung",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 27,
+            "StationID": "1186",
+            "StationName": "東港",
+            "StationEngName": "Donggang",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 28,
+            "StationID": "198",
+            "StationName": "東沙島",
+            "StationEngName": "DongShaDao",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 29,
+            "StationID": "1496",
+            "StationName": "蟳廣嘴",
+            "StationEngName": "Xunguangzuei",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 30,
+            "StationID": "1196",
+            "StationName": "後壁湖",
+            "StationEngName": "SouthBay",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 31,
+            "StationID": "1386",
+            "StationName": "小琉球",
+            "StationEngName": "XiaoLiuqiu",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 32,
+            "StationID": "1356",
+            "StationName": "澎湖",
+            "StationEngName": "Penghu",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 33,
+            "StationID": "1956",
+            "StationName": "料羅灣",
+            "StationEngName": "Kinmen",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        },
+        {
+            "id": 34,
+            "StationID": "1926",
+            "StationName": "馬祖",
+            "StationEngName": "Matsu",
+            "IsDisplayed": true,
+            "ModifyTime": "2026-04-27T08:43:27.330000Z"
+        }
+    ],
+    "message": "success"
+}

@@ -40,6 +40,13 @@ export const function_list = [
         title: "傳送非颱風期間圖檔"
     }
 ]
+
+// 水位設定
+export const setting_model_list = [
+    { text: "暴潮模式+資料庫調和分析+修正", value: "surge_model_mod" },
+    { text: "模式暴潮+資料庫調和分析", value: "surge_model" },
+]
+
 // 規則
 export const password_rules = [
     v => !!v || '請輸入8~16個字元，需包含數字和英文字母及符號',

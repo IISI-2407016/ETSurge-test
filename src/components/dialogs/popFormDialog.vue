@@ -30,33 +30,14 @@
                                 @click:append-inner="item.show_ref && (item.show_ref.value = !item.show_ref.value)"
                             />
                             <!-- Select -->
-                            <v-select
+                            <multi-select-with-all
                                 v-if="item.component === 'select'"
                                 v-model="formModel[item.key]"
-                                :items="item.options"
-                                item-title="text"
-                                item-value="value"
-                                :rules="item.rules"
+                                :item="item.options"
                                 :label="item.label"
-                                variant="underlined"
-                                chips
-                                multiple
+                                :rules="item.rules"
                             >
-                                <template #prepend-item>
-                                    <v-list-item 
-                                        title="全選" 
-                                        @click="toggle_select_all(item.key, item.options)">
-                                        <template #prepend>
-                                            <v-checkbox-btn
-                                                :indeterminate="is_some_selected(item.key) && !is_all_selected(item.key, item.options)"
-                                                :model-value="is_all_selected(item.key, item.options)"
-                                            ></v-checkbox-btn>
-                                        </template>
-                                    </v-list-item>
-
-                                    <v-divider class="mt-2"></v-divider>
-                                </template>
-                            </v-select>
+                            </multi-select-with-all>
                         </template>
                     </v-form>
                 </v-card-text>
@@ -82,9 +63,10 @@
 </template>
 
 <script setup>
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed } from 'vue'
 import { use_alert_store } from '../../stores/alert.js';
 import alertMessageDialog from './alertMessageDialog.vue';
+import multiSelectWithAll from '../multiSelectWithAll.vue';
 
 // 定義 props
 // formData format example: 
@@ -139,25 +121,5 @@ const reset_form = () => {
         if (key === 'id') return
         props.formModel[key] = ''
     })
-}
-
-const is_all_selected = (key, options) => {
-    const selected = props.formModel[key] || []
-    return selected.length === options.length
-}
-
-const is_some_selected = (key) => {
-    const selected = props.formModel[key] || []
-    return selected.length > 0
-}
-
-const toggle_select_all = (key, options) => {
-    const selected = props.formModel[key] || []
-
-    if (selected.length === options.length) {
-        props.formModel[key] = []
-    } else {
-        props.formModel[key] = options.map(option => option.value)
-    }
 }
 </script>

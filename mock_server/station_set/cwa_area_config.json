@@ -1,0 +1,142 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "area_id": 1,
+            "area_code": 2,
+            "area_name": "基隆地區",
+            "stations": [
+                {
+                    "station_id": "1226",
+                    "station_name": "龍洞"
+                },
+                {
+                    "station_id": "1516",
+                    "station_name": "基隆"
+                },
+                {
+                    "station_id": "1826",
+                    "station_name": "福隆"
+                }
+            ],
+            "selected_station_id": null
+        },
+        {
+            "area_id": 2,
+            "area_code": 6,
+            "area_name": "花蓮地區",
+            "stations": [
+                {
+                    "station_id": "1256",
+                    "station_name": "花蓮"
+                },
+                {
+                    "station_id": "1566",
+                    "station_name": "石梯"
+                }
+            ],
+            "selected_station_id": null
+        },
+        {
+            "area_id": 3,
+            "area_code": 9,
+            "area_name": "臺東地區",
+            "stations": [
+                {
+                    "station_id": "1276",
+                    "station_name": "成功"
+                },
+                {
+                    "station_id": "1586",
+                    "station_name": "臺東"
+                },
+                {
+                    "station_id": "1596",
+                    "station_name": "大武"
+                },
+                {
+                    "station_id": "1196",
+                    "station_name": "後壁湖"
+                }
+            ],
+            "selected_station_id": null
+        },
+        {
+            "area_id": 4,
+            "area_code": 14,
+            "area_name": "淡水地區",
+            "stations": [
+                {
+                    "station_id": "1206",
+                    "station_name": "麟山鼻"
+                },
+                {
+                    "station_id": "1102",
+                    "station_name": "淡水"
+                }
+            ],
+            "selected_station_id": null
+        },
+        {
+            "area_id": 5,
+            "area_code": 21,
+            "area_name": "臺西地區",
+            "stations": [
+                {
+                    "station_id": "1456",
+                    "station_name": "麥寮"
+                },
+                {
+                    "station_id": "1156",
+                    "station_name": "臺西"
+                }
+            ],
+            "selected_station_id": null
+        },
+        {
+            "area_id": 6,
+            "area_code": 23,
+            "area_name": "將軍地區",
+            "stations": [
+                {
+                    "station_id": "1166",
+                    "station_name": "東石"
+                },
+                {
+                    "station_id": "1176",
+                    "station_name": "將軍"
+                }
+            ],
+            "selected_station_id": null
+        },
+        {
+            "area_id": 7,
+            "area_code": 26,
+            "area_name": "高雄地區",
+            "stations": [
+                {
+                    "station_id": "1486",
+                    "station_name": "高雄"
+                },
+                {
+                    "station_id": "1186",
+                    "station_name": "東港"
+                }
+            ],
+            "selected_station_id": null
+        },
+        {
+            "area_id": 8,
+            "area_code": 32,
+            "area_name": "澎湖地區",
+            "stations": [
+                {
+                    "station_id": "1356",
+                    "station_name": "澎湖"
+                }
+            ],
+            "selected_station_id": null
+        }
+    ],
+    "message": "取得成功"
+}
