@@ -1,208 +1,218 @@
 <template>
     <loading :is_loading="is_loading" />
     <div>
-        <!-- 篩選條件 -->
-        <v-expansion-panels v-model="panel" class="w-33">
-            <v-expansion-panel>
-                <template #title>
-                    <span class="title-text">UVP篩選條件選單</span>
-                </template>
-                <v-expansion-panel-text
-                    class="overflow-y-auto"
-                    :style="{ height: has_tau_data ? '75vh' : '45vh' }"
-                >
-                    <v-form ref="form_ref" @submit.prevent>
-                        <v-row>
-                            <v-col class="v-col-2 px-0 text-right">
-                                模式選擇
-                            </v-col>
-                            <v-col cols="8" class="pt-0">
-                                <v-select
-                                    v-model="form.ModelNameList"
-                                    density="compact"
-                                    hide-details
-                                    disabled
-                                ></v-select>
-                            </v-col>
-                        </v-row>
-                        <v-row class="align-center">
-                            <v-col class="v-col-2 px-0 text-right">
-                                颱風名稱
-                            </v-col>
-                            <v-col cols="8">
-                                <v-select
-                                    v-model="form.TyNo"
-                                    :items="Ty_list"
-                                    item-title="text"
-                                    item-value="value"
-                                    density="compact"
-                                    hide-details
-                                />
-                            </v-col>
-                        </v-row>
-    
-                        <v-row class="align-center">
-                            <v-col class="v-col-2 px-0 text-right">
-                                初始時間
-                            </v-col>
-                            <v-col cols="5">
-                                <v-menu
-                                    v-model="menu"
-                                    :close-on-content-click="false"
-                                    transition="scale-transition"
-                                    offset-y
-                                    min-width="290px"
-                                >
-                                    <template #activator="{ props }">
-                                        <v-text-field
-                                            v-model="formatted_date"
-                                            readonly
-                                            v-bind="props"
-                                            label="Date"
-                                        ></v-text-field>
-                                    </template>
-    
-                                    <v-date-picker
-                                        v-model="selected_date"
-                                        no-title 
-                                        color="primary"
-                                        label="Date"
-                                        :max="max_date"
-                                        @update:model-value="handle_date_select"
-                                        ></v-date-picker>
-                                </v-menu>
-                            </v-col>
-                            <v-col cols="3" class="pl-0">
-                                <v-select
-                                    v-model="hour.time"
-                                    :items="hour.items"
-                                    label="Hour"
-                                    @update:model-value="uvp_data_store.update_hour"
-                                ></v-select>
-                            </v-col>
-                            <span>UTC</span>
-                        </v-row>
-                        <!-- 自動化欄位 -->
-                        <div v-if="has_tau_data">
-                            <v-row class="align-center">
+        <div class="relative">
+            <e-map 
+                class="absolute inset-0 z-0"
+                style="width: 99%; height: calc(100vh - 5.8rem);"
+                :track_data="drawn_typhoon_category_list"
+            />
+            <!-- 篩選條件 -->
+            <v-expansion-panels v-model="panel" class="w-33 relative z-10">
+                <v-expansion-panel>
+                    <template #title>
+                        <span class="title-text">UVP篩選條件選單</span>
+                    </template>
+                    <v-expansion-panel-text
+                        class="overflow-y-auto"
+                        :style="{ height: has_tau_data ? '75vh' : '45vh' }"
+                    >
+                        <v-form ref="form_ref" @submit.prevent>
+                            <v-row>
                                 <v-col class="v-col-2 px-0 text-right">
-                                    有效半徑
+                                    模式選擇
                                 </v-col>
-                                <v-col cols="8">
-                                    <v-text-field 
-                                        v-model="form.filter_details.Radius" 
-                                        density="compact" 
-                                        :rules="radius_validation"
-                                    />
+                                <v-col cols="8" class="pt-0">
+                                    <v-select
+                                        v-model="form.ModelNameList"
+                                        density="compact"
+                                        item-color="blue"
+                                        hide-details
+                                        disabled
+                                    ></v-select>
                                 </v-col>
-                                <span>km</span>
                             </v-row>
                             <v-row class="align-center">
                                 <v-col class="v-col-2 px-0 text-right">
-                                    中心氣壓
-                                </v-col>
-                                <v-col cols="8" class="pb-0">
-                                    <v-text-field v-model="form.filter_details.Pressure_min" density="compact" :rules="pressure_validation" />
-                                </v-col>
-                                <span>~</span>
-                                <v-col class="v-col-2" />
-                                <v-col cols="8" class="py-0">
-                                    <v-text-field v-model="form.filter_details.Pressure_max" density="compact" :rules="pressure_validation" />
-                                </v-col>
-                                <span>hPa</span>
-                            </v-row>
-                            <v-row class="align-center">
-                                <v-col class="v-col-2 px-0 text-right">
-                                    最大風速
-                                </v-col>
-                                <v-col cols="8"  class="pb-0">
-                                    <v-text-field v-model="form.filter_details.MaxWind_min" density="compact" :rules="maxWind_validation" />
-                                </v-col>
-                                <span>~</span>
-                                <v-col class="v-col-2" />
-                                <v-col cols="8" class="py-0">
-                                    <v-text-field v-model="form.filter_details.MaxWind_max" density="compact" :rules="maxWind_validation" />
-                                </v-col>
-                                <span>m/s</span>
-                            </v-row>
-                            <v-row class="align-center">
-                                <v-col class="v-col-2 px-0 text-right">
-                                    移速
-                                </v-col>
-                                <v-col cols="8" class="pb-0">
-                                    <v-text-field v-model="form.filter_details.TranslationSpeed_min" density="compact" :rules="speed_validation" />
-                                </v-col>
-                                <span>~</span>
-                                <v-col class="v-col-2" />
-                                <v-col cols="8" class="py-0">
-                                    <v-text-field v-model="form.filter_details.TranslationSpeed_max" density="compact" :rules="speed_validation" />
-                                </v-col>
-                                <span>km/hr</span>
-                            </v-row>
-                            <v-row class="align-center">
-                                <v-col class="v-col-2 px-0 text-right">
-                                    移向
+                                    颱風名稱
                                 </v-col>
                                 <v-col cols="8">
                                     <v-select
-                                        v-model="direction"
-                                        :items="direction_items"
-                                        item-title="title"
+                                        v-model="form.TyNo"
+                                        :items="Ty_list"
+                                        item-title="text"
                                         item-value="value"
-                                        multiple
-                                        chips
-                                        clearable
-                                        closable-chips
-                                        :rules="direction_validation"
+                                        item-color="blue"
+                                        density="compact"
+                                        hide-details
                                     />
                                 </v-col>
-                                <span>16方位</span>
                             </v-row>
-
-                            <!-- 預覽查詢 -->
-                            <v-row class="justify-center">
-                                <v-col cols="10" class="text-center pb-0">
-                                    <v-btn 
-                                        type="submit"
-                                        class="text-none text-subtitle-1"
-                                        color="primary"
-                                        variant="flat"
-                                        prepend-icon="mdi mdi-magnify"
-                                        @click="search">
-                                        預覽查詢
-                                    </v-btn>
+        
+                            <v-row class="align-center">
+                                <v-col class="v-col-2 px-0 text-right">
+                                    初始時間
                                 </v-col>
-                                <v-col cols="10" class="text-center">
-                                    <v-btn 
-                                        class="text-none text-subtitle-1"
-                                        color="success"
-                                        variant="flat"
-                                        prepend-icon="mdi mdi-calculator"
-                                        :disabled="!has_search || search_results.length === 0"
-                                        @click="show_message">
-                                        計算系集平均
-                                    </v-btn>
+                                <v-col cols="5">
+                                    <v-menu
+                                        v-model="menu"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
+                                        min-width="290px"
+                                    >
+                                        <template #activator="{ props }">
+                                            <v-text-field
+                                                v-model="formatted_date"
+                                                readonly
+                                                v-bind="props"
+                                                label="Date"
+                                            ></v-text-field>
+                                        </template>
+        
+                                        <v-date-picker
+                                            v-model="selected_date"
+                                            no-title 
+                                            color="primary"
+                                            label="Date"
+                                            :max="max_date"
+                                            @update:model-value="handle_date_select"
+                                            ></v-date-picker>
+                                    </v-menu>
                                 </v-col>
+                                <v-col cols="3" class="pl-0">
+                                    <v-select
+                                        v-model="hour.time"
+                                        :items="hour.items"
+                                        item-color="blue"
+                                        label="Hour"
+                                        @update:model-value="uvp_data_store.update_hour"
+                                    ></v-select>
+                                </v-col>
+                                <span>UTC</span>
                             </v-row>
-                        </div>
-                        <div v-else>
-                            <v-row>
-                                <v-col class="text-center">
-                                    <span class="mdi mdi-alert-circle-outline"></span>
-                                    沒有颱風資料
-                                </v-col>
-                            </v-row>
-                        </div>
-                    </v-form>
-                </v-expansion-panel-text>
-            </v-expansion-panel>
-            <!-- @TODO 放在共用區一起使用 -->
-            <!-- <alert-message-dialog 
-                v-model="error_message_valid"
-                :message="error_message"
-                :type="message_type"
-            /> -->
-        </v-expansion-panels>
+                            <!-- 自動化欄位 -->
+                            <div v-if="has_tau_data">
+                                <v-row class="align-center">
+                                    <v-col class="v-col-2 px-0 text-right">
+                                        有效半徑
+                                    </v-col>
+                                    <v-col cols="8">
+                                        <v-text-field 
+                                            v-model="form.filter_details.Radius" 
+                                            density="compact" 
+                                            :rules="radius_validation"
+                                        />
+                                    </v-col>
+                                    <span>km</span>
+                                </v-row>
+                                <v-row class="align-center">
+                                    <v-col class="v-col-2 px-0 text-right">
+                                        中心氣壓
+                                    </v-col>
+                                    <v-col cols="8" class="pb-0">
+                                        <v-text-field v-model="form.filter_details.Pressure_min" density="compact" :rules="pressure_validation" />
+                                    </v-col>
+                                    <span>~</span>
+                                    <v-col class="v-col-2" />
+                                    <v-col cols="8" class="py-0">
+                                        <v-text-field v-model="form.filter_details.Pressure_max" density="compact" :rules="pressure_validation" />
+                                    </v-col>
+                                    <span>hPa</span>
+                                </v-row>
+                                <v-row class="align-center">
+                                    <v-col class="v-col-2 px-0 text-right">
+                                        最大風速
+                                    </v-col>
+                                    <v-col cols="8"  class="pb-0">
+                                        <v-text-field v-model="form.filter_details.MaxWind_min" density="compact" :rules="maxWind_validation" />
+                                    </v-col>
+                                    <span>~</span>
+                                    <v-col class="v-col-2" />
+                                    <v-col cols="8" class="py-0">
+                                        <v-text-field v-model="form.filter_details.MaxWind_max" density="compact" :rules="maxWind_validation" />
+                                    </v-col>
+                                    <span>m/s</span>
+                                </v-row>
+                                <v-row class="align-center">
+                                    <v-col class="v-col-2 px-0 text-right">
+                                        移速
+                                    </v-col>
+                                    <v-col cols="8" class="pb-0">
+                                        <v-text-field v-model="form.filter_details.TranslationSpeed_min" density="compact" :rules="speed_validation" />
+                                    </v-col>
+                                    <span>~</span>
+                                    <v-col class="v-col-2" />
+                                    <v-col cols="8" class="py-0">
+                                        <v-text-field v-model="form.filter_details.TranslationSpeed_max" density="compact" :rules="speed_validation" />
+                                    </v-col>
+                                    <span>km/hr</span>
+                                </v-row>
+                                <v-row class="align-center">
+                                    <v-col class="v-col-2 px-0 text-right">
+                                        移向
+                                    </v-col>
+                                    <v-col cols="8">
+                                        <v-select
+                                            v-model="direction"
+                                            :items="direction_items"
+                                            item-title="title"
+                                            item-value="value"
+                                            multiple
+                                            chips
+                                            clearable
+                                            closable-chips
+                                            :rules="direction_validation"
+                                        />
+                                    </v-col>
+                                    <span>16方位</span>
+                                </v-row>
+    
+                                <!-- 預覽查詢 -->
+                                <v-row class="justify-center">
+                                    <v-col cols="10" class="text-center pb-0">
+                                        <v-btn 
+                                            type="submit"
+                                            class="text-none text-subtitle-1"
+                                            color="primary"
+                                            variant="flat"
+                                            prepend-icon="mdi mdi-magnify"
+                                            @click="search">
+                                            預覽查詢
+                                        </v-btn>
+                                    </v-col>
+                                    <v-col cols="10" class="text-center">
+                                        <v-btn 
+                                            class="text-none text-subtitle-1"
+                                            color="success"
+                                            variant="flat"
+                                            prepend-icon="mdi mdi-calculator"
+                                            :disabled="!has_search || search_results.length === 0"
+                                            @click="show_message">
+                                            計算系集平均
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
+                            </div>
+                            <div v-else>
+                                <v-row>
+                                    <v-col class="text-center">
+                                        <span class="mdi mdi-alert-circle-outline"></span>
+                                        沒有颱風資料
+                                    </v-col>
+                                </v-row>
+                            </div>
+                        </v-form>
+                    </v-expansion-panel-text>
+                </v-expansion-panel>
+                <!-- @TODO 放在共用區一起使用 -->
+                <!-- <alert-message-dialog 
+                    v-model="error_message_valid"
+                    :message="error_message"
+                    :type="message_type"
+                /> -->
+            </v-expansion-panels>
+        </div>
         <message-dialog 
             :model_value="message_valid"
             :message="message"
@@ -222,6 +232,7 @@
     import loading from '../components/loading.vue';
     import messageDialog from '../components/dialogs/messageDialog.vue';
     import alertMessageDialog from '../components/dialogs/alertMessageDialog.vue';
+    import eMap from '@/components/eMap.vue';
 
     const app_store = use_app_store();
     const uvp_data_store = use_uvp_data_store();
@@ -252,9 +263,8 @@
     const max_date = computed(() => new Date()); // 最大可選日期
     const form = computed(() => uvp_data_store.uvp_data);
     const hour = computed(() => uvp_data_store.hour);
-    const has_tau_data = computed(() => {
-        return uvp_data_store.uvp_data.has_filter_details;
-    });
+    const has_tau_data = computed(() => uvp_data_store.uvp_data.has_filter_details);
+    const drawn_typhoon_category_list = computed(() => uvp_data_store.drawn_typhoon_category_list);
     const selected_date = computed({
         get: () => {
             if (!form.value.InitialTime) return new Date();
@@ -434,7 +444,7 @@
         return true;
     };
 
-    // 查詢
+    // 查詢: *目前傳遞資料上都有綁路徑，意思是每次查詢都需要將三個路徑依序塞進API做處理，之後可以優化成只載入一次資料後，前端根據條件篩選資料，或是增加一個API專門處理篩選邏輯
     const search = async () => {
         const { valid } = await form_ref.value.validate();
         if (!valid) return;
@@ -445,16 +455,29 @@
         uvp_data_store.reset_filtered_typhoon_data(); // 重置篩選颱風資料
         uvp_data_store.save_UVP_data(form.value, hour.value.time); // 紀錄欄位內容
         const res_data = UVP_filter_details_format(form.value); // 格式化篩選條件資料以符合傳送需求
-        const res = await uvp_data_store.get_model_data_by_track(res_data);
 
-        if (!res.success || res.data.length === 0) {
+        const record_err_msg = []; // 紀錄查無資料的類別
+        // 路徑種類有三種: official、ref1、ref2
+        for(let i = 0; i < 3; i++) {
+            const category = ['official', 'ref1', 'ref2'][i];
+            const res = await uvp_data_store.get_model_data_by_track({
+                ...res_data,
+                Category: category
+            });
+            if (!res.success || res.data.length === 0) {
+                record_err_msg.push(category);
+            }
+        }
+        if (record_err_msg.length > 0) {
+            const err_msg = record_err_msg.join(', ');
+            alert_store.show_alert(`查無符合條件的${err_msg}颱風資料，請調整篩選條件後再試一次。`, 'warning');
             is_loading.value = false;
-            alert_store.show_alert('查無符合條件的颱風資料，請調整篩選條件後再試一次。', 'error');
             return;
         }
 
+        // @TODO 三次
         has_search.value = true;
-        form.value.filtered_typhoon_data = uvp_data_store.search_results;
+        // form.value.filtered_typhoon_data = uvp_data_store.search_results;
         search_results.value = uvp_data_store.search_results.map(item => item.model_data);
         is_loading.value = false;
         console.log('search_results:', search_results.value);
@@ -467,13 +490,23 @@
         message_valid.value = true;
     }
 
-    // 切換頁籤至潮位頁面
+    // 計算系集平均並切換頁籤至潮位頁面
     // TODO 切換連貫性拿掉，改成直接在此頁面顯示計算結果
     const change_tab = async () => {
         is_loading.value = true;
 
-        await bring_average_typhoon_data();
-        await get_typhoon_data();
+        // @TODO 送三次等待所有結果回來才算完成
+        for(let i = 0; i < 3; i++) {
+            const category = ['official', 'ref1', 'ref2'][i];
+            form.value.Category = category;
+            form.value.filtered_typhoon_data = uvp_data_store.drawn_typhoon_category_list[category] || [];
+            await bring_average_typhoon_data();
+        }
+
+        // await bring_average_typhoon_data();
+        await post_typhoon_data(); // @TODO 這邊call一次就好，然後要等系集計算完畢
+        // @TODO 回傳的10筆資料歸類，目前看可以用時間分類
+        // @TODO 如果從第二tab回到第一tab，則可以點擊"計算系集平均"按鈕
 
         is_loading.value = false;
         app_store.change_tab('tide_level');
@@ -487,8 +520,17 @@
         }
     }
 
-    const get_typhoon_data = async () => {
-        const res = await uvp_data_store.get_typhoon_data();
+    const post_typhoon_data = async () => {
+        const send_data = {
+            TyNo: form.value.TyNo,
+            ModelNameList: form.value.ModelNameList,
+            // Category: form.value.Category,
+            InitialTime: form.value.InitialTime,
+            IsEnsemble: true,  // 是否為系集模式資料
+            IsFileReady: true, // 是否檔案已準備好
+            limit: 10          // 預設10筆，最大100筆
+        }
+        const res = await uvp_data_store.post_typhoon_data(send_data);
         if(!res.success) {
             return;
         }

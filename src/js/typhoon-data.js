@@ -9,7 +9,7 @@ export const post_typhoon_track_data_ajax = (send_data) =>
     apiRequest("post", "/surge_app/get_typhoon_track_info/", send_data);
 
 // [UVP設定] 從 Tafis API 取得颱風預報路徑參數(快速查詢)
-export const post_typhoon_filter_parameters_ajax = (send_data) =>
+export const post_typhoon_filter_parameters_from_tafis_ajax = (send_data) =>
     apiRequest("post", "/surge_app/get_filter_parameters_from_tafis/", send_data);
 
 // 預覽查詢

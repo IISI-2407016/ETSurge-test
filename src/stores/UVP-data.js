@@ -2,11 +2,11 @@ import { defineStore } from 'pinia'
 import { 
     get_typhoon_name_data_ajax,
     post_typhoon_track_data_ajax,
-    post_typhoon_filter_parameters_ajax,
+    post_typhoon_filter_parameters_from_tafis_ajax,
     post_uvp_preview_ajax,
     post_uvp_average_ajax
  } from '../js/typhoon-data.js'
-import { get_typhoon_filter_parameters_ajax } from '../js/tide-level.js'
+import { post_typhoon_filter_parameters_ajax } from '../js/tide-level.js'
 import { use_alert_store } from './alert.js'
 
 export const use_uvp_data_store = defineStore('uvp_data', {
@@ -38,6 +38,7 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         tide_list: [],
         category_list: [],
         search_results: [],
+        drawn_typhoon_category_list: {}, // 繪製在地圖上的颱風軌跡類別資料
         average_typhoon_data: [],
         angle: 0,
         is_active: false,
@@ -106,7 +107,7 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         },
         async post_typhoon_filter_parameters(send_data) {
             const alert_store = use_alert_store()
-            const { status, data } = await post_typhoon_filter_parameters_ajax(send_data);
+            const { status, data } = await post_typhoon_filter_parameters_from_tafis_ajax(send_data);
             if (status === 'success') {
                 if (!data || data.length === 0) {
                     this.uvp_data.has_filter_details = false;
@@ -145,15 +146,17 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         async get_model_data_by_track(send_data) {
             try {
                 const response = await post_uvp_preview_ajax(send_data);
-                
                 if (response && response.status === 'success' && response.data) {
                     this.search_results = response.data;
+                    this.drawn_typhoon_category_list[send_data.Category] = response.data;
+                    console.log("drawn_typhoon_category_list DATA: ", this.drawn_typhoon_category_list);
 
                     return { success: true, data: response.data };
                 } else {
                     throw new Error('ERROR:::get_model_data_by_track()');
                 }
             } catch (error) {
+                this.drawn_typhoon_category_list = []; // 查無資料時清空繪製的颱風軌跡類別資料
                 return { success: false, error };
             }
         },
@@ -182,15 +185,15 @@ export const use_uvp_data_store = defineStore('uvp_data', {
                 return { success: false, error };
             }
         },
-        async get_typhoon_data() {
+        async post_typhoon_data(send_data) {
             try {
-                const response = await get_typhoon_filter_parameters_ajax();
+                const response = await post_typhoon_filter_parameters_ajax(send_data);
                 if (response && response.status === 'success' && response.data) {
                     this.tide_list = response.data;
 
                     return { success: true, data: response.data };
                 } else {
-                    throw new Error('ERROR:::get_typhoon_data()');
+                    throw new Error('ERROR:::post_typhoon_data()');
                 }
             } catch (error) {
                 return { success: false, error };

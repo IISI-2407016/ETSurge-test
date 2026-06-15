@@ -3,15 +3,16 @@
         <v-card flat tile>
             <tool-bar v-model="current_tab"/>
             <v-main>
+                <!-- 這邊放的是 web 不是 pop 視窗 -->
                 <v-container fluid class="pa-4">
                     <div v-if="current_tab === 'uvp'">
-                        <div class="fixed z-10 w-100">
+                        <div class="fixed z-10 w-100 h-100 pr-3">
                             <UVP-view />
                         </div>
                         <div 
                             v-if="uvp_data_store.search_results.length > 0 && current_tab === 'uvp'" 
                             class="relative z-1">
-                            {{ uvp_data_store.search_results }}
+                            <!-- {{ uvp_data_store.search_results }} -->
                         </div>
                     </div>
                     <div v-else-if="current_tab === 'tide_level'">

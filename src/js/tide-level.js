@@ -1,8 +1,8 @@
 import { apiRequest } from "../utils/api-request.js";
 
-// 取得颱風篩選參數資料
-export const get_typhoon_filter_parameters_ajax = () => 
-    apiRequest("get", "/surge_app/get_typhoon_filter_parameters/");
+// 查詢颱風篩選參數紀錄列表
+export const post_typhoon_filter_parameters_ajax = () => 
+    apiRequest("post", "/surge_app/get_typhoon_filter_parameters/");
 
 // 取得所有潮位站基本資訊
 export const get_tide_station_info_ajax = () => 

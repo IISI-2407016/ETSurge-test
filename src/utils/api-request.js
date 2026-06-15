@@ -39,6 +39,6 @@ export function wrap_api_response(result, successMsg = '', failMsg = '') {
     return { 
         success: 'error', 
         data: null, 
-        message: result.message || failMsg, error: result.data 
+        message: failMsg || result.message, error: result.data 
     };
 }
