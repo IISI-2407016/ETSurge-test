@@ -107,8 +107,20 @@ async function login_confirm() {
     }
 
     const result = await user_store.login_confirm(params)
+    if (!result) return
+
+    // 把 token 保存到 localStorage
+    if (result.access) {
+        localStorage.setItem('access_token', result.access)
+    }
+    if (result.refresh) {
+        localStorage.setItem('refresh_token', result.refresh)
+    }
+
     user_store.toggle_login_state(true)
     user_store.set_user(result.user)
+    user_store.start_session_refresh()
+
     await user_store.fetch_user_groups(result.user.pk) // 取得完整的使用者資訊（包含群組）
     await user_store.set_groups_options() // 設定群組功能的可選項目清單
     // 登入成功後跳轉到主頁面

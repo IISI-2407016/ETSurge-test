@@ -9,7 +9,8 @@ import { get_group_function_options,
 } from '../js/user.js'
 import { post_auth_token_refresh, 
         post_auth_registration,
-        post_auth_login
+        post_auth_login,
+        post_check_login
 } from '../js/login.js'
 import { use_alert_store } from '@/stores/alert'
 import { wrap_api_response } from '../utils/api-request.js';
@@ -35,10 +36,12 @@ export const use_user_store = defineStore('user', {
             }
         ],
         select_groups: [],
-        login_state: false,
         show_forgot_password_dialog: false, // 忘記密碼視窗開關
         stids: [],
         function_list: [],
+        auth_initialized: false, // 用於標記是否已完成初始驗證
+        auth_loading: false, // 用於標記驗證過程中是否正在加載
+        bootstrap_promise: null, // 用於存儲 bootstrap_session 的 Promise，避免重複呼叫
     }),
     actions: {
         set_user(newUser) {
@@ -67,7 +70,36 @@ export const use_user_store = defineStore('user', {
         logout() {
             this.user = {}
             this.is_logged_in = false
-            // 清除其他相關狀態
+            this.stop_session_refresh();
+        },
+        async bootstrap_session() {
+            // 若已初始化或正在初始化，就不要再呼叫
+            if (this.auth_initialized || this.auth_loading) {
+                return
+            }
+            this.auth_loading = true; // 開始驗證，設置加載狀態
+            this.bootstrap_promise = (async () => {
+                try {
+                    const { status, data } = await post_check_login()
+                    if (status === 'success') {
+                        this.toggle_login_state(true)
+                        this.user = data.user
+                        this.start_session_refresh()
+                        await this.fetch_user_groups(data.user.pk)
+                        await this.set_groups_options()
+                    } else {
+                        this.is_logged_in = false
+                        this.user = {}
+                        this.stop_session_refresh()
+                    }
+                } finally {
+                    this.auth_initialized = true
+                    this.auth_loading = false
+                    this.bootstrap_promise = null
+                }
+            })()
+
+            return this.bootstrap_promise
         },
 
         // 啟動自動 session 刷新
