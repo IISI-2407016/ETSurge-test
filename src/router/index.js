@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { use_user_store } from '@/stores/user.js'
 import login from '../views/login.vue'
+import resetPassword from '../views/resetPassword.vue'
 import main from '../views/main.vue'
 
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
         name: 'main',
         component: main,
         meta: { requiresAuth: true } // 需要登入權限
+    },
+    {
+        path: '/reset-password',
+        name: 'ResetPassword',
+        component: resetPassword
     }
 ]
 

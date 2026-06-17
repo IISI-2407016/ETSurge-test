@@ -10,7 +10,9 @@ import { get_group_function_options,
 import { post_auth_token_refresh, 
         post_auth_registration,
         post_auth_login,
-        post_check_login
+        post_check_login,
+        post_auth_password_reset,
+        post_auth_password_reset_confirm
 } from '../js/login.js'
 import { use_alert_store } from '@/stores/alert'
 import { wrap_api_response } from '../utils/api-request.js';
@@ -161,6 +163,24 @@ export const use_user_store = defineStore('user', {
 
             alert_store.show_alert(message, success)
             return data;
+        },
+
+        // 忘記密碼
+        async forgot_password_confirm(params) {
+            const alert_store = use_alert_store()
+            const {success, message, data} = wrap_api_response(
+                await post_auth_password_reset(params), 
+                '重新寄送密碼至您的信箱，請檢查信箱', '重新寄送密碼失敗，輸入信箱不存在，請檢查輸入的資料是否正確'
+            );
+
+            alert_store.show_alert(message, success)
+            return {success, data};
+        },
+
+        // 重設密碼
+        async reset_password_confirm(params) {
+            const result = await post_auth_password_reset_confirm(params)
+            return result;
         },
 
         // 修改使用者資訊

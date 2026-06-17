@@ -4,7 +4,7 @@
             <v-card>
                 <!-- 標題區 -->
                 <v-card-actions class="justify-space-between">
-                    <v-card-title class="headline">忘記密碼</v-card-title>
+                    <v-card-title class="text-h5 font-weight-bold">忘記密碼</v-card-title>
                     <v-btn
                         icon
                         dark
@@ -16,20 +16,23 @@
                     >
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
+
                 </v-card-actions>
+                <v-alert
+                    color="info"
+                    type="info"
+                    variant="tonal"
+                    density="compact"
+                    class="forgot-alert px-2 w-76 mx-auto"
+                >
+                    輸入註冊會員之信箱，我們會重新寄送密碼重設之連結。
+                </v-alert>
                 <!-- 表單內容 -->
-                <v-card-text cols="12">
+                <v-card-text>
                     <v-form
-                        v-model="forgot_password_valid"
+                        ref="forgot_password_valid"
                         lazy-validation
                     >
-                        <v-text-field
-                          v-model="forgot.account"
-                          label="帳號"
-                          required
-                          :rules="account_rules"
-                          autofocus
-                        ></v-text-field>
                         <v-text-field
                           v-model="forgot.email"
                           label="信箱"
@@ -37,8 +40,9 @@
                           :rules="email_rules"
                         ></v-text-field>
                     </v-form>
+                    
                     <v-form
-                        v-model="verify_code_valid"
+                        ref="verify_code_valid"
                         lazy-validation
                     >
                         <v-row>
@@ -98,23 +102,19 @@
 import { ref, reactive, computed } from 'vue'
 import { use_user_store } from '../../stores/user.js'
 import {
-    forgot_password_ajax,
     send_verify_code_ajax,
 } from '../../js/user.js'
 
 const user_store = use_user_store()
 const forgot = reactive({
-    account: '',
     email: '',
-    verify_code: '',
 })
-const verify_code_valid = ref(false)
+
 const forgot_password_valid = ref(false)
 const send_verify_lock = ref(false)
 const verify_lock_message = ref('')
 
 // 表單驗證規則
-const account_rules = [(v) => !!v || '請輸入帳號']
 const email_rules = [
     (v) => !!v || '請輸入信箱',
     (v) =>
@@ -143,8 +143,19 @@ async function send_verify_confirm() {
 }
 // 忘記密碼確認
 async function forgot_password_confirm() {
-    const valid = verify_code_valid.value?.validate()
+    const { valid } = await forgot_password_valid.value?.validate()
     if (!valid) return
-    await forgot_password_ajax.call({ forgot })
+
+    const send_data = { email: forgot.email }
+    const { success } = await user_store.forgot_password_confirm(send_data)
+    if(success !== 'success') return
+
+    show_forgot_password.value = false
 }
 </script>
+
+<style scoped>
+.forgot-alert :deep(.v-alert__prepend) {
+    margin-inline-end: 6px; /* icon 與文字距離 */
+}
+</style>

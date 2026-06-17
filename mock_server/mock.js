@@ -129,6 +129,45 @@ app.post('/auth/register/', function(req, res) {
     })
 })
 
+// 忘記密碼
+app.post('/auth/password/reset/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "detail": "Password reset e-mail has been sent."
+        },
+        "message": "success"
+   });
+
+//     res.status(400).send({
+//         "status": "error",
+//         "data": {
+//             "email": ["Enter a valid email address."]
+//         },
+//         "message": "error"
+//    })
+});
+
+// 重設密碼
+app.post('/auth/password/reset/confirm/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "detail": "Password has been reset with the new password."
+        },
+        "message": "success"
+   })
+
+//    res.status(400).send({
+//         "status": "error",
+//         "data": {
+//             "uid": ["Invalid value"],
+//             "token": ["Invalid value"]
+//         },
+//         "message": "error"
+//    })
+})
+
 // 登出
 app.post('/auth/logout/', function(req, res) {
     res.send({
