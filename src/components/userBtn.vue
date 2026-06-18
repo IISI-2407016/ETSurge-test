@@ -113,8 +113,6 @@ function open_edit() {
 // 更新使用者資料
 const handle_confirm = async (item) => {
   await user_store.edit_user_confirm(item)
-  const result = await get_user_id_info(item.id)
-  user_store.set_user(result.data)
 }
 
 function page_change() {

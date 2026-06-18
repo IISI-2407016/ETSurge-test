@@ -3,7 +3,7 @@
         <v-dialog v-model="show_user_edit" max-width="350">
             <v-card class="pb-2">
                 <v-card-actions class="justify-space-between">
-                    <v-card-title>
+                    <v-card-title class="text-h5 font-weight-bold">
                         {{ title }}
                     </v-card-title>
                     <v-btn

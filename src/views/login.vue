@@ -4,59 +4,58 @@
             <v-toolbar-title class="text-h5">暴潮系集展示系統</v-toolbar-title>
         </v-app-bar>
         <v-main>
-            <v-container class="mt-8 ms-auto d-flex justify-center">
-                <v-card
-                    max-width="300"
-                    min-width="250"
-                    v-on:keyup.enter="login_confirm"
-                    class="grey lighten-5"
-                >
-                    <v-card-title class="headline blue-grey--text text--darken-4">
-                        會員登入
-                    </v-card-title>
-                    <v-col cols="12">
-                        <v-form v-model="is_login_form_valid" ref="login_form">
-                            <v-text-field
-                                v-model="account"
-                                label="帳號"
-                                autofocus
-                                :rules="account_rules"
-                                type="account"
-                                name="account"
-                                required
-                            ></v-text-field>
-                            <v-text-field
-                                v-model="password"
-                                name="password"
-                                label="密碼"
-                                class="mt-3"
-                                :rules="password_rules"
-                                :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                                :type="show ? 'text' : 'password'"
-                                @click:append-inner="show = !show"
-                            ></v-text-field>
-                        </v-form>
+            <v-container class="ms-auto d-flex justify-center mt-8">
+                <v-row justify="center">
+                    <v-col cols="12" sm="8" md="5" lg="2">
+                        <v-card
+                            v-on:keyup.enter="login_confirm"
+                            class="grey lighten-5 elevation-12 rounded-lg pa-4"
+                        >
+                            <v-card-title class="text-h5 font-weight-bold my-2">
+                                會員登入
+                            </v-card-title>
+                            <v-card-text>
+                                <v-form ref="login_form">
+                                    <v-text-field
+                                        v-model="account"
+                                        label="帳號"
+                                        autofocus
+                                        :rules="account_rules"
+                                        type="account"
+                                        name="account"
+                                        required
+                                    ></v-text-field>
+                                    <v-text-field
+                                        v-model="password"
+                                        name="password"
+                                        label="密碼"
+                                        :rules="password_rules"
+                                        :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                        :type="show ? 'text' : 'password'"
+                                        @click:append-inner="show = !show"
+                                    ></v-text-field>
+                                </v-form>
+                                <v-card-actions class="justify-end pr-0">
+                                    <v-btn 
+                                        color="green darken-1" 
+                                        dark 
+                                        variant="flat" 
+                                        @click="login_confirm()">
+                                        登入
+                                    </v-btn>
+                                </v-card-actions>
+                                <v-card-actions class="justify-center">
+                                    <v-btn color="info" text @click="open_signup()">
+                                        註冊
+                                    </v-btn>
+                                    <v-btn color="info" text @click="open_forgot_password()">
+                                        忘記密碼?
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn 
-                            color="green darken-1" 
-                            dark 
-                            variant="flat" 
-                            @click="login_confirm()">
-                            登入
-                        </v-btn>
-                    </v-card-actions>
-                    <v-card-actions class="justify-center">
-                        <v-btn color="info" text @click="open_signup()">
-                            註冊
-                        </v-btn>
-                        <v-btn color="info" text @click="open_forgot_password()">
-                            忘記密碼?
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-        
+                </v-row> 
                 <forgot-password-dialog />
 
                 <signup-dialog v-model="dialog"/>
@@ -77,8 +76,6 @@ const dialog = ref(false)
 
 // 表單資料與狀態
 const login_form = ref(null) // 專門拿來呼叫 validate()
-const is_login_form_valid = ref(false) // v-model 綁定這個 Boolean
-
 const account = ref('')
 const password = ref('')
 const show = ref(false) // 密碼欄位是否顯示明文，預設為 false（不顯示）

@@ -202,6 +202,13 @@ export const use_user_store = defineStore('user', {
             );
 
             alert_store.show_alert(message, success)
+
+            if (success !== 'success') return
+            this.user = {
+                ...this.user,
+                email: item.email,
+                first_name: item.first_name,
+            }
         },
 
         // 取得群組功能選項
