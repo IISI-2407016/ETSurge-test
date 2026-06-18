@@ -37,12 +37,14 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         Ty_info: [],
         tide_list: [],
         category_list: [],
-        search_results: [],
+        search_results: [], // 查詢結果
         drawn_typhoon_category_list: {}, // 繪製在地圖上的颱風軌跡類別資料
         average_typhoon_data: [],
         angle: 0,
         is_active: false,
-        selected_direction: ''
+        selected_direction: '',
+        preview_signature: '',
+        has_preview_result: false // 是否有預覽結果的標記
     }),
     actions: {
         activate() {

@@ -1,8 +1,5 @@
 <template>
-    <div v-if="is_active">
-        <div class="text-right p-2 border-b border-gray-300">
-            <button @click="close_compass" class="hover:bg-red-100 position-relative left-4 mdi mdi-close-circle" />
-        </div>
+    <div class="bg-white shadow-[0_8px_20px_rgba(0,0,0,0.16)] rounded-lg pa-2">
         <div class="flex justify-center items-center">
             <div class="
                 grid grid-cols-4 
@@ -34,11 +31,21 @@
                 </div>
             </div>
         </div>
+        <div class="text-center mt-2">
+            <v-btn
+                class="w-full"
+                color="info"
+                @click="close_compass"
+            >
+            關閉
+            </v-btn>
+        </div>
     </div>
 </template>
 
 <script setup>
     import { computed } from 'vue';
+    import { use_uvp_data_store } from '../stores/UVP-data.js';
     import { use_compass_store } from '../stores/compass';
 
     const emit = defineEmits(['set_direction']);
@@ -58,13 +65,18 @@
     ];
     
     const compass_store = use_compass_store();
+    const uvp_data_store = use_uvp_data_store();
     const is_active = computed(() => compass_store.is_active);
 
     const select_direction = (index) => {
         // 設定選中的方向（使用簡化版本）
         compass_store.set_selected_direction(display_directions[index]);
         emit('set_direction', index);
-        close_compass();
+
+        // 如果已經選擇了 5 個方向，則自動關閉羅盤
+        if (uvp_data_store.uvp_data.filter_details.CardinalDirection.length >= 5) {
+            close_compass();
+        }
     };
     // 關閉羅盤
     const close_compass = () => {

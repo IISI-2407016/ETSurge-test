@@ -152,22 +152,41 @@
                                     <v-col class="v-col-2 px-0 text-right">
                                         移向
                                     </v-col>
-                                    <v-col cols="8">
-                                        <v-select
+                                    <v-col cols="8" class="position-relative">
+                                        <v-combobox
                                             v-model="direction"
-                                            :items="direction_items"
-                                            item-title="title"
-                                            item-value="value"
-                                            multiple
+                                            readonly
+                                            density="compact"
+                                            placeholder="點擊選擇移向"
                                             chips
                                             clearable
                                             closable-chips
+                                            multiple
                                             :rules="direction_validation"
-                                        />
+                                            @click="show_compass"
+                                        >
+                                            <template v-slot:chip="{ props, item }">
+                                            <v-chip v-bind="props">
+                                                <strong>{{ item.title }}</strong>&nbsp;
+                                            </v-chip>
+                                            </template>
+                                        </v-combobox>
+
+                                        <v-menu
+                                            v-if="compass_store.is_active"
+                                            activator="parent"
+                                            location="end center"
+                                            :offset="10"
+                                            :close-on-content-click="false"
+                                            :scrim="false"
+                                            content-class="compass-menu"
+                                        >
+                                            <compass16 @set_direction="append_dir_compass" />
+                                        </v-menu>
                                     </v-col>
                                     <span>16方位</span>
                                 </v-row>
-    
+
                                 <!-- 預覽查詢 -->
                                 <v-row class="justify-center">
                                     <v-col cols="10" class="text-center pb-0">
@@ -187,7 +206,7 @@
                                             color="success"
                                             variant="flat"
                                             prepend-icon="mdi mdi-calculator"
-                                            :disabled="!has_search || search_results.length === 0"
+                                            :disabled="!can_calculate"
                                             @click="show_message">
                                             計算系集平均
                                         </v-btn>
@@ -224,6 +243,7 @@
 </template>
 <script setup>
     import { ref, computed, onMounted, watch } from 'vue';
+    import { use_compass_store } from '../stores/compass';
     import { use_app_store } from '../stores/use-app.js';
     import { use_uvp_data_store } from '../stores/UVP-data.js';
     import { tide_level_store } from '../stores/tide-level.js';
@@ -231,10 +251,12 @@
     import { display_directions } from '../config/setting.js';
     import loading from '../components/loading.vue';
     import messageDialog from '../components/dialogs/messageDialog.vue';
+    import compass16 from '@/components/compass16.vue';
     import alertMessageDialog from '../components/dialogs/alertMessageDialog.vue';
     import eMap from '@/components/eMap.vue';
 
     const app_store = use_app_store();
+    const compass_store = use_compass_store();
     const uvp_data_store = use_uvp_data_store();
     const tide_level_info_store = tide_level_store();
     const alert_store = use_alert_store();
@@ -247,8 +269,7 @@
         TyChtName: '',
         TyEngName: ''
     });
-    const search_results = ref([]);
-    const has_search = ref(false);
+
     const message = ref('是否進入預報潮位時序圖預覧頁面<br/>等待計算結果?');
     const message_valid = ref(false);
 
@@ -265,6 +286,9 @@
     const hour = computed(() => uvp_data_store.hour);
     const has_tau_data = computed(() => uvp_data_store.uvp_data.has_filter_details);
     const drawn_typhoon_category_list = computed(() => uvp_data_store.drawn_typhoon_category_list);
+    const search_results = computed(() => uvp_data_store.search_results.map(item => item.model_data));
+
+     // 接收羅盤選擇的方位索引值並更新到篩選條件中
     const selected_date = computed({
         get: () => {
             if (!form.value.InitialTime) return new Date();
@@ -291,18 +315,13 @@
     // 方位轉換
     const direction = computed({
         get() {
-            const raw = form.value.filter_details.CardinalDirection;
-            if (!Array.isArray(raw)) return [];
-            return raw.filter(v => Number.isInteger(v) && v >= 0 && v < display_directions.length);
+            const indexes = normalize_dir(form.value.filter_details.CardinalDirection);
+            return indexes.map(i => display_directions[i]);
         },
         set(values) {
-            form.value.filter_details.CardinalDirection = (values || [])
-            .map(v => Number(v))
-            .filter(v => Number.isInteger(v) && v >= 0 && v < display_directions.length);
+            form.value.filter_details.CardinalDirection = normalize_dir(values).slice(0, 5);
         }
     });
-
-    const direction_items = display_directions.map((title, value) => ({ title, value }));
 
     // 轉換成 YYYY/MM/DD 格式
     const formatted_date = computed(() => {
@@ -314,6 +333,21 @@
         return `${yyyy}/${mm}/${dd}`;
     });
 
+    const current_signature = computed(() =>
+        JSON.stringify({
+            TyNo: form.value.TyNo,
+            InitialTime: form.value.InitialTime,
+            ModelNameList: form.value.ModelNameList,
+            filter_details: form.value.filter_details,
+            hour: hour.value.time
+        })
+    )
+
+    const can_calculate = computed(() =>
+        uvp_data_store.has_preview_result &&
+        uvp_data_store.preview_signature === current_signature.value &&
+        search_results.value.length > 0
+    );
     // 計算類別選單
     // const category_list = computed(() => {
     //     const _list = uvp_data_store.category_list;
@@ -411,24 +445,16 @@
             return '此欄位不可為空';
         }
         if (name === 'direction') { // 移向驗證
-            if (value.length === 0) {
-                return '請選擇5個方位';
-            }
+            const normalized = normalize_dir(value);
 
-            if (value.length !== 5) {
-                return '必須剛好選擇5個方位';
-            }
+            if (normalized.length === 0) return '請選擇5個方位';
+            if (normalized.length !== 5) return '必須剛好選擇5個方位';
 
-            const isValid = value.every(v => {
-                const n = Number(v);
-                return Number.isInteger(n) && n >= 0 && n < display_directions.length;
-            });
+            // 若原值有無法轉成有效方位的項目，視為格式錯誤
+            const rawLen = Array.isArray(value) ? value.length : (value == null ? 0 : 1);
+            if (normalized.length !== rawLen) return '方位資料格式錯誤';
 
-            if (!isValid) {
-                return '方位資料格式錯誤';
-            }
-
-            return true
+            return true;
         }; 
 
         // 5組數字，逗號分隔 (逗號後必須是數字)
@@ -475,12 +501,9 @@
             return;
         }
 
-        // @TODO 三次
-        has_search.value = true;
-        // form.value.filtered_typhoon_data = uvp_data_store.search_results;
-        search_results.value = uvp_data_store.search_results.map(item => item.model_data);
+        uvp_data_store.preview_signature = current_signature.value // 更新預覽內容的簽名，以供後續計算系集平均時驗證使用
+        uvp_data_store.has_preview_result = true
         is_loading.value = false;
-        console.log('search_results:', search_results.value);
     }
 
     // 顯示訊息
@@ -491,11 +514,9 @@
     }
 
     // 計算系集平均並切換頁籤至潮位頁面
-    // TODO 切換連貫性拿掉，改成直接在此頁面顯示計算結果
     const change_tab = async () => {
         is_loading.value = true;
 
-        // @TODO 送三次等待所有結果回來才算完成
         for(let i = 0; i < 3; i++) {
             const category = ['official', 'ref1', 'ref2'][i];
             form.value.Category = category;
@@ -503,10 +524,7 @@
             await bring_average_typhoon_data();
         }
 
-        // await bring_average_typhoon_data();
-        await post_typhoon_data(); // @TODO 這邊call一次就好，然後要等系集計算完畢
-        // @TODO 回傳的10筆資料歸類，目前看可以用時間分類
-        // @TODO 如果從第二tab回到第一tab，則可以點擊"計算系集平均"按鈕
+        await post_typhoon_data();
 
         is_loading.value = false;
         app_store.change_tab('tide_level');
@@ -549,6 +567,32 @@
         uvp_data_store.get_typhoon_name_data();
     }
 
+    // 顯示方位選擇盤
+    const show_compass = () => {
+        compass_store.activate(true);
+    }
+
+    // 接收方位選擇盤傳回的方位索引值
+    const normalize_dir = (values) => {
+        const arr = Array.isArray(values) ? values : (values == null ? [] : [values]);
+
+        return arr
+            .map(v => {
+                if (Number.isInteger(v)) return v;
+                const n = Number(v);
+                if (Number.isInteger(n)) return n;
+                return display_directions.indexOf(v);
+            })
+            .filter(i => Number.isInteger(i) && i >= 0 && i < display_directions.length)
+            .slice(0, 5); // 只限制最多 5 個，不去重
+    };
+
+    const append_dir_compass = (index) => {
+        const current = normalize_dir(form.value.filter_details.CardinalDirection);
+        const incoming = normalize_dir(index); // 單一 index
+        form.value.filter_details.CardinalDirection = [...current, ...incoming].slice(0, 5);
+    };
+
     const UVP_filter_details_format = (data) => {
         const res = data.filter_details.Tau.map((tau, index) => {
             const item = data.filter_details;
@@ -579,5 +623,15 @@
     .v-col-2 {
         flex: 0 0 20%;
         max-width: 20%;
+    }
+    .direction-field {
+        position: relative;
+    }
+
+    @media (max-width: 1280px) {
+        :deep(.compass-menu) {
+            /* 小螢幕時改到下方 */
+            margin-top: 8px;
+        }
     }
 </style>
