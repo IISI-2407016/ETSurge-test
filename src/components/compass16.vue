@@ -44,9 +44,9 @@
 </template>
 
 <script setup>
-    import { computed } from 'vue';
     import { use_uvp_data_store } from '../stores/UVP-data.js';
     import { use_compass_store } from '../stores/compass';
+    import { display_directions } from '../config/setting.js';
 
     const emit = defineEmits(['set_direction']);
     const directions = [
@@ -56,17 +56,8 @@
         "西<br/>(W)", "西北西<br/>(WNW)", "西北<br/>(NW)", "北北西<br/>(NNW)"
     ];
     
-    // 對應的簡化顯示文字
-    const display_directions = [
-        "北(N)", "北北東(NNE)", "東北(NE)", "東北東(ENE)",
-        "東(E)", "東南東(ESE)", "東南(SE)", "南南東(SSE)",
-        "南(S)", "南南西(SSW)", "西南(SW)", "西南西(WSW)",
-        "西(W)", "西北西(WNW)", "西北(NW)", "北北西(NNW)"
-    ];
-    
     const compass_store = use_compass_store();
     const uvp_data_store = use_uvp_data_store();
-    const is_active = computed(() => compass_store.is_active);
 
     const select_direction = (index) => {
         // 設定選中的方向（使用簡化版本）

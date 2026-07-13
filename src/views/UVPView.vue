@@ -40,7 +40,7 @@
                                     <v-select
                                         v-model="form.TyNo"
                                         :items="Ty_list"
-                                        item-title="text"
+                                        item-title="title"
                                         item-value="value"
                                         item-color="blue"
                                         density="compact"
@@ -249,6 +249,7 @@
     import { tide_level_store } from '../stores/tide-level.js';
     import { use_alert_store } from '../stores/alert.js';
     import { display_directions } from '../config/setting.js';
+    import { format_date } from '../utils/formatted-date.js';
     import loading from '../components/loading.vue';
     import messageDialog from '../components/dialogs/messageDialog.vue';
     import compass16 from '@/components/compass16.vue';
@@ -299,10 +300,7 @@
 
     // 計算颱風名稱選單
     const Ty_list = computed(() => {
-        const list = uvp_data_store.Ty_info.map(item => ({
-            text: `${item.TyNo}-${item.TyChtName}`,
-            value: item.TyNo
-        }));
+        const list = uvp_data_store.Ty_info;
 
         // 設定預設值為第一個選項
         if (list.length > 0 && !form.value.TyNo) {
@@ -325,12 +323,7 @@
 
     // 轉換成 YYYY/MM/DD 格式
     const formatted_date = computed(() => {
-        if (!form.value.InitialTime) return '';
-        const date = new Date(form.value.InitialTime);
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const dd = String(date.getDate()).padStart(2, '0');
-        return `${yyyy}/${mm}/${dd}`;
+        return format_date(form.value.InitialTime);
     });
 
     const current_signature = computed(() =>
@@ -397,7 +390,8 @@
                 is_loading.value = true;
                 
                 // 更新 send_category
-                const selected_typhoon = uvp_data_store.Ty_info.find(item => item.TyNo === newTyNo);
+                const selected_typhoon = uvp_data_store.Ty_info.find(item => item.value === newTyNo);
+
                 if (selected_typhoon) {
                     send_category.value = {
                         TyNo: newTyNo,
@@ -414,6 +408,7 @@
                 is_loading.value = false;
             }
         }
+
         // 2) 當 TyNo 或 InitialTime 變化時，載入對應的篩選條件資料
         if (!newTyNo || !newInitialTime || !oldTyNo) return
         if (newTyNo === oldTyNo && newInitialTime === oldInitialTime) return;
@@ -528,6 +523,8 @@
 
         is_loading.value = false;
         app_store.change_tab('tide_level');
+        uvp_data_store.set_can_calculate_average(can_calculate.value);
+        uvp_data_store.set_is_uvp_search(true)
     }
 
     // 產製模式平均網格資料
@@ -543,10 +540,10 @@
             TyNo: form.value.TyNo,
             ModelNameList: form.value.ModelNameList,
             // Category: form.value.Category,
-            InitialTime: form.value.InitialTime,
+            // InitialTime: form.value.InitialTime,
             IsEnsemble: true,  // 是否為系集模式資料
             IsFileReady: true, // 是否檔案已準備好
-            limit: 10          // 預設10筆，最大100筆
+            limit: 12          // 預設10筆，最大100筆
         }
         const res = await uvp_data_store.post_typhoon_data(send_data);
         if(!res.success) {

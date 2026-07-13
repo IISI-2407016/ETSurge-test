@@ -44,7 +44,9 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         is_active: false,
         selected_direction: '',
         preview_signature: '',
-        has_preview_result: false // 是否有預覽結果的標記
+        has_preview_result: false, // 是否有預覽結果的標記
+        is_uvp_search: true, // 判斷目前是颱風查詢還是系集查詢，false: 颱風查詢，true: 系集查詢
+        can_calculate_average: false, // 判斷是否可以計算平均，false: 不可計算，true: 可計算
     }),
     actions: {
         activate() {
@@ -65,6 +67,12 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         },
         reset_filtered_typhoon_data() {
             this.uvp_data.filtered_typhoon_data = [];
+        },
+        set_is_uvp_search(value) {
+            this.is_uvp_search = value;
+        },
+        set_can_calculate_average(value) {
+            this.can_calculate_average = value;
         },
         // 更新日期並保持當前選擇的小時
         update_date(new_date) {
@@ -95,7 +103,12 @@ export const use_uvp_data_store = defineStore('uvp_data', {
         async get_typhoon_name_data() {
             const { status, data } = await get_typhoon_name_data_ajax();
             if (status === 'success') {
-                this.Ty_info = data;
+                this.Ty_info = data.map(t => ({
+                    title: `${t.TyNo}-${t.TyChtName}`,
+                    value: t.TyNo,
+                    TyChtName: t.TyChtName,
+                    TyEngName: t.TyEngName,
+                }));
             }
             return;
         },
