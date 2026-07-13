@@ -6,7 +6,7 @@
         <v-main>
             <v-container class="ms-auto d-flex justify-center mt-8">
                 <v-row justify="center">
-                    <v-col cols="12" sm="8" md="5" lg="2">
+                    <v-col cols="12" sm="8" md="5" lg="3">
                         <v-card
                             v-on:keyup.enter="login_confirm"
                             class="grey lighten-5 elevation-12 rounded-lg pa-4"
