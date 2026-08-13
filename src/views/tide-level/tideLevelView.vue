@@ -6,10 +6,9 @@
 
         <!-- d3 -->
         <water-level-analysis v-if="has_chart" :parameter_id="parameter_id"/>
-        <!-- 功能表 -->
-        <functions v-if="has_chart"/>
-        <!-- 警告視窗，@TODO: 之後有需要做元件嗎? -->
-        <v-dialog
+
+        <!-- 警告視窗，@TODO: 之後有需要做元件嗎? 這邊有個問題是要帶測站進去比較好，但又覺得占版面很大需要想一下-->
+        <!-- <v-dialog
             v-model="show_alert_dialog"
             max-width="300"
             persistent="false"
@@ -32,7 +31,7 @@
                     ></v-btn>
                 </v-alert>
             </v-card>
-        </v-dialog>
+        </v-dialog> -->
     </div>
 </template>
 
@@ -42,7 +41,6 @@
     import { use_light_store } from '../../stores/light.js';
     
     import loading from '@/components/loading.vue';
-    import functions from './functions.vue';
     import waterLevelAnalysis from './waterLevelAnalysis.vue';
     import typhoonTable from './typhoonTable.vue';
     

@@ -940,6 +940,25 @@ app.post('/surge_app/load_all_data/', function (req, res) {
 
     }
 });
+
+// 傳送水位預報至資料課
+app.post('/surge_app/sent_water_level', function (req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "success_targets": ["med"],
+            "failed_targets": []
+        },
+        "message": "水位文字檔傳送完成"
+    })
+
+    // res.status(400).send({
+    //     "status": "error",
+    //     "message": "找不到水位文字檔：202101_202104120000_abc123.txt，請先呼叫 get_county_tide_warnings",
+    //     "data": null
+    // })
+})
+
 // 取得各縣市潮警資料
 app.post('/surge_app/get_county_tide_warnings/', function (req, res) {
     setTimeout(() => {

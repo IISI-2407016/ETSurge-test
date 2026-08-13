@@ -256,13 +256,20 @@
     }
 
     const get_web_chart_data = async(stations, type) => {
-        let inputs = {
-            parameters_id: props.parameter_id,
-            station_list: stations,
-            freq: type === 'twelve' ? "hour" : "6minute",
-        };
-        tide_level_info_store.save_chart_list(inputs)
+        // let inputs = {
+        //     parameters_id: props.parameter_id,
+        //     station_list: stations,
+        //     freq: type === 'twelve' ? "hour" : "6minute",
+        // };
+        props.parameter_id.forEach(async (id) => {
+            const inputs = {
+                parameters_id: id,
+                station_list: stations,
+                freq: type === 'twelve' ? "hour" : "6minute",
+            }
+            tide_level_info_store.save_chart_list(inputs)
+            await tide_level_info_store.post_load_all_data(inputs, type);
+        })
 
-        await tide_level_info_store.post_load_all_data(inputs, type);
     };
 </script>
