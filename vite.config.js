@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import pkg from './package.json'
@@ -17,6 +17,9 @@ export default defineConfig({
     __BUILD_DATE__: JSON.stringify(new Date().toISOString())
   },
   build: {
-    sourcemap: false,
+    sourcemap: true,
+  },
+  test: {
+    environment: 'jsdom',
   }
 })
