@@ -17,7 +17,7 @@ export default defineConfig({
     __BUILD_DATE__: JSON.stringify(new Date().toISOString())
   },
   build: {
-    sourcemap: true,
+    sourcemap: false,
   },
   test: {
     environment: 'jsdom',
