@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-import pkg from './package.json'
+import pkg from './package.json' with { type: 'json' }
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,8 +9,12 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': resolve(import.meta.dirname, 'src'),
     }
+  },
+    server: {
+      port: 8906,
+      open: true
   },
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),

@@ -26,12 +26,10 @@ const twelve_chart_data_1786 = require('./twelve_chart/1786.json');
 const twelve_chart_data_1386 = require('./twelve_chart/1386.json');
 const six_chart_data_1226 = require('./six_chart/1226_6min.json');
 
-let port = 10008;
+const port = 10008;
 
 let http = require('http')
 let url = require('url')
-
-let host = '127.0.0.1'
 
 let cors = require('cors')
 let express = require('express')
