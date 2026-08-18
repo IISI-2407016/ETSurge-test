@@ -60,7 +60,7 @@ const draw_tracks = (data) => {
     normalized.forEach(item => {
         const td = item.track_data;
         if (!grouped[td.Category]) grouped[td.Category] = [];
-        grouped[td.Category].push({ ...td, filter_params: item.filter_params });
+        grouped[td.Category].push({ ...td, filter_params: item.filter_params, model_data: item.model_data });
     });
 
     // 依 Tau 排序後畫線 + 標記
@@ -80,6 +80,8 @@ const draw_tracks = (data) => {
         // 每個主要點畫圓圈
         sorted.forEach(p => {
             const is_main_point = p.InterPoint === false;
+            // model_data 為空陣列或 null 時代表查無模式資料，畫面呈現微透明
+            const has_no_data = !p.model_data || p.model_data.length === 0;
             const popup_info = `
                 <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">${category}</div>
                 <b>Tau：${p.Tau} Hours</b><br/>
@@ -97,7 +99,8 @@ const draw_tracks = (data) => {
                     color: '#fff', 
                     weight: is_main_point ? 1.5 : 1,
                     fillColor: color,
-                    fillOpacity: is_main_point ? 1 : 0.9
+                    fillOpacity: has_no_data ? 0.3 : (is_main_point ? 1 : 0.9),
+                    opacity: has_no_data ? 0.4 : 1
                 }
             )
             .on('mouseover', function () { this.openPopup(); })
