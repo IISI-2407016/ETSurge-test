@@ -1,168 +1,622 @@
 {
-  "status": "success",
-  "data": [
-    {
-      "TyChtName": "丹娜絲",
-      "TyEngName": "DANAS",
-      "id": 3,
-      "ModelNameList": [
-        "TWRF"
-      ],
-      "TyNo": "202504",
-      "InitialTime": "2025-07-05T00:00:00Z",
-      "Category": "official",
-      "Radius": 100,
-      "Pressure_range": [
-        "870",
-        "080"
-      ],
-      "CardinalDirection": "N",
-      "TranslationSpeed_range": [
-        "005",
-        "020"
-      ],
-      "MaxWind_range": [
-        "000",
-        "100"
-      ],
-      "IsFileReady": true,
-      "ModifyTime": "2025-10-13T08:16:43.914806Z"
-    },
-    {
-      "TyChtName": "丹娜絲",
-      "TyEngName": "DANAS",
-      "id": 3,
-      "ModelNameList": [
-        "TWRF"
-      ],
-      "TyNo": "202518",
-      "InitialTime": "2025-09-19T06:00:00Z",
-      "Category": "official",
-      "Radius": 120,
-      "Pressure_range": [
-        "870",
-        "080"
-      ],
-      "CardinalDirection": "N",
-      "TranslationSpeed_range": [
-        "000",
-        "1000"
-      ],
-      "MaxWind_range": [
-        "000",
-        "100"
-      ],
-      "IsFileReady": true,
-      "ModifyTime": "2025-10-31T04:18:14.388459Z"
-    },
-    {
-      "TyChtName": "丹娜絲",
-      "TyEngName": "DANAS",
-      "id": 3,
-      "ModelNameList": [
-        "TWRF"
-      ],
-      "TyNo": "202601",
-      "InitialTime": "2026-01-04T00:00:00Z",
-      "Category": "official",
-      "Radius": 120,
-      "Pressure_range": [
-        "870",
-        "080"
-      ],
-      "CardinalDirection": "N",
-      "TranslationSpeed_range": [
-        "000",
-        "1000"
-      ],
-      "MaxWind_range": [
-        "000",
-        "100"
-      ],
-      "IsFileReady": true,
-      "ModifyTime": "2025-10-31T03:18:14.388459Z"
-    },
-    {
-      "TyChtName": "丹娜絲",
-      "TyEngName": "DANAS",
-      "id": 5,
-      "ModelNameList": [
-        "TWRF"
-      ],
-      "TyNo": "202601",
-      "InitialTime": "2026-01-04T00:00:00Z",
-      "Category": "official",
-      "Radius": 120,
-      "Pressure_range": [
-        "870",
-        "080"
-      ],
-      "CardinalDirection": "N",
-      "TranslationSpeed_range": [
-        "000",
-        "1000"
-      ],
-      "MaxWind_range": [
-        "000",
-        "100"
-      ],
-      "IsFileReady": false,
-      "ModifyTime": "2025-10-31T03:18:14.388459Z"
-    },
-    {
-      "TyChtName": "丹娜絲",
-      "TyEngName": "DANAS",
-      "id": 6,
-      "ModelNameList": [
-        "TWRF"
-      ],
-      "TyNo": "202601",
-      "InitialTime": "2026-01-04T00:00:00Z",
-      "Category": "official",
-      "Radius": 120,
-      "Pressure_range": [
-        "870",
-        "080"
-      ],
-      "CardinalDirection": "N",
-      "TranslationSpeed_range": [
-        "000",
-        "1000"
-      ],
-      "MaxWind_range": [
-        "000",
-        "100"
-      ],
-      "IsFileReady": false,
-      "ModifyTime": "2025-10-31T03:18:14.388459Z"
-    },
-    {
-      "TyChtName": "丹娜絲",
-      "TyEngName": "DANAS",
-      "id": 7,
-      "ModelNameList": [
-        "TWRF"
-      ],
-      "TyNo": "202601",
-      "InitialTime": "2026-01-04T00:00:00Z",
-      "Category": "official",
-      "Radius": 120,
-      "Pressure_range": [
-        "870",
-        "080"
-      ],
-      "CardinalDirection": "N",
-      "TranslationSpeed_range": [
-        "000",
-        "1000"
-      ],
-      "MaxWind_range": [
-        "000",
-        "100"
-      ],
-      "IsFileReady": false,
-      "ModifyTime": "2025-10-31T03:18:14.388459Z"
-    }
-  ],
-  "message": "success"
+    "status": "success",
+    "data": [
+        {
+            "id": 14,
+            "ModelNameList": [
+                "TWRF"
+            ],
+            "TyNo": "202526",
+            "TyChtName": "鳳凰",
+            "TyEngName": "FUNG-WONG",
+            "InitialTime": "2025-11-06T06:00:00Z",
+            "Category": "ref2",
+            "ParametersHash": "7b70bce5365984c81c422ae740ea59963c9ebf8b55a70098868c0146efcc3070",
+            "details": [
+                {
+                    "Tau": 0,
+                    "Radius": 120.0,
+                    "Pressure_min": 892.8,
+                    "Pressure_max": 1091.2,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 17.1,
+                    "TranslationSpeed_max": 20.9,
+                    "MaxWind_min": 20.7,
+                    "MaxWind_max": 25.3,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 150.0,
+                    "Pressure_min": 877.5,
+                    "Pressure_max": 1072.5,
+                    "CardinalDirection": "NW",
+                    "TranslationSpeed_min": 16.2,
+                    "TranslationSpeed_max": 19.8,
+                    "MaxWind_min": 27.0,
+                    "MaxWind_max": 33.0,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 200.0,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": "W",
+                    "TranslationSpeed_min": 18.0,
+                    "TranslationSpeed_max": 22.0,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 280.0,
+                    "Pressure_min": 846.0,
+                    "Pressure_max": 1034.0,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 23.4,
+                    "TranslationSpeed_max": 28.6,
+                    "MaxWind_min": 40.5,
+                    "MaxWind_max": 49.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 320.0,
+                    "Pressure_min": 832.5,
+                    "Pressure_max": 1017.5,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 26.1,
+                    "TranslationSpeed_max": 31.9,
+                    "MaxWind_min": 45.9,
+                    "MaxWind_max": 56.1,
+                    "IsInterpolated": false
+                }
+            ],
+            "IsEnsemble": true,
+            "IsFileReady": false,
+            "ModifyTime": "2026-06-10T09:17:39.352737Z"
+        },
+        {
+            "id": 13,
+            "ModelNameList": [
+                "TWRF"
+            ],
+            "TyNo": "202526",
+            "TyChtName": "鳳凰",
+            "TyEngName": "FUNG-WONG",
+            "InitialTime": "2025-11-06T06:00:00Z",
+            "Category": "ref1",
+            "ParametersHash": "7b70bce5365984c81c422ae740ea59963c9ebf8b55a70098868c0146efcc3070",
+            "details": [
+                {
+                    "Tau": 0,
+                    "Radius": 120.0,
+                    "Pressure_min": 892.8,
+                    "Pressure_max": 1091.2,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 17.1,
+                    "TranslationSpeed_max": 20.9,
+                    "MaxWind_min": 20.7,
+                    "MaxWind_max": 25.3,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 150.0,
+                    "Pressure_min": 877.5,
+                    "Pressure_max": 1072.5,
+                    "CardinalDirection": "NW",
+                    "TranslationSpeed_min": 16.2,
+                    "TranslationSpeed_max": 19.8,
+                    "MaxWind_min": 27.0,
+                    "MaxWind_max": 33.0,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 200.0,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": "W",
+                    "TranslationSpeed_min": 18.0,
+                    "TranslationSpeed_max": 22.0,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 280.0,
+                    "Pressure_min": 846.0,
+                    "Pressure_max": 1034.0,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 23.4,
+                    "TranslationSpeed_max": 28.6,
+                    "MaxWind_min": 40.5,
+                    "MaxWind_max": 49.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 320.0,
+                    "Pressure_min": 832.5,
+                    "Pressure_max": 1017.5,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 26.1,
+                    "TranslationSpeed_max": 31.9,
+                    "MaxWind_min": 45.9,
+                    "MaxWind_max": 56.1,
+                    "IsInterpolated": false
+                }
+            ],
+            "IsEnsemble": true,
+            "IsFileReady": false,
+            "ModifyTime": "2026-06-10T09:17:39.244235Z"
+        },
+        {
+            "id": 12,
+            "ModelNameList": [
+                "TWRF"
+            ],
+            "TyNo": "202504",
+            "TyChtName": "丹娜絲",
+            "TyEngName": "DANAS",
+            "InitialTime": "2025-07-05T06:00:00Z",
+            "Category": "ref2",
+            "ParametersHash": "88f17cfc377f9c50e346d7c084949a9b9a8e3e6ebbc789eb0d845c5b80ee2b39",
+            "details": [
+                {
+                    "Tau": 0,
+                    "Radius": 80.0,
+                    "Pressure_min": 895.5,
+                    "Pressure_max": 1094.5,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 7.2,
+                    "TranslationSpeed_max": 8.8,
+                    "MaxWind_min": 18.0,
+                    "MaxWind_max": 22.0,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 150.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 7.2,
+                    "TranslationSpeed_max": 8.8,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 150.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NE",
+                    "TranslationSpeed_min": 12.6,
+                    "TranslationSpeed_max": 15.4,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 120.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 22.5,
+                    "TranslationSpeed_max": 27.5,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 80.0,
+                    "Pressure_min": 895.5,
+                    "Pressure_max": 1094.5,
+                    "CardinalDirection": "N",
+                    "TranslationSpeed_min": 9.0,
+                    "TranslationSpeed_max": 11.0,
+                    "MaxWind_min": 18.0,
+                    "MaxWind_max": 22.0,
+                    "IsInterpolated": false
+                }
+            ],
+            "IsEnsemble": true,
+            "IsFileReady": false,
+            "ModifyTime": "2026-06-10T09:17:03.010811Z"
+        },
+        {
+            "id": 11,
+            "ModelNameList": [
+                "TWRF"
+            ],
+            "TyNo": "202504",
+            "TyChtName": "丹娜絲",
+            "TyEngName": "DANAS",
+            "InitialTime": "2025-07-05T06:00:00Z",
+            "Category": "ref1",
+            "ParametersHash": "88f17cfc377f9c50e346d7c084949a9b9a8e3e6ebbc789eb0d845c5b80ee2b39",
+            "details": [
+                {
+                    "Tau": 0,
+                    "Radius": 80.0,
+                    "Pressure_min": 895.5,
+                    "Pressure_max": 1094.5,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 7.2,
+                    "TranslationSpeed_max": 8.8,
+                    "MaxWind_min": 18.0,
+                    "MaxWind_max": 22.0,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 150.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 7.2,
+                    "TranslationSpeed_max": 8.8,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 150.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NE",
+                    "TranslationSpeed_min": 12.6,
+                    "TranslationSpeed_max": 15.4,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 120.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 22.5,
+                    "TranslationSpeed_max": 27.5,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 80.0,
+                    "Pressure_min": 895.5,
+                    "Pressure_max": 1094.5,
+                    "CardinalDirection": "N",
+                    "TranslationSpeed_min": 9.0,
+                    "TranslationSpeed_max": 11.0,
+                    "MaxWind_min": 18.0,
+                    "MaxWind_max": 22.0,
+                    "IsInterpolated": false
+                }
+            ],
+            "IsEnsemble": true,
+            "IsFileReady": false,
+            "ModifyTime": "2026-06-10T09:17:01.303355Z"
+        },
+        {
+            "id": 10,
+            "ModelNameList": [
+                "TWRF"
+            ],
+            "TyNo": "202526",
+            "TyChtName": "鳳凰",
+            "TyEngName": "FUNG-WONG",
+            "InitialTime": "2025-11-06T06:00:00Z",
+            "Category": "official",
+            "ParametersHash": "7b70bce5365984c81c422ae740ea59963c9ebf8b55a70098868c0146efcc3070",
+            "details": [
+                {
+                    "Tau": 0,
+                    "Radius": 120.0,
+                    "Pressure_min": 892.8,
+                    "Pressure_max": 1091.2,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 17.1,
+                    "TranslationSpeed_max": 20.9,
+                    "MaxWind_min": 20.7,
+                    "MaxWind_max": 25.3,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 150.0,
+                    "Pressure_min": 877.5,
+                    "Pressure_max": 1072.5,
+                    "CardinalDirection": "NW",
+                    "TranslationSpeed_min": 16.2,
+                    "TranslationSpeed_max": 19.8,
+                    "MaxWind_min": 27.0,
+                    "MaxWind_max": 33.0,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 200.0,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": "W",
+                    "TranslationSpeed_min": 18.0,
+                    "TranslationSpeed_max": 22.0,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 280.0,
+                    "Pressure_min": 846.0,
+                    "Pressure_max": 1034.0,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 23.4,
+                    "TranslationSpeed_max": 28.6,
+                    "MaxWind_min": 40.5,
+                    "MaxWind_max": 49.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 320.0,
+                    "Pressure_min": 832.5,
+                    "Pressure_max": 1017.5,
+                    "CardinalDirection": "WNW",
+                    "TranslationSpeed_min": 26.1,
+                    "TranslationSpeed_max": 31.9,
+                    "MaxWind_min": 45.9,
+                    "MaxWind_max": 56.1,
+                    "IsInterpolated": false
+                }
+            ],
+            "IsEnsemble": true,
+            "IsFileReady": false,
+            "ModifyTime": "2026-06-09T07:45:24.230950Z"
+        },
+        {
+            "id": 9,
+            "ModelNameList": [
+                "TWRF"
+            ],
+            "TyNo": "202504",
+            "TyChtName": "丹娜絲",
+            "TyEngName": "DANAS",
+            "InitialTime": "2025-07-05T06:00:00Z",
+            "Category": "official",
+            "ParametersHash": "88f17cfc377f9c50e346d7c084949a9b9a8e3e6ebbc789eb0d845c5b80ee2b39",
+            "details": [
+                {
+                    "Tau": 0,
+                    "Radius": 80.0,
+                    "Pressure_min": 895.5,
+                    "Pressure_max": 1094.5,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 7.2,
+                    "TranslationSpeed_max": 8.8,
+                    "MaxWind_min": 18.0,
+                    "MaxWind_max": 22.0,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 150.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 7.2,
+                    "TranslationSpeed_max": 8.8,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 150.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NE",
+                    "TranslationSpeed_min": 12.6,
+                    "TranslationSpeed_max": 15.4,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 120.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NNE",
+                    "TranslationSpeed_min": 22.5,
+                    "TranslationSpeed_max": 27.5,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 80.0,
+                    "Pressure_min": 895.5,
+                    "Pressure_max": 1094.5,
+                    "CardinalDirection": "N",
+                    "TranslationSpeed_min": 9.0,
+                    "TranslationSpeed_max": 11.0,
+                    "MaxWind_min": 18.0,
+                    "MaxWind_max": 22.0,
+                    "IsInterpolated": false
+                }
+            ],
+            "IsEnsemble": true,
+            "IsFileReady": false,
+            "ModifyTime": "2026-06-09T07:44:59.921569Z"
+        },
+        {
+            "id": 8,
+            "ModelNameList": [
+                "TWRF"
+            ],
+            "TyNo": "202526",
+            "TyChtName": "鳳凰",
+            "TyEngName": "FUNG-WONG",
+            "InitialTime": "2025-11-10T06:00:00Z",
+            "Category": "ref1",
+            "ParametersHash": "700aa9daaf2bf44f35efbd4f1e800a2fe492f148aea883cfd29620be2349f642",
+            "details": [
+                {
+                    "Tau": 0,
+                    "Radius": 250.0,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": "NW",
+                    "TranslationSpeed_min": 11.7,
+                    "TranslationSpeed_max": 14.3,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 250.0,
+                    "Pressure_min": 855.0,
+                    "Pressure_max": 1045.0,
+                    "CardinalDirection": "NNW",
+                    "TranslationSpeed_min": 13.5,
+                    "TranslationSpeed_max": 16.5,
+                    "MaxWind_min": 36.0,
+                    "MaxWind_max": 44.0,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 200.0,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": "N",
+                    "TranslationSpeed_min": 11.7,
+                    "TranslationSpeed_max": 14.3,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 150.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NE",
+                    "TranslationSpeed_min": 12.6,
+                    "TranslationSpeed_max": 15.4,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 150.0,
+                    "Pressure_min": 900.0,
+                    "Pressure_max": 1100.0,
+                    "CardinalDirection": "NE",
+                    "TranslationSpeed_min": 20.7,
+                    "TranslationSpeed_max": 25.3,
+                    "MaxWind_min": 13.5,
+                    "MaxWind_max": 16.5,
+                    "IsInterpolated": false
+                }
+            ],
+            "IsEnsemble": true,
+            "IsFileReady": false,
+            "ModifyTime": "2026-05-19T02:50:48.522570Z"
+        },
+        {
+            "id": 7,
+            "ModelNameList": [
+                "TWRF"
+            ],
+            "TyNo": "202526",
+            "TyChtName": "鳳凰",
+            "TyEngName": "FUNG-WONG",
+            "InitialTime": "2025-11-10T06:00:00Z",
+            "Category": "official",
+            "ParametersHash": "6ae490dd630f7aea3a87ef770ee35c9391bf722792be9cb54fcea1d12d0fc468",
+            "details": [
+                {
+                    "Tau": 0,
+                    "Radius": 250.0,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": "NW",
+                    "TranslationSpeed_min": 11.7,
+                    "TranslationSpeed_max": 14.3,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 12,
+                    "Radius": 250.0,
+                    "Pressure_min": 855.0,
+                    "Pressure_max": 1045.0,
+                    "CardinalDirection": "NNW",
+                    "TranslationSpeed_min": 13.5,
+                    "TranslationSpeed_max": 16.5,
+                    "MaxWind_min": 36.0,
+                    "MaxWind_max": 44.0,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 24,
+                    "Radius": 350.0,
+                    "Pressure_min": 868.5,
+                    "Pressure_max": 1061.5,
+                    "CardinalDirection": "N",
+                    "TranslationSpeed_min": 11.7,
+                    "TranslationSpeed_max": 14.3,
+                    "MaxWind_min": 31.5,
+                    "MaxWind_max": 38.5,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 48,
+                    "Radius": 450.0,
+                    "Pressure_min": 882.0,
+                    "Pressure_max": 1078.0,
+                    "CardinalDirection": "NE",
+                    "TranslationSpeed_min": 12.6,
+                    "TranslationSpeed_max": 15.4,
+                    "MaxWind_min": 25.2,
+                    "MaxWind_max": 30.8,
+                    "IsInterpolated": false
+                },
+                {
+                    "Tau": 72,
+                    "Radius": 500.0,
+                    "Pressure_min": 900.0,
+                    "Pressure_max": 1100.0,
+                    "CardinalDirection": "NE",
+                    "TranslationSpeed_min": 15.7,
+                    "TranslationSpeed_max": 25.3,
+                    "MaxWind_min": 13.5,
+                    "MaxWind_max": 20.5,
+                    "IsInterpolated": false
+                }
+            ],
+            "IsEnsemble": true,
+            "IsFileReady": true,
+            "ModifyTime": "2026-04-20T02:39:58.252671Z"
+        }
+    ],
+    "message": "success"
 }

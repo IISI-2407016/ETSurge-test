@@ -19,7 +19,7 @@
                     "station_name": "福隆"
                 }
             ],
-            "selected_station_id": null
+            "selected_station_id": "1226"
         },
         {
             "area_id": 2,
@@ -35,7 +35,7 @@
                     "station_name": "石梯"
                 }
             ],
-            "selected_station_id": null
+            "selected_station_id": "1256"
         },
         {
             "area_id": 3,
@@ -59,7 +59,7 @@
                     "station_name": "後壁湖"
                 }
             ],
-            "selected_station_id": null
+            "selected_station_id": "1276"
         },
         {
             "area_id": 4,
@@ -75,7 +75,7 @@
                     "station_name": "淡水"
                 }
             ],
-            "selected_station_id": null
+            "selected_station_id": "1102"
         },
         {
             "area_id": 5,
@@ -91,7 +91,7 @@
                     "station_name": "臺西"
                 }
             ],
-            "selected_station_id": null
+            "selected_station_id": "1156"
         },
         {
             "area_id": 6,
@@ -107,7 +107,7 @@
                     "station_name": "將軍"
                 }
             ],
-            "selected_station_id": null
+            "selected_station_id": "1176"
         },
         {
             "area_id": 7,
@@ -123,7 +123,7 @@
                     "station_name": "東港"
                 }
             ],
-            "selected_station_id": null
+            "selected_station_id": "1186"
         },
         {
             "area_id": 8,
@@ -135,7 +135,7 @@
                     "station_name": "澎湖"
                 }
             ],
-            "selected_station_id": null
+            "selected_station_id": "1356"
         }
     ],
     "message": "取得成功"

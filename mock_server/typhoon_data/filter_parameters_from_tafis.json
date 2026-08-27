@@ -1,0 +1,75 @@
+{
+  "status": "success",
+  "data": {
+    "TyNo": "202526",
+    "InitialTime": "2025-11-06T06:00:00Z",
+    "filter_details": [
+      {
+        "Tau": 0,
+        "Radius": 120,
+        "Pressure_min": 892.8,
+        "Pressure_max": 1091.2,
+        "ForecastPressure": 992,
+        "CardinalDirection": 13,
+        "TranslationSpeed_min": 17.1,
+        "TranslationSpeed_max": 20.9,
+        "ForecastTranslationSpeed": 19,
+        "MaxWind_min": 20.7,
+        "MaxWind_max": 25.3
+      },
+      {
+        "Tau": 12,
+        "Radius": 150,
+        "Pressure_min": 877.5,
+        "Pressure_max": 1072.5,
+        "ForecastPressure": 975,
+        "CardinalDirection": 14,
+        "TranslationSpeed_min": 16.2,
+        "TranslationSpeed_max": 19.8,
+        "ForecastTranslationSpeed": 18,
+        "MaxWind_min": 27,
+        "MaxWind_max": 33
+      },
+      {
+        "Tau": 24,
+        "Radius": 200,
+        "Pressure_min": 868.5,
+        "Pressure_max": 1061.5,
+        "ForecastPressure": 965,
+        "CardinalDirection": 12,
+        "TranslationSpeed_min": 18,
+        "TranslationSpeed_max": 22,
+        "ForecastTranslationSpeed": 20,
+        "MaxWind_min": 31.5,
+        "MaxWind_max": 38.5
+      },
+      {
+        "Tau": 48,
+        "Radius": 280,
+        "Pressure_min": 846,
+        "Pressure_max": 1034,
+        "ForecastPressure": 940,
+        "CardinalDirection": 13,
+        "TranslationSpeed_min": 23.4,
+        "TranslationSpeed_max": 28.6,
+        "ForecastTranslationSpeed": 26,
+        "MaxWind_min": 40.5,
+        "MaxWind_max": 49.5
+      },
+      {
+        "Tau": 72,
+        "Radius": 320,
+        "Pressure_min": 832.5,
+        "Pressure_max": 1017.5,
+        "ForecastPressure": 925,
+        "CardinalDirection": 13,
+        "TranslationSpeed_min": 26.1,
+        "TranslationSpeed_max": 31.9,
+        "ForecastTranslationSpeed": 29,
+        "MaxWind_min": 45.9,
+        "MaxWind_max": 56.1
+      }
+    ]
+  },
+  "message": "success"
+}

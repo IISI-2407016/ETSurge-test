@@ -1,16 +1,46 @@
 {
-    "status": "success",
-    "data": [
-        {
-            "TyNo": "202504",
-            "TyChtName": "丹娜絲",
-            "TyEngName": "DANAS"
-        },
-        {
-            "TyNo": "202505",
-            "TyChtName": "夏吉爾",
-            "TyEngName": "SALAH"
-        }
-    ],
-    "message": "success"
+  "status": "success",
+  "data": [
+    {
+      "TyNo": "202504",
+      "TyChtName": "丹娜絲",
+      "TyEngName": "DANAS"
+    },
+    {
+      "TyNo": "202518",
+      "TyChtName": "樺加沙",
+      "TyEngName": "RAGASA"
+    },
+    {
+      "TyNo": "202519",
+      "TyChtName": "浣熊",
+      "TyEngName": "NEOGURI"
+    },
+    {
+      "TyNo": "202525",
+      "TyChtName": "海鷗",
+      "TyEngName": "KALMAEGI"
+    },
+    {
+      "TyNo": "202526",
+      "TyChtName": "鳳凰",
+      "TyEngName": "FUNG-WONG"
+    },
+    {
+      "TyNo": "202619",
+      "TyChtName": "紫檀",
+      "TyEngName": "NARRA"
+    },
+    {
+      "TyNo": "202620",
+      "TyChtName": "閃電",
+      "TyEngName": "ATSANI"
+    },
+    {
+      "TyNo": "202618",
+      "TyChtName": "沙德爾",
+      "TyEngName": "SAUDEL"
+    }
+  ],
+  "message": "success"
 }
