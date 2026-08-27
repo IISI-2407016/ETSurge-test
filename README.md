@@ -11,6 +11,7 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 frontend/
 ├── mock_server/
     ├── mock.js/            # 模擬API
+├── __tests__/              # 測試檔案（2026-08-14 起新測試統一放這裡，不與原始檔 co-locate）
 
     src/
     ├── assets/             # 靜態資源（圖片、樣式）
@@ -48,7 +49,7 @@ frontend/
 - **繪圖**：D3.js（水位時序圖）、Leaflet（颱風路徑地圖）
 - **HTTP**：Axios，統一封裝於 `src/utils/api-request.js`
 - **建置**：Vite，`base: '/app'`，別名 `@` → `src/`
-- **測試**：Vitest 3（設定寫在 `vite.config.js` 的 `test` 欄位，`environment: 'jsdom'`，無獨立 `vitest.config.js`）+ `@vue/test-utils`，指令 `npm run test`；目前僅 `src/utils/formatted-date.test.js` 一支測試，覆蓋率低
+- **測試**：Vitest 3（設定寫在 `vite.config.js` 的 `test` 欄位，`environment: 'jsdom'`，無獨立 `vitest.config.js`）+ `@vue/test-utils`，指令 `npm run test`；新測試放置規則見「測試規範」章節；目前共 2 支測試（`src/utils/formatted-date.test.js`、`__tests__/eMap.test.js`），覆蓋率低
 - **後端**：Django 風格 REST API（`/auth/...`、`/surge_app/...`），正式/測試環境與前端同網域部署
 - **本機開發**：`mock_server/`（Express，port 10008）提供假資料，baseURL 由 `src/config/config.js` 依 `location.href` 自動切換
 - **重要架構特色**：頁籤切換（UVP／潮位時序圖／燈號表格…）**不是** vue-router 路由，而是 `stores/use-app.js` 的 `current_tab` 驅動 `main.vue` 條件渲染
