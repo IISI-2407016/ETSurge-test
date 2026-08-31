@@ -22,9 +22,11 @@ export const use_uvp_data_store = defineStore('uvp_data', {
                 Radius: [],
                 Pressure_min: [],
                 Pressure_max: [],
+                ForecastPressure: [],
                 CardinalDirection: [],
                 TranslationSpeed_min: [],
                 TranslationSpeed_max: [],
+                ForecastTranslationSpeed: [],
                 MaxWind_min: [],
                 MaxWind_max: [],
             },
@@ -118,7 +120,7 @@ export const use_uvp_data_store = defineStore('uvp_data', {
                 this.category_list = data;
                 this.uvp_data.InitialTime = data.find(item => item.InitialTime.includes(`${this.hour.time}:00:00`))?.InitialTime || this.uvp_data.InitialTime;
             }
-            return;
+            return { status, data };
         },
         async post_typhoon_filter_parameters(send_data) {
             const alert_store = use_alert_store()
@@ -135,9 +137,11 @@ export const use_uvp_data_store = defineStore('uvp_data', {
                     Radius: [],
                     Pressure_min: [],
                     Pressure_max: [],
+                    ForecastPressure: [],
                     CardinalDirection: [],
                     TranslationSpeed_min: [],
                     TranslationSpeed_max: [],
+                    ForecastTranslationSpeed: [],
                     MaxWind_min: [],
                     MaxWind_max: [],
                 };
@@ -145,9 +149,11 @@ export const use_uvp_data_store = defineStore('uvp_data', {
                     this.uvp_data.filter_details.Radius.push(item.Radius)
                     this.uvp_data.filter_details.Pressure_min.push(item.Pressure_min);
                     this.uvp_data.filter_details.Pressure_max.push(item.Pressure_max);
+                    this.uvp_data.filter_details.ForecastPressure.push(item.ForecastPressure);
                     this.uvp_data.filter_details.CardinalDirection.push(item.CardinalDirection);
                     this.uvp_data.filter_details.TranslationSpeed_min.push(item.TranslationSpeed_min);
                     this.uvp_data.filter_details.TranslationSpeed_max.push(item.TranslationSpeed_max);
+                    this.uvp_data.filter_details.ForecastTranslationSpeed.push(item.ForecastTranslationSpeed);
                     this.uvp_data.filter_details.MaxWind_min.push(item.MaxWind_min);
                     this.uvp_data.filter_details.MaxWind_max.push(item.MaxWind_max);
                 })
