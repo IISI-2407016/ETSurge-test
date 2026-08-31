@@ -1,6 +1,5 @@
 <template>
     <div>
-        <typhoon-table :store_fun="use_light_store"/>
         <div v-if="!light_list.length && !has_light_send" class="d-flex flex-column align-center">
             <v-icon icon="mdi-table-off" class="mb-2" size="x-large"></v-icon>
             無資料
@@ -80,8 +79,6 @@ import {
     format_hours,
     format_date_range
 } from '../utils/tool-box.js'
-
-import typhoonTable from './tide-level/typhoonTable.vue'
 
 const light_store = use_light_store()
 
