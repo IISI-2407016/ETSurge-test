@@ -22,7 +22,7 @@
                 <tbody>
                     <template v-for="(timeGroup, timeIndex) in grouped_data" :key="timeIndex">
                         <tr class="text-center">
-                            <td :rowspan="2" v-html="timeGroup.time" :style="{maxWidth: '50px'}"></td>
+                            <td :rowspan="2" v-html="sanitize_html(timeGroup.time)" :style="{maxWidth: '50px'}"></td>
                             <td>發生時段<br/>(時)</td>
                             <td v-for="city in cities" :key="`${city}-period`">
                                 {{ timeGroup.data[city]?.max_time || '-' }}
@@ -74,6 +74,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { use_light_store } from '../stores/light.js'
+import { sanitize_html } from '../utils/sanitize-html.js'
 import { 
     time_format_chDate,
     format_hours,

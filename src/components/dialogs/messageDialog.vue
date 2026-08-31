@@ -8,8 +8,7 @@
             <v-card class="pa-1">
                 <h5
                     class="text-xl font-medium leading-normal text-gray-800 pa-2"
-                    v-html="title"
-                />
+                >{{ title }}</h5>
                 <div class="absolute top-0 right-0">
                     <v-btn
                         icon="mdi-close"
@@ -19,7 +18,7 @@
                     ></v-btn>
                 </div>
                 <v-divider></v-divider>
-                <span v-html="message" class="my-4 px-4 text-center"></span>
+                <span v-html="sanitized_message" class="my-4 px-4 text-center"></span>
                 <v-divider></v-divider>
                 <template v-slot:actions>
                     <v-btn 
@@ -42,6 +41,7 @@
 </template>
 <script setup>
     import { computed } from 'vue'
+    import { sanitize_html } from '../../utils/sanitize-html.js'
     const props = defineProps({
         model_value: Boolean,
         message: String,
@@ -53,6 +53,8 @@
         get: () => props.model_value,
         set: (val) => emit('update:model_value', val)
     });
+
+    const sanitized_message = computed(() => sanitize_html(props.message));
 
     const handle_confirm = () => {
         emit('confirm');
