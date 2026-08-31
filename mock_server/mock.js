@@ -10,6 +10,7 @@ const typhoon_track_data_ref2 = require('./typhoon_data/model_data_by_track_ref2
 const typhoon_info_data = require('./typhoon_data/typhoon_info.json');
 const typhoon_track_info_data = require('./typhoon_data/typhoon_track_info.json');
 const typhoon_filter_parameters_data = require('./typhoon_data/typhoon_filter_parameters.json');
+const typhoon_filter_parameters_from_tafis_data = require('./typhoon_data/filter_parameters_from_tafis.json');
 const county_tide_warnings_data = require('./typhoon_data/county_tide_warnings.json');
 
 // station set
@@ -698,6 +699,31 @@ app.post('/surge_app/update_cwa_user_sent_config/', function(req, res) {
     })
 })
 
+// 上傳預報圖片並落地歸檔（multipart/form-data，mock 不做實際檔案解析，回傳固定成功結果）
+app.post('/surge_app/upload_forecast_images/', function(req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "saved_count": 1,
+            "saved_files": ["mock_upload.png"]
+        },
+        "message": "success"
+    })
+})
+
+// 傳送官網的圖
+app.post('/surge_app/send_official_images/', function(req, res) {
+    const images = req.body.images || [];
+    res.send({
+        "status": "success",
+        "data": {
+            "sent_count": images.length,
+            "failed_stations": []
+        },
+        "message": "傳送官網圖檔成功"
+    })
+})
+
 // 取得顯示測站設定
 app.get('/surge_app/user_tide_station_display_config/', function(req, res) {
     res.send(user_tide_station_display_config_data)
@@ -778,71 +804,7 @@ app.post('/surge_app/get_typhoon_track_info/', function(req, res) {
  * InitialTime: "YYYY-MM-DDTHH:mm:ssz"
 */
 app.post('/surge_app/get_filter_parameters_from_tafis/', function(req, res) {
-    res.send({
-        "status": "success",
-        "data": {
-            "TyNo": "202526",
-            "InitialTime": "2025-11-10T06:00:00Z",
-            "filter_details": [
-                {
-                    "Tau": 0,
-                    "Radius": 250,
-                    "Pressure_min": 868.5,
-                    "Pressure_max": 1061.5,
-                    "CardinalDirection": 14,
-                    "TranslationSpeed_min": 11.7,
-                    "TranslationSpeed_max": 14.3,
-                    "MaxWind_min": 31.5,
-                    "MaxWind_max": 38.5
-                },
-                {
-                    "Tau": 12,
-                    "Radius": 250,
-                    "Pressure_min": 855,
-                    "Pressure_max": 1045,
-                    "CardinalDirection": 15,
-                    "TranslationSpeed_min": 13.5,
-                    "TranslationSpeed_max": 16.5,
-                    "MaxWind_min": 36,
-                    "MaxWind_max": 44
-                },
-                {
-                    "Tau": 24,
-                    "Radius": 200,
-                    "Pressure_min": 868.5,
-                    "Pressure_max": 1061.5,
-                    "CardinalDirection": 0,
-                    "TranslationSpeed_min": 11.7,
-                    "TranslationSpeed_max": 14.3,
-                    "MaxWind_min": 31.5,
-                    "MaxWind_max": 38.5
-                },
-                {
-                    "Tau": 48,
-                    "Radius": 150,
-                    "Pressure_min": 882,
-                    "Pressure_max": 1078,
-                    "CardinalDirection": 2,
-                    "TranslationSpeed_min": 12.6,
-                    "TranslationSpeed_max": 15.4,
-                    "MaxWind_min": 25.2,
-                    "MaxWind_max": 30.8
-                },
-                {
-                    "Tau": 72,
-                    "Radius": 500,
-                    "Pressure_min": 900,
-                    "Pressure_max": 1100,
-                    "CardinalDirection": 2,
-                    "TranslationSpeed_min": 20.7,
-                    "TranslationSpeed_max": 25.3,
-                    "MaxWind_min": 13.5,
-                    "MaxWind_max": 16.5
-                }
-            ]
-        },
-        "message": "success"
-    })
+    res.send(typhoon_filter_parameters_from_tafis_data);
     // res.send({
     //     "status": "success",
     //     "data": null,
@@ -912,6 +874,7 @@ app.post('/surge_app/load_all_data/', function (req, res) {
         const stations = req.body.station_list;
         const twelve_chart_data_list = {
             1226: twelve_chart_data_1226,
+            1256: twelve_chart_data_1226, // 花蓮：與龍洞共用同一份 mock 檔，該檔的 station_data 內已包含 1256 的資料
             1566: twelve_chart_data_1566,
             1206: twelve_chart_data_1206,
             1146: twelve_chart_data_1146,
@@ -962,6 +925,18 @@ app.post('/surge_app/get_county_tide_warnings/', function (req, res) {
     setTimeout(() => {
         res.send(county_tide_warnings_data);
     }, 5000)
+});
+
+// 傳送非颱風時期固定範本圖至 CWA 官網
+app.post('/surge_app/sent_non_typhoon_pictures/', function (req, res) {
+    res.send({
+        "status": "success",
+        "data": {
+            "success_targets": ["cwa_mic_1", "cwa_key_1"],
+            "failed_targets": []
+        },
+        "message": "非颱風範本圖傳送完成"
+    })
 });
 
 
