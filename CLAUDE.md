@@ -108,7 +108,75 @@
 ### 建議的下一步（供接續時參考，非強制順序）
 - 選項 A：處理第 4 節安全審查「短期/長期」剩餘項目
 - 選項 B：套用 `code-reviewer` agent 對既有 `src/` 程式碼做一次完整審查（階段⑥）
-- 選項 C：實際挑一個 Issue 走完整開發流程（階段③）
+- 選項 C：實際挑一個 Issue 走完整開發流程（階段③）——目前已挑選 **Issue #4**，進度見下方
+  「Issue #4 進度快照」
+
+### Issue #4 進度快照（分支 `feat/4-light-table-typhoon-select`，2026-09-01 暫停點）
+
+> 對應「建議的下一步」選項 C（階段③：實際挑一個 Issue 走完整開發流程）。工作尚未 commit，
+> 僅為 working tree 變更；下次接續時可直接 `git status` / `git diff` 核對是否與此快照一致。
+
+**已完成（可運作）：**
+- `src/views/lightTableView.vue`：新增「颱風名稱」「初始時間」下拉選單 + 「繪製」按鈕，
+  含 `onMounted` 預設帶入最新颱風、`watch(selected_ty_no)` 動態載入該颱風初始時間清單、
+  `on_draw()` 串接 `post_typhoon_data` → 取得 `parameters_id` →
+  **`get_county_tide_warnings_result`**（2026-09-02 修正：原誤用會重新計算的
+  `get_county_tide_warnings`，改為直接讀取已儲存結果的唯讀 API，避免「繪製」預覽動作
+  誤觸發後端重新運算；`post_county_tide_warnings`〔會計算並落地〕仍保留供
+  `typhoonTable.vue`「傳送水位及預覽預報表格」與 `functions.vue`「傳送水位」等
+  真正需要觸發計算的情境使用）的完整流程
+- `src/views/twelveHourChart.vue`：新增 `show_legend`（是否顯示圖例）、`watermark`
+  （是否顯示署徽浮水印）兩個 props，`watermark` 為 true 時圖表下方保留空間並疊加
+  `ROC_Central_Weather.png` 浮水印圖，供「正式發文圖檔」情境使用
+- `src/js/light.js`：更新 API 註解說明，並新增 `post_county_tide_warnings_result_ajax`
+  對應 `/surge_app/get_county_tide_warnings_result/`（唯讀，不重新計算）；
+  `src/stores/light.js` 新增對應的 `get_county_tide_warnings_result` action；
+  `vite.config.js`：`build.sourcemap` 暫改為 `true`
+  （除錯用，是否保留待確認，正式合併前應評估是否要改回 `false`）
+- 新增 3 個尚未串接進畫面的工具檔（本身邏輯已寫完）：
+  - `src/utils/svg-to-png.js`（`capture_svg_as_png_base64`：SVG 轉 PNG base64）
+  - `src/utils/compose-station-image.js`（`compose_station_image`：組合測站圖片，
+    依賴 `svg-to-png.js` 的 `load_svg_as_image`）
+  - `src/utils/data-url-to-file.js`（`data_url_to_file`：dataURL 轉 File 物件）
+- 新增 `src/components/dialogs/sendOfficialImagesDialog.vue`（242 行，「發送正式圖片」對話框，
+  內部已 import 並使用上述 3 個工具檔）
+
+**尚未完成（半成品，下次應優先接續）：**
+- `src/views/tide-level/typhoonTable.vue` 第 155 行 import 與第 183 行元件使用皆為
+  **註解狀態**（`<!-- <send-official-images-dialog v-model="show_official_images_dialog" /> -->`），
+  尚未真正啟用整合，`show_official_images_dialog` ref 也被註解掉
+- `function_list`（傳送方式選單）目前只有「傳送水位及預覽預報表格」「傳送非颱風期間圖檔」
+  兩項，「傳送正式圖片」功能尚未加入此選單、也尚未接上觸發 `sendOfficialImagesDialog` 開啟的邏輯
+- ~~尚無對應的單元測試~~：2026-09-02 已補上 `__tests__/light.test.js`（6 個測試，涵蓋
+  `post_county_tide_warnings_ajax`/`post_county_tide_warnings_result_ajax` 端點呼叫驗證，
+  以及 `use_light_store().get_county_tide_warnings_result` 的正常路徑、邊界值（空陣列）、
+  異常路徑〔API 回傳 error、apiRequest 拋出例外〕），依 `test-generator.agent.md` 的
+  Vitest 測試慣例撰寫；`skills/collections/testing/` 底下無 JS/Vitest 專屬 skill
+  （`unit-testing-junit5` 僅適用 Java），故沿用既有 `__tests__/tool-box.test.js` 建立的
+  Vitest 慣例（mock 外部依賴、AAA、正常/邊界/異常三類案例），未強套不相符技術棧的 skill
+- **2026-09-02 新增 E2E 測試**：套用 `skills/collections/testing/e2e-testing-playwright`
+  skill，新增 `@playwright/test`（devDependency）+ `playwright.config.js`（webServer 同時
+  啟動 `npm run dev` 與 `mock_server`，`reuseExistingServer: true`）+
+  `e2e/pages/light-table.page.js`（Page Object Model）+
+  `e2e/tests/light-table-draw.spec.js`：驗證登入後切到「系集燈號表格預覧」分頁、以預設
+  颱風/初始時間點擊「繪製」，斷言後端呼叫的是唯讀 `get_county_tide_warnings_result`
+  （而非會重新計算的 `get_county_tide_warnings`）且表格正確顯示「基隆」等縣市資料；
+  已手動驗證：暫時把程式碼改回呼叫會計算的 API 時測試會逾時失敗（證明測試確實能抓到本次
+  修正的回歸），修正正確時測試通過。執行方式：`npm run test:e2e`（新增 npm script）。
+  `vite.config.js` 的 Vitest `test.exclude` 已加入 `**/e2e/**`，避免 Vitest 誤收集 Playwright
+  測試檔。`.gitignore` 已加入 `test-results/`、`playwright-report/` 等產物目錄
+
+**待確認（下次接續時提醒）：**
+- 是否要為 CI（目前 repo 無 `.gitlab-ci.yml`）加入 `npm run test:e2e` 的執行步驟，
+  需搭配第 7 節「CI Runner 網路權限」一併確認
+- `@playwright/test` 為本次新增的第三方套件（devDependency），依 README.md「Never」清單
+  「禁止新增第三方套件」規則，此為使用者於 2026-09-02 明確指示「請設置並驗證」後新增的例外，
+  往後若再需要新增套件仍須逐次向使用者確認
+- 尚未 commit / push（依 README.md 禁止事項，需人工執行或使用者明確指示）
+
+**下次接續建議順序：** 解除 `typhoonTable.vue` 的註解 → 新增選單項並綁定開啟 dialog 的邏輯 →
+手動驗證發送正式圖片流程 → 確認 `vite.config.js` 的 `sourcemap` 是否要改回 `false` →
+交接 `test-generator` 補測試 → 交接 `code-reviewer` 審查 → 待使用者確認後才 commit。
 
 ## 7. 尚待確認（見公司計畫書「待確認事項清單」）
 

@@ -1,5 +1,38 @@
 <template>
     <div>
+        <v-row class="align-center mx-0 mb-4" no-gutters>
+            <label class="pa-3">颱風名稱</label>
+            <v-col cols="12" sm="3">
+                <v-select
+                    v-model="selected_ty_no"
+                    :items="Ty_info"
+                    hide-details
+                    density="compact"
+                    placeholder="請選擇颱風"
+                ></v-select>
+            </v-col>
+            <label class="pa-3">初始時間</label>
+            <v-col cols="12" sm="3">
+                <v-select
+                    v-model="selected_initial_time"
+                    :items="initial_time_options"
+                    :disabled="!selected_ty_no"
+                    hide-details
+                    density="compact"
+                    placeholder="請選擇初始時間"
+                ></v-select>
+            </v-col>
+            <v-col cols="auto" class="pa-3">
+                <v-btn
+                    color="primary"
+                    :loading="light_store.is_loading"
+                    :disabled="!selected_ty_no || !selected_initial_time"
+                    @click="on_draw"
+                >
+                    繪製
+                </v-btn>
+            </v-col>
+        </v-row>
         <div v-if="!light_list.length && !has_light_send" class="d-flex flex-column align-center">
             <v-icon icon="mdi-table-off" class="mb-2" size="x-large"></v-icon>
             無資料
@@ -71,16 +104,110 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { use_light_store } from '../stores/light.js'
+import { use_uvp_data_store } from '../stores/UVP-data.js'
+import { tide_level_store } from '../stores/tide-level.js'
 import { sanitize_html } from '../utils/sanitize-html.js'
 import { 
     time_format_chDate,
+    time_format_utc,
     format_hours,
     format_date_range
 } from '../utils/tool-box.js'
 
 const light_store = use_light_store()
+const uvp_data_store = use_uvp_data_store()
+const tide_level_info_store = tide_level_store()
+
+// 颱風名稱下拉選單
+const Ty_info = computed(() => uvp_data_store.Ty_info)
+const selected_ty_no = ref('')
+// 初始時間下拉選單（依所選颱風動態載入）
+const selected_initial_time = ref('')
+const initial_time_options = ref([])
+
+onMounted(async () => {
+    // 若尚未載入過颱風清單（例如未先經過颱風查詢頁面），才主動載入
+    if (Ty_info.value.length === 0) {
+        await uvp_data_store.get_typhoon_name_data()
+    }
+
+    // 預設帶入最新一筆颱風（清單第一筆）
+    if (!selected_ty_no.value && Ty_info.value.length > 0) {
+        selected_ty_no.value = Ty_info.value[0].value
+    }
+})
+
+watch(selected_ty_no, async (ty_no) => {
+    selected_initial_time.value = ''
+    initial_time_options.value = []
+    if (!ty_no) return
+
+    const selected_typhoon = Ty_info.value.find(item => item.value === ty_no)
+    const { status, data } = await uvp_data_store.post_typhoon_category_data({
+        TyNo: ty_no,
+        TyChtName: selected_typhoon?.TyChtName || '',
+        TyEngName: selected_typhoon?.TyEngName || ''
+    })
+
+    if (status !== 'success' || !data || data.length === 0) return
+
+    // 取得該颱風不重複的初始時間清單
+    const unique_times = [...new Set(data.map(item => item.InitialTime))]
+    initial_time_options.value = unique_times.map(time => ({
+        title: time_format_utc(time),
+        value: time
+    }))
+
+    // 預設帶入與目前設定小時相符的初始時間，找不到則帶入第一筆
+    const default_hour = tide_level_info_store.hour?.time
+    const matched_time = data.find(item => {
+        const time = new Date(item.InitialTime)
+        return String(time.getUTCHours()).padStart(2, '0') === default_hour
+    })?.InitialTime
+    selected_initial_time.value = matched_time ?? unique_times[0]
+})
+
+const on_draw = async () => {
+    if (!selected_ty_no.value || !selected_initial_time.value) return
+
+    light_store.set_is_loading(true)
+
+    const { success, data } = await uvp_data_store.post_typhoon_data({
+        TyNo: selected_ty_no.value,
+        InitialTime: selected_initial_time.value,
+        limit: 10
+    })
+
+    if (!success || !data || data.length === 0) {
+        light_store.set_is_loading(false)
+        return
+    }
+
+    // 同一颱風/初始時間可能有多個路徑類別，需一併帶入所有對應的參數 ID
+    const matched_ids = data
+        .filter(item => item.TyNo === selected_ty_no.value && item.InitialTime === selected_initial_time.value)
+        .map(item => item.id)
+
+    if (matched_ids.length === 0) {
+        light_store.set_is_loading(false)
+        return
+    }
+
+    tide_level_info_store.set_parameter_id(matched_ids)
+
+    // 「繪製」僅為預覽既有結果，改用 get_county_tide_warnings_result 直接讀取已儲存資料，不觸發重新計算
+    const result = await light_store.get_county_tide_warnings_result({
+        parameters_id: tide_level_info_store.parameter_id[0]
+    })
+
+    light_store.set_is_loading(false)
+
+    if (result.success) {
+        light_store.set_has_light_send(true)
+    }
+}
 
 const table_msg = ref('')
 const send_time_msg = ref('')

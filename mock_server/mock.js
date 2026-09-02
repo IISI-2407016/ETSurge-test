@@ -927,6 +927,13 @@ app.post('/surge_app/get_county_tide_warnings/', function (req, res) {
     }, 5000)
 });
 
+// 直接讀取已儲存的縣市潮警資料（不重新計算），供「繪製」預覽使用
+app.post('/surge_app/get_county_tide_warnings_result/', function (req, res) {
+    setTimeout(() => {
+        res.send(county_tide_warnings_data);
+    }, 1000)
+});
+
 // 傳送非颱風時期固定範本圖至 CWA 官網
 app.post('/surge_app/sent_non_typhoon_pictures/', function (req, res) {
     res.send({
