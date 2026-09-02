@@ -25,7 +25,6 @@
                         md="6"
                         lg="4"
                         xl="4"
-                        @click="draw_six_chart(station_list[index])"
                     >
                         <twelve-hour-chart 
                             :stop_draw="stop_drawing" 
@@ -40,6 +39,7 @@
                             :station_name="station_list[index].StationName"
                             v-model:is_loading="is_loading[`twelve_chart_${stid}`]"
                             @loading-completed="handleLoadingCompleted"
+                            @click="draw_six_chart(station_list[index])"
                         />
                     </v-col>
                 </v-row>
@@ -66,8 +66,7 @@
                             rounded-tl-sm
                             rounded-tr-sm
                         "
-                        v-html="six_hour_chart_info.station_name"
-                    />
+                    >{{ six_hour_chart_info.station_name }}</h5>
                     <div class="absolute top-0 right-0">
                         <v-btn
                             icon="mdi-close"

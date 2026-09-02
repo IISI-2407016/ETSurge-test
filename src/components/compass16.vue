@@ -27,7 +27,7 @@
                     "
                     @click="select_direction(index)"
                 >
-                    <span v-html="direction"></span>
+                    <span v-html="sanitize_html(direction)"></span>
                 </div>
             </div>
         </div>
@@ -47,6 +47,7 @@
     import { use_uvp_data_store } from '../stores/UVP-data.js';
     import { use_compass_store } from '../stores/compass';
     import { display_directions } from '../config/setting.js';
+    import { sanitize_html } from '../utils/sanitize-html.js';
 
     const emit = defineEmits(['set_direction']);
     const directions = [

@@ -21,7 +21,7 @@ export const post_upload_forecast_images_ajax = (send_data) =>
     apiRequest("post", "/surge_app/upload_forecast_images/", send_data);
 
 // 傳送颱風期間 =>
-export const post_send_official_images_ajax = (send_data) => 
+export const post_send_official_images_ajax = (send_data) =>
     apiRequest("post", "/surge_app/send_official_images/", send_data);
 
 // 傳送颱風期間(不含表格圖檔) => 

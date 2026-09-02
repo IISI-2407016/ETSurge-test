@@ -1,8 +1,13 @@
 import { defineStore } from 'pinia'
-import { 
+import {
     get_tide_station_info_ajax,
-    post_load_all_data_ajax
+    post_load_all_data_ajax,
+    post_send_official_images_ajax,
+    post_upload_forecast_images_ajax,
+    post_sent_non_typhoon_pictures_ajax
 } from '../js/tide-level.js';
+import { use_alert_store } from './alert.js';
+import { wrap_api_response } from '../utils/api-request.js';
 
 export const tide_level_store = defineStore('tide_level', {
     state: () => ({
@@ -73,6 +78,18 @@ export const tide_level_store = defineStore('tide_level', {
                     .padStart(2, '0')}T${current_hour}:00:00.000Z`;
             }
         },
+        update_hour(newHour) {
+            this.hour.time = newHour;
+
+            if (!this.ty_search.InitialTime) return;
+
+            const currentDate = new Date(this.ty_search.InitialTime);
+            const year = currentDate.getUTCFullYear();
+            const month = String(currentDate.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(currentDate.getUTCDate()).padStart(2, '0');
+
+            this.ty_search.InitialTime = `${year}-${month}-${day}T${newHour}:00:00.000Z`;
+        },
         async get_tide_station_info() {
             try {
                 const response = await get_tide_station_info_ajax();
@@ -120,6 +137,62 @@ export const tide_level_store = defineStore('tide_level', {
                 }
             }
             return { success: true, data: key };
+        },
+        // 判斷主頁面該測站是否已有可用的圖表資料（中英文卡片是否要連動顯示，依此判斷）
+        station_has_chart_data(stid) {
+            const data = this.stid_list[stid];
+            return !!data && (data.obs_water_level?.length > 0 || data.fcst_water_level?.length > 0);
+        },
+        // 傳送官網圖檔
+        async send_official_images(send_data) {
+            const alert_store = use_alert_store();
+            try {
+                const { success, message } = wrap_api_response(
+                    await post_send_official_images_ajax(send_data),
+                    '傳送官網圖檔成功', '傳送官網圖檔失敗，請稍後再試'
+                );
+                alert_store.show_alert(message, success);
+                return success === 'success';
+            } catch (error) {
+                console.error('傳送官網圖檔失敗:::send_official_images() ', error);
+                return false;
+            }
+        },
+        // 上傳預報圖片並落地歸檔（UploadForecastImagesView），form_data 由呼叫端組好（multipart/form-data）
+        async upload_forecast_images(form_data) {
+            const alert_store = use_alert_store();
+            try {
+                const { success, message } = wrap_api_response(
+                    await post_upload_forecast_images_ajax(form_data),
+                    '上傳圖檔成功', '上傳圖檔失敗，請稍後再試'
+                );
+                alert_store.show_alert(message, success);
+                return success === 'success';
+            } catch (error) {
+                console.error('上傳圖檔失敗:::upload_forecast_images() ', error);
+                return false;
+            }
+        },
+        // 傳送非颱風期間圖檔（SentNonTyphoonPicturesView），200 時仍需檢查 data.failed_targets 是否有部分下游失敗
+        async send_non_typhoon_pictures(send_data) {
+            const alert_store = use_alert_store();
+            try {
+                const { success, data, message } = wrap_api_response(
+                    await post_sent_non_typhoon_pictures_ajax(send_data),
+                    '非颱風期間圖檔傳送成功', '非颱風期間圖檔傳送失敗，請稍後再試'
+                );
+
+                if (success === 'success' && data?.failed_targets?.length > 0) {
+                    alert_store.show_alert(`部分地區傳送失敗：${data.failed_targets.join('、')}`, 'warning');
+                    return false;
+                }
+
+                alert_store.show_alert(message, success);
+                return success === 'success';
+            } catch (error) {
+                console.error('非颱風期間圖檔傳送失敗:::send_non_typhoon_pictures() ', error);
+                return false;
+            }
         }
     },
 });

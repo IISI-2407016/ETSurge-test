@@ -21,8 +21,7 @@
                             rounded-tl-sm
                             rounded-tr-sm
                         "
-                        v-html="props.title.title"
-                    />
+                    >{{ props.title.title }}</h5>
                     <div class="absolute top-0 right-0">
                         <v-btn
                             icon="mdi-close"

@@ -540,7 +540,7 @@
             TyNo: form.value.TyNo,
             ModelNameList: form.value.ModelNameList,
             // Category: form.value.Category,
-            // InitialTime: form.value.InitialTime,
+            InitialTime: form.value.InitialTime,
             IsEnsemble: true,  // 是否為系集模式資料
             IsFileReady: true, // 是否檔案已準備好
             limit: 12          // 預設10筆，最大100筆
@@ -598,9 +598,11 @@
                 Radius: item.Radius[index],
                 Pressure_min: item.Pressure_min[index],
                 Pressure_max: item.Pressure_max[index],
+                ForecastPressure: item.ForecastPressure[index],
                 CardinalDirection: item.CardinalDirection[index],
                 TranslationSpeed_min: item.TranslationSpeed_min[index],
                 TranslationSpeed_max: item.TranslationSpeed_max[index],
+                ForecastTranslationSpeed: item.ForecastTranslationSpeed[index],
                 MaxWind_min: item.MaxWind_min[index],
                 MaxWind_max: item.MaxWind_max[index],
             };

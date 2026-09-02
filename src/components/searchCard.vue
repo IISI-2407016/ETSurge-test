@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, computed  } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { use_uvp_data_store } from '../stores/UVP-data.js'
 import { tide_level_store } from '../stores/tide-level.js'
 import { format_date } from '../utils/formatted-date.js'
@@ -103,9 +103,7 @@ const selected_date = computed({
         return new Date(ty_search_info.value?.InitialTime)
     },
     set: (value) => {
-        debugger
-        const date = value instanceof Date ? value : new Date(value)
-        tide_level_info_store.update_date(date)
+        tide_level_info_store.update_date(value)
     }
 })
 
@@ -125,6 +123,48 @@ const current_status = computed(() => {
 
     return `${current_status_txt || '尚無查詢結果'}`;
 });
+
+onMounted(async () => {
+    if (!ty_search_info.value.TyNo && Ty_info.value.length > 0) {
+        tide_level_info_store.set_ty_search({
+            TyNo: Ty_info.value[0].value
+        });
+    }
+});
+
+watch(
+    () => ty_search_info.value.TyNo,
+    async (newTyNo, oldTyNo) => {
+        if (!newTyNo || newTyNo === oldTyNo) return;
+        await load_initial_time(newTyNo);
+    }
+);
+
+const load_initial_time = async (tyNo) => {
+    const selectedTyphoon = Ty_info.value.find(item => item.value === tyNo);
+
+    if (!selectedTyphoon) return;
+
+    const { status, data } = await uvp_data_store.post_typhoon_category_data({
+        TyNo: tyNo,
+        TyChtName: selectedTyphoon.TyChtName || '',
+        TyEngName: selectedTyphoon.TyEngName || ''
+    });
+
+    if (status !== 'success' || data.length === 0) return;
+
+    const initialTime =
+        data.find(item => {
+            const time = new Date(item.InitialTime);
+            return String(time.getUTCHours()).padStart(2, '0') === hour.value.time;
+        })?.InitialTime
+        ?? data[0].InitialTime;
+
+    tide_level_info_store.set_ty_search({
+        TyNo: tyNo,
+        InitialTime: initialTime
+    });
+};
 
 const handle_date_select = (date) => {
     if (date) {

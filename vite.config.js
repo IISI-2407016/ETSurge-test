@@ -25,5 +25,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    // e2e/ 目錄為 Playwright 專用測試（npm run test:e2e），排除避免 Vitest 誤收集
+    exclude: ['**/node_modules/**', '**/e2e/**'],
   }
 })

@@ -65,7 +65,7 @@
                             </v-btn>
                             <div
                               class="text-red caption mt-1"
-                              v-html="verify_lock_message"
+                              v-html="sanitized_verify_lock_message"
                             ></div>
                         </v-col>
                         </v-row>
@@ -101,6 +101,7 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { use_user_store } from '../../stores/user.js'
+import { sanitize_html } from '../../utils/sanitize-html.js'
 import {
     send_verify_code_ajax,
 } from '../../js/user.js'
@@ -113,6 +114,7 @@ const forgot = reactive({
 const forgot_password_valid = ref(false)
 const send_verify_lock = ref(false)
 const verify_lock_message = ref('')
+const sanitized_verify_lock_message = computed(() => sanitize_html(verify_lock_message.value))
 
 // 表單驗證規則
 const email_rules = [

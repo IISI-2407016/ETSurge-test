@@ -116,13 +116,18 @@ frontend/
 
 除非我明確要求。
 
-- 目前為單一 `master` 分支開發，commit 直接建立在 `master` 上（未觀察到 feature branch 慣例），如需變更此流程請先與使用者確認
+- **分支命名規範**：`<type>/<Issue編號>-<簡短描述（英文，kebab-case）>`，例如
+  `fix/3-track-point-no-data-opacity`、`chore/1-setup-vitest`。`type` 與下方 commit type 一致
+  （`feat`/`fix`/`chore`）。從 `master` 切出，完成後開 PR 合併回 `master`（見
+  `Merge pull request #2 from IISI-2407016/chore/1-setup-vitest` 等既有紀錄）。
+- 目前僅有 `master` 為長期分支（未見 `develop`/`release` 等分支），feature branch 為短期分支，
+  合併後可刪除；沒有固定的 PR 審核人力紀錄可循，若使用者要求開 PR，依當下指示的目標分支操作，
+  不要自行假設有 `develop`/`release` 分支存在
 - **Commit message 慣例**（Conventional Commits 精簡版，中文描述）：
   - `feat: 新增XXX功能`
   - `fix: 調整/優化XXX`
   - `chore: 整理/設定類變更`
   - 不使用 scope（沒有 `feat(xxx):` 格式），描述簡短、動詞開頭
-- 沒有 PR/Code Review 紀錄可循，若使用者要求開 PR，依當下指示的目標分支操作，不要自行假設有 `develop`/`release` 分支存在
 
 ## 修改原則
 

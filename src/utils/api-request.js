@@ -31,7 +31,14 @@ export async function apiRequest(method, url, data = null) {
             method,
             url
         };
-        if (data) options.data = data;
+        if (data) {
+            options.data = data;
+            // FormData（如檔案上傳）需要瀏覽器自動帶正確的 multipart boundary，
+            // 不能沿用 axiosConfig 預設的 application/json
+            if (data instanceof FormData) {
+                options.headers = { 'Content-Type': undefined };
+            }
+        }
 
         const res = await apiClient(options);
         const result = typeof res.data === "object" ? res.data : JSON.parse(res.data);
